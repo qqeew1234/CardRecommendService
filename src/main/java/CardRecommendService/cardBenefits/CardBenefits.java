@@ -1,9 +1,7 @@
 package CardRecommendService.cardBenefits;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import CardRecommendService.card.Card;
+import jakarta.persistence.*;
 
 @Entity
 public class CardBenefits {
@@ -18,11 +16,37 @@ public class CardBenefits {
 
     private String bngDetail;
 
-    private Long cardId;
+    @ManyToOne
+    private Card card;
 
+    protected CardBenefits() {
+    }
 
+    public CardBenefits(Long id, String bnfName, String bnfDetail, String bngDetail, Card card) {
+        this.id = id;
+        this.bnfName = bnfName;
+        this.bnfDetail = bnfDetail;
+        this.bngDetail = bngDetail;
+        this.card = card;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getBnfName() {
+        return bnfName;
+    }
 
+    public String getBnfDetail() {
+        return bnfDetail;
+    }
 
+    public String getBngDetail() {
+        return bngDetail;
+    }
+
+    public Card getCard() {
+        return card;
+    }
 }

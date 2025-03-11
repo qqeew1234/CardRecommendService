@@ -1,9 +1,9 @@
 package CardRecommendService.member;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import CardRecommendService.memberCard.MemberCard;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Member {
@@ -12,15 +12,22 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private int age;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberCard> memberCard;
 
     public Member(String email, String nickname, String password, Gender gender, int age) {
         this.email = email;
@@ -30,7 +37,7 @@ public class Member {
         this.age = age;
     }
 
-    public Member() {
+    protected Member() {
     }
 
     public Long getId() {
@@ -55,5 +62,9 @@ public class Member {
 
     public int getAge() {
         return age;
+    }
+
+    public List<MemberCard> getMemberCard() {
+        return memberCard;
     }
 }

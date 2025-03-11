@@ -1,11 +1,13 @@
 package CardRecommendService.memberCard;
 
 
+import CardRecommendService.CardHistory.CardHistory;
 import CardRecommendService.card.Card;
 import CardRecommendService.member.Member;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class MemberCard {
@@ -14,15 +16,52 @@ public class MemberCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String cardNumber;
+
+    private String cardImg;
+
     @ManyToOne
     private Member member;
 
     @ManyToOne
     private Card card;
 
-    private String cardNumber;
+    @OneToMany(mappedBy = "memberCard")
+    private List<CardHistory> cardHistories;
 
-    private String cardImg;
+    public MemberCard() {
+    }
 
+    public MemberCard(Long id, String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.cardImg = cardImg;
+        this.member = member;
+        this.card = card;
+        this.cardHistories = cardHistories;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getCardImg() {
+        return cardImg;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public List<CardHistory> getCardHistories() {
+        return cardHistories;
+    }
 }
