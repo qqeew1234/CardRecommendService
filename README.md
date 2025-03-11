@@ -1,3 +1,7 @@
+
+![image](https://github.com/user-attachments/assets/d5dd51d0-ca5d-4681-bf6c-62aca38c8887)
+
+
 # 👑 퀸카 - 카드 추천 서비스 (가명)
 
 ### 🏆 팀 효진 (가명)  
