@@ -1,6 +1,8 @@
 package CardRecommendService.card;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +24,13 @@ public class CardController {
     @GetMapping
     public List<Card> getAllCards(){
         return cardService.getAllCards();
+    }
+
+    //특정 카드 상세 조회
+    @GetMapping("/{cardId}")
+    public CardDetailResponse getCardDetailByCCardId(@PathVariable Long CardId){
+
+        return cardService.getCardDetailByCardId(CardId);
     }
 
 
