@@ -1,12 +1,11 @@
 package CardRecommendService.memberCard;
 
 
-import CardRecommendService.CardHistory.CardHistory;
+import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.card.Card;
 import CardRecommendService.member.Member;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity

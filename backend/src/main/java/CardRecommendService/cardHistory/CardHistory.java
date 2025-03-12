@@ -1,4 +1,4 @@
-package CardRecommendService.CardHistory;
+package CardRecommendService.cardHistory;
 
 
 import CardRecommendService.memberCard.MemberCard;
