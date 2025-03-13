@@ -1,12 +1,11 @@
 package CardRecommendService.memberCard;
 
 
-import CardRecommendService.CardHistory.CardHistory;
+import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.card.Card;
 import CardRecommendService.member.Member;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -32,8 +31,7 @@ public class MemberCard {
     public MemberCard() {
     }
 
-    public MemberCard(Long id, String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
-        this.id = id;
+    public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
         this.cardNumber = cardNumber;
         this.cardImg = cardImg;
         this.member = member;

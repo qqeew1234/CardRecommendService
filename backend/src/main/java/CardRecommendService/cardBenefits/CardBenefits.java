@@ -22,8 +22,7 @@ public class CardBenefits {
     protected CardBenefits() {
     }
 
-    public CardBenefits(Long id, String bnfName, String bnfDetail, String bngDetail, Card card) {
-        this.id = id;
+    public CardBenefits(String bnfName, String bnfDetail, String bngDetail, Card card) {
         this.bnfName = bnfName;
         this.bnfDetail = bnfDetail;
         this.bngDetail = bngDetail;

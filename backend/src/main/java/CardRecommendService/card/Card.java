@@ -35,13 +35,12 @@ public class Card {
     protected Card() {
     }
 
-    public Card(Long id, String cardIssuer, String cardName, CardType cardType, int annualFee, List<MemberCard> memberCards, List<CardBenefits> cardBenefits) {
-        Id = id;
+
+    public Card(String cardIssuer, String cardName, CardType cardType, int annualFee, List<CardBenefits> cardBenefits) {
         this.cardIssuer = cardIssuer;
         this.cardName = cardName;
         this.cardType = cardType;
         this.annualFee = annualFee;
-        this.memberCards = memberCards;
         this.cardBenefits = cardBenefits;
     }
 
