@@ -22,15 +22,15 @@ public class CardController {
 
     //모든 카드 리스트를 목록으로 조회
     @GetMapping
-    public List<Card> getAllCards(){
+    public List<CardResponse> getAllCards(){
         return cardService.getAllCards();
     }
 
     //특정 카드 상세 조회
     @GetMapping("/{cardId}")
-    public CardDetailResponse getCardDetailByCCardId(@PathVariable Long CardId){
+    public CardDetailResponse getCardDetailByCardId(@PathVariable Long cardId){
 
-        return cardService.getCardDetailByCardId(CardId);
+        return cardService.getCardDetailByCardId(cardId);
     }
 
 

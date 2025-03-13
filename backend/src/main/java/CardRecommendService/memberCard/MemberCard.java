@@ -31,8 +31,7 @@ public class MemberCard {
     public MemberCard() {
     }
 
-    public MemberCard(Long id, String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
-        this.id = id;
+    public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
         this.cardNumber = cardNumber;
         this.cardImg = cardImg;
         this.member = member;

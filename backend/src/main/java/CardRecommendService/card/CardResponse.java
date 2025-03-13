@@ -4,9 +4,9 @@ import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCardResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public record CardDetailResponse(
+public record CardResponse(
+
 
         String cardIssuer,
         String cardName,
@@ -15,11 +15,4 @@ public record CardDetailResponse(
         List<CardBenefitsResponse> cardBenefits
 
 ) {
-
-
-
-
-
-
-
 }

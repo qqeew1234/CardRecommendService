@@ -4,22 +4,23 @@ package CardRecommendService.cardHistory;
 import CardRecommendService.memberCard.MemberCard;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class CardHistory {
-
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
+    private double amount; // 각 결제 금액
 
     private String storeName;
 
     private String paymentCount; // 결제 횟수
 
-    private String paymentDateTime; // 결제 시각
+    private LocalDateTime paymentDateTime; // 결제 시각
 
     private String paymentCategory;
 
@@ -29,8 +30,7 @@ public class CardHistory {
     protected CardHistory() {
     }
 
-    public CardHistory(Long id, double amount, String storeName, String paymentCount, String paymentDateTime, String paymentCategory, MemberCard memberCard) {
-        this.id = id;
+    public CardHistory(double amount, String storeName, String paymentCount, LocalDateTime paymentDateTime, String paymentCategory, MemberCard memberCard) {
         this.amount = amount;
         this.storeName = storeName;
         this.paymentCount = paymentCount;
@@ -55,7 +55,7 @@ public class CardHistory {
         return paymentCount;
     }
 
-    public String getPaymentDateTime() {
+    public LocalDateTime getPaymentDateTime() {
         return paymentDateTime;
     }
 
