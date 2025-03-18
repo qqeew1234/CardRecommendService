@@ -5,10 +5,14 @@ import CardRecommendService.card.CardResponse;
 import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +21,14 @@ public class CardHistoryService {
 
     private final CardHistoryRepository cardHistoryRepository;
     private final MemberCardRepository memberCardRepository;
+    private final CardHistoryQueryRepository CardHistoryQueryRepository;
+    private final JPAQueryFactory queryFactory;
 
-    @Autowired
-    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository) {
+    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardHistoryQueryRepository cardHistoryQueryRepository, JPAQueryFactory queryFactory) {
         this.cardHistoryRepository = cardHistoryRepository;
         this.memberCardRepository = memberCardRepository;
+        CardHistoryQueryRepository = cardHistoryQueryRepository;
+        this.queryFactory = queryFactory;
     }
 
     public CardResponse getCardWithHighestAmount(Long memberId) {
@@ -73,22 +80,32 @@ public class CardHistoryService {
 
     }
 
+    @Transactional
+    public CardHistoryResponse getCardHistoryByUserIdAndCard(String userId, Long cardId) {
+        // 사용자가 선택한 카드의 결제 내역 조회
+        CardHistory cardHistory = cardHistoryRepository.findByMemberIdAndCardId(userId, cardId);
 
-//    public double getTotalAmountForLastMonth(Long memberCardId) {
-//
-//        //최근 한달 날짜 구하기.
-//        LocalDateTime endDateTime = LocalDateTime.now();
-//        LocalDateTime startDateTime = endDateTime.minusMonths(1);
-//
-//        //카드 결제 내역 조회
-//        List<CardHistory> cardHistoryList = cardHistoryRepository.findByMemberCard_IdAndPaymentDateTimeBetween
-//                (memberCardId, startDateTime, endDateTime);
-//
-//        return cardHistoryList.stream()
-//                .mapToDouble(CardHistory::getAmount)
-//                .sum();
-//
-//    }
+        // CardHistory 엔티티를 CardHistoryResponse로 변환하여 반환
+        return new CardHistoryResponse(
+                cardHistory.getAmount(),
+                cardHistory.getStoreName(),
+                cardHistory.getPaymentCount(),
+                cardHistory.getPaymentDateTime(),
+                cardHistory.getPaymentCategory()
+        );
+    }
 
 
+    public List<CardHistoryDateResponse> getDailyCardHistory(String startDate, String endDate) {
+        // String을 LocalDate로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
+        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
+
+        // CardHistoryQueryRepository의 인스턴스를 생성
+        CardHistoryQueryRepository cardHistoryQueryRepository = new CardHistoryQueryRepository(queryFactory);
+
+        // 변환된 LocalDate를 사용하여 findCardHistoryByDateRange 호출
+        return cardHistoryQueryRepository.findCardHistoryByDateRange(parsedStartDate, parsedEndDate);
+    }
 }
