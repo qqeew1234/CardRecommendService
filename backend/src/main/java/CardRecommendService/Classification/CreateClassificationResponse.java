@@ -1,7 +1,6 @@
 package CardRecommendService.Classification;
 
-public record CreateclassificationResponse(
-
+public record CreateClassificationResponse(
         String title
 ) {
 }

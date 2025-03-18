@@ -2,7 +2,6 @@ package CardRecommendService.memberCard;
 
 import CardRecommendService.card.CardDetailResponse;
 import CardRecommendService.cardHistory.CardHistoryResponse;
-import CardRecommendService.member.MemberResponse;
 
 import java.util.List;
 

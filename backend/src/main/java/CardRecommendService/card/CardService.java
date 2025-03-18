@@ -1,16 +1,10 @@
 package CardRecommendService.card;
 
 
-import CardRecommendService.cardBenefits.CardBenefits;
 import CardRecommendService.cardBenefits.CardBenefitsResponse;
-import CardRecommendService.cardHistory.CardHistoryResponse;
-import CardRecommendService.member.MemberResponse;
-import CardRecommendService.memberCard.MemberCard;
-import CardRecommendService.memberCard.MemberCardResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

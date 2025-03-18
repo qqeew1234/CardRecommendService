@@ -44,7 +44,7 @@ public class ClassificationService {
                 .collect(Collectors.toList());
     }
 
-
+    //TODO delete 된 계정 소속의 cardHistory는 미분류 계정에 옮겨주기 구현
     @Transactional
     public void deleteClassification(Long classificationId) {
 
@@ -54,8 +54,7 @@ public class ClassificationService {
         classificationRepository.deleteById(classificationId);
     }
 
-    List<CardHistory> userCardHistories = new ArrayList<>();
-
+    //TODO cardHistory와 연계
     // 숨김/보이기 상태 변경
     @Transactional
     public boolean updateClassificationCheckStatus(Long id, boolean isChecked) {
@@ -70,15 +69,15 @@ public class ClassificationService {
         List<CardHistory> cardHistories = classification.getCardHistories();
 
         // 체크 상태에 따라 CardHistory 목록을 추가하거나 제거
-        if (isChecked) {
-            // 체크 상태: 해당 CardHistory 목록을 리스트에 추가
-            // 추가하려는 리스트가 있다고 가정 (예: userCardHistories)
-            userCardHistories.addAll(cardHistories);
-        } else {
-            // 체크 해제 상태: 해당 CardHistory 목록을 리스트에서 제거
-            // 제거하려는 리스트가 있다고 가정 (예: userCardHistories)
-            userCardHistories.removeAll(cardHistories);
-        }
+//        if (isChecked) {
+//            // 체크 상태: 해당 CardHistory 목록을 리스트에 추가
+//            // 추가하려는 리스트가 있다고 가정 (예: userCardHistories)
+//            userCardHistories.addAll(cardHistories);
+//        } else {
+//            // 체크 해제 상태: 해당 CardHistory 목록을 리스트에서 제거
+//            // 제거하려는 리스트가 있다고 가정 (예: userCardHistories)
+//            userCardHistories.removeAll(cardHistories);
+//        }
 
         // 변경된 카드 히스토리 정보 저장
         cardHistoryRepository.saveAll(cardHistories);

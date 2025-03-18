@@ -28,23 +28,15 @@ public class MemberCard {
     @OneToMany(mappedBy = "memberCard")
     private List<CardHistory> cardHistories;
 
-    private boolean isHidden = false; // 숨김 여부 (기본값: false)
-
-    public void setHidden(boolean isHidden) {
-        this.isHidden = isHidden;
-    }
-
     public MemberCard() {
     }
 
-
-    public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories, boolean isHidden) {
+    public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
         this.cardNumber = cardNumber;
         this.cardImg = cardImg;
         this.member = member;
         this.card = card;
         this.cardHistories = cardHistories;
-        this.isHidden = isHidden;
     }
 
     public Long getId() {
@@ -69,9 +61,5 @@ public class MemberCard {
 
     public List<CardHistory> getCardHistories() {
         return cardHistories;
-    }
-
-    public boolean isHidden() {
-        return isHidden;
     }
 }

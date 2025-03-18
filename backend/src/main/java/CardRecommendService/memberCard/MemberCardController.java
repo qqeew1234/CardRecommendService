@@ -21,29 +21,29 @@ public class MemberCardController {
     }
 
     //분석 카드 선택창 : (로그인된) 사용자가 가진 모든(ALL) 카드 가져오기
-    @GetMapping("/{userId}")
-    public MemberCardListResponse getAllMemberCardListByUserId(@PathVariable String userId) {
-        return memberCardService.getAllMemberCardListByUserId(userId);
-    }
+//    @GetMapping("/{userId}")
+//    public MemberCardListResponse getAllMemberCardListByUserId(@PathVariable String userId) {
+//        return memberCardService.getAllMemberCardListByUserId(userId);
+//    }
 
 
     //분석 카드 선택 : 분석할 로그인된 유저의 카드를 1개 또는 여러개 선택
-    @GetMapping("/analysiscards")
-    public MemberCardListResponse getAnalysisCardsByUserIdAndCardIds(
-            @PathVariable String userId,  // 사용자 ID
-            @RequestParam List<Long> cardIds) {
-        return memberCardService.getAnalysisCardsByUserIdAndCardIds(userId, cardIds);
-    }
+//    @GetMapping("/analysiscards")
+//    public MemberCardListResponse getAnalysisCardsByUserIdAndCardIds(
+//            @PathVariable String userId,  // 사용자 ID
+//            @RequestParam List<Long> cardIds) {
+//        return memberCardService.getAnalysisCardsByUserIdAndCardIds(userId, cardIds);
+//    }
 
 
     //숨김온오프
-    @PatchMapping("/{userId}/{cardId}/hidden")
-    public boolean updateMemberCardIsHidden(
-            @PathVariable String userId,
-            @PathVariable Long cardId,
-            @RequestParam boolean isHidden) {
-        return memberCardService.updateMemberCardIsHidden(userId, cardId, isHidden);
-    }
+//    @PatchMapping("/{userId}/{cardId}/hidden")
+//    public boolean updateMemberCardIsHidden(
+//            @PathVariable String userId,
+//            @PathVariable Long cardId,
+//            @RequestParam boolean isHidden) {
+//        return memberCardService.updateMemberCardIsHidden(userId, cardId, isHidden);
+//    }
 
 
 
