@@ -6,13 +6,9 @@ import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,15 +17,35 @@ public class CardHistoryService {
 
     private final CardHistoryRepository cardHistoryRepository;
     private final MemberCardRepository memberCardRepository;
-    private final CardHistoryQueryRepository CardHistoryQueryRepository;
-    private final JPAQueryFactory queryFactory;
+    private final CardHistoryQueryRepository qCardRepository;
 
-    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardHistoryQueryRepository cardHistoryQueryRepository, JPAQueryFactory queryFactory) {
+    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardRecommendService.cardHistory.CardHistoryQueryRepository qCardRepository) {
         this.cardHistoryRepository = cardHistoryRepository;
         this.memberCardRepository = memberCardRepository;
-        CardHistoryQueryRepository = cardHistoryQueryRepository;
-        this.queryFactory = queryFactory;
+        this.qCardRepository = qCardRepository;
     }
+
+    //사용자의 모든 카드 결제내역 조회 + 총 결제금액 합산
+    public FindAllResponse getAll (String uuid, LocalDateTime startDate, LocalDateTime endDatetime){
+        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDatetime);
+
+        List<CardHistoryResponse> cardHistoryResponses = cardHistories
+                .stream()
+                .map(cardHistory -> new CardHistoryResponse(
+                        cardHistory.getStoreName(),
+                        cardHistory.getAmount(),
+                        cardHistory.getPaymentDatetime(),
+                        cardHistory.getCategory()
+                )).toList();
+
+        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDatetime);
+        Integer safeTotalAmount = (totalAmount != null) ? totalAmount : 0;
+
+        return new FindAllResponse(cardHistoryResponses, totalAmount);
+    }
+
+
+
 
     public CardResponse getCardWithHighestAmount(Long memberId) {
 
@@ -66,7 +82,6 @@ public class CardHistoryService {
         return new CardResponse(
                 cardWithHighestAmount.getCardIssuer(),
                 cardWithHighestAmount.getCardName(),
-                cardWithHighestAmount.getCardType().name(),
                 cardWithHighestAmount.getAnnualFee(),
                 cardWithHighestAmount.getCardBenefits().stream()
                         .map(benefit -> new CardBenefitsResponse(
@@ -80,32 +95,32 @@ public class CardHistoryService {
 
     }
 
-    @Transactional
-    public CardHistoryResponse getCardHistoryByUserIdAndCard(String userId, Long cardId) {
-        // 사용자가 선택한 카드의 결제 내역 조회
-        CardHistory cardHistory = cardHistoryRepository.findByMemberIdAndCardId(userId, cardId);
+//    @Transactional
+//    public CardHistoryResponse getCardHistoryByUserIdAndCard(String userId, Long cardId) {
+//        // 사용자가 선택한 카드의 결제 내역 조회
+//        CardHistory cardHistory = cardHistoryRepository.findByMemberIdAndCardId(userId, cardId);
+//
+//        // CardHistory 엔티티를 CardHistoryResponse로 변환하여 반환
+//        return new CardHistoryResponse(
+//                cardHistory.getAmount(),
+//                cardHistory.getStoreName(),
+//                cardHistory.getPaymentCount(),
+//                cardHistory.getPaymentDateTime(),
+//                cardHistory.getPaymentCategory()
+//        );
+//    }
 
-        // CardHistory 엔티티를 CardHistoryResponse로 변환하여 반환
-        return new CardHistoryResponse(
-                cardHistory.getAmount(),
-                cardHistory.getStoreName(),
-                cardHistory.getPaymentCount(),
-                cardHistory.getPaymentDateTime(),
-                cardHistory.getPaymentCategory()
-        );
-    }
 
-
-    public List<CardHistoryDateResponse> getDailyCardHistory(String startDate, String endDate) {
-        // String을 LocalDate로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
-        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
-
-        // CardHistoryQueryRepository의 인스턴스를 생성
-        CardHistoryQueryRepository cardHistoryQueryRepository = new CardHistoryQueryRepository(queryFactory);
-
-        // 변환된 LocalDate를 사용하여 findCardHistoryByDateRange 호출
-        return cardHistoryQueryRepository.findCardHistoryByDateRange(parsedStartDate, parsedEndDate);
-    }
+//    public List<CardHistoryDateResponse> getDailyCardHistory(String startDate, String endDate) {
+//        // String을 LocalDate로 변환
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
+//        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
+//
+//        // CardHistoryQueryRepository의 인스턴스를 생성
+//        CardHistoryQueryRepository cardHistoryQueryRepository = new CardHistoryQueryRepository(queryFactory);
+//
+//        // 변환된 LocalDate를 사용하여 findCardHistoryByDateRange 호출
+//        return cardHistoryQueryRepository.findCardHistoryByDateRange(parsedStartDate, parsedEndDate);
+//    }
 }
