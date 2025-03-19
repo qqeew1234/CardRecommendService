@@ -24,16 +24,10 @@ public class JwtProvider {
     // JWT secret을 저장할 변수
     private final SecretKey secretKey;
 
-    // 토큰 만료 시간을 저장할 변수
-    private final Long expirationInMilliseconds;
 
     // 생성자 함수
-    public JwtProvider(
-            @Value("${jwt.secret}") String secretKey,
-            @Value("${jwt.expiration-time}") Long expirationInMilliseconds) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
-        this.expirationInMilliseconds = expirationInMilliseconds;
+    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
+        this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     // 유효한 토큰인지 검증하는 함수

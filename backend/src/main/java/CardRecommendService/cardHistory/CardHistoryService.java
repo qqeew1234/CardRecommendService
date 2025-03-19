@@ -5,7 +5,6 @@ import CardRecommendService.card.CardResponse;
 import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,7 +46,7 @@ public class CardHistoryService {
 
 
 
-    public CardResponse getCardWithHighestAmount(Long memberId) {
+    public CardResponse getCardWithHighestAmount(String memberId) {
 
         //최근 한 달 날짜 구하기.
         LocalDateTime endDateTime = LocalDateTime.now();
@@ -64,7 +63,7 @@ public class CardHistoryService {
         for (MemberCard memberCard : memberCards) {
 
             //카드 결제 내역 조회
-            List<CardHistory> cardHistoryList = cardHistoryRepository.findByMemberCard_IdAndPaymentDateTimeBetween(
+            List<CardHistory> cardHistoryList = cardHistoryRepository.findByMemberCard_IdAndPaymentDatetimeBetween(
                     memberCard.getId(), startDateTime, endDateTime);
 
             //결제 금액 합산

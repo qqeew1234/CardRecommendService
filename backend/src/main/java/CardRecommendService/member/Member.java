@@ -9,13 +9,11 @@ import java.util.List;
 @Entity
 public class Member {
 
+    @Id
     private String id;
 
     @OneToMany(mappedBy = "member")
     private List<CardHistory> cardHistories;
-
-    @OneToMany(mappedBy = "member")
-    private List<MemberCard> memberCards;
 
     protected Member() {
     }
@@ -27,7 +25,6 @@ public class Member {
     public Member(String id, List<CardHistory> cardHistories, List<MemberCard> memberCards) {
         this.id = id;
         this.cardHistories = cardHistories;
-        this.memberCards = memberCards;
     }
 
     public String getId() {
@@ -38,7 +35,4 @@ public class Member {
         return cardHistories;
     }
 
-    public List<MemberCard> getMemberCards() {
-        return memberCards;
-    }
 }
