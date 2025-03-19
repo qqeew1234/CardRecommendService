@@ -1,12 +1,11 @@
 package CardRecommendService;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
+
 
 public class ApplicationTests extends AcceptanceTest {
 
@@ -43,15 +42,32 @@ public class ApplicationTests extends AcceptanceTest {
     @DisplayName("메인 카드 조회")
     @Test
     void 메인카드조회() {
+
+        String uuid = "1";
+
+//        LocalDateTime startDate = LocalDateTime.of(2025, 3, 1, 12, 0, 0);
+//        LocalDateTime endDate = LocalDateTime.of(2025, 3, 10, 12, 0, 0);
+
         RestAssured
                 .given().log().all()
-                .pathParam("memberId", 1L)
-
+                .contentType(ContentType.JSON)
+                .pathParam("uuid", uuid)
+//                .queryParam("startDate", startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+//                .queryParam("endDate", endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .when()
-                .get("/cardhistory/{memberId}")
+                .get("/cardhistories/{uuid}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
 
+
+//    //사용자의 모든 카드 결제내역 조회
+//    @GetMapping("/cardhistories/{uuid}")
+//    public FindAllResponse getAllCardHistories(@PathVariable String uuid,
+//                                               @RequestParam(required = false) LocalDateTime startDate,
+//                                               @RequestParam (required = false) LocalDateTime endDate) {
+//
+//        return cardHistoryService.getAll(uuid, startDate, endDate);
+//    }
 
 }

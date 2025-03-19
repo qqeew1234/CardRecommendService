@@ -3,6 +3,7 @@ package CardRecommendService.cardHistory;
 
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,75 +17,63 @@ import java.util.List;
 public class CardHistoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+    QCardHistory qCardHistory = QCardHistory.cardHistory;
 
     public CardHistoryQueryRepository(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
-    public List<CardHistory> findByMemberIdAndPeriod(String uuid, LocalDateTime startDate, LocalDateTime endDate){
-        QCardHistory qCardHistory = QCardHistory.cardHistory;
-        BooleanBuilder conditions = queryConditions(qCardHistory, uuid, startDate, endDate);
+    public List<CardHistory> findByMemberIdAndPeriod(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
+
 
         return queryFactory
                 .selectFrom(qCardHistory)
-                .where(conditions)
+                .where(qCardHistory.uuid.eq(uuid), queryConditions(startDate, endDate))
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
     }
 
-
     //기간 조건 설정하기(최대 3개월, 기본값은 한 달)
-    private BooleanBuilder queryConditions(QCardHistory qCardHistory, String uuid, LocalDateTime startDate, LocalDateTime endDate){
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
+    private BooleanExpression queryConditions(LocalDateTime startDate, LocalDateTime endDate) {
 
-        booleanBuilder.and(qCardHistory.uuid.eq(uuid));
 
         //startDate, endDate 값이 null일 때
-        if(startDate == null && endDate == null){
+        if (startDate == null && endDate == null) {
             endDate = LocalDateTime.now();
             startDate = endDate.minusMonths(1);
-        }
-        else if(startDate != null && endDate == null) {
-            endDate = startDate.plusMonths(1);
-        }
-         else if(startDate == null && endDate != null){
+        } else if (startDate == null) {
             startDate = endDate.minusMonths(1);
-        }
-
-        //종료날짜가 3개월보다 길면 3개월을 강제함
-        if(endDate.isAfter(startDate.plusMonths(3))){
-            endDate = startDate.plusMonths(3);
+        } else if (endDate == null) {
+            endDate = startDate.plusMonths(1);
         }
 
         //종료날짜가 현재 날짜를 넘어가면 현재날짜로 강제함
-        if(endDate.isAfter(LocalDateTime.now())){
+        if (endDate.isAfter(LocalDateTime.now())) {
             endDate = LocalDateTime.now();
         }
 
-        booleanBuilder.and(qCardHistory.paymentDatetime.between(startDate, endDate));
+        //종료날짜가 3개월보다 길면 3개월을 강제함
+        if (endDate.isAfter(startDate.plusMonths(3))) {
+            endDate = startDate.plusMonths(3);
+        }
 
-        return booleanBuilder;
+
+        return qCardHistory.paymentDatetime.between(startDate, endDate);
     }
 
 
     //총 결제금액 계산하기
-    public int getTotalAmount(String uuid, LocalDateTime startDate, LocalDateTime endDate){
+    public int getTotalAmount(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
         QCardHistory qCardHistory = QCardHistory.cardHistory;
 
         Integer totalAmount = queryFactory
                 .select(qCardHistory.amount.sum())
                 .from(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid),
-                        qCardHistory.paymentDatetime.between(startDate, endDate))
+                .where(qCardHistory.uuid.eq(uuid), queryConditions(startDate, endDate))
                 .fetchOne();
         return (totalAmount != null) ? totalAmount : 0;
 
     }
-
-
-
-
-
 
 
 //
