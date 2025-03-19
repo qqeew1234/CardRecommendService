@@ -10,7 +10,6 @@ public record CardDetailResponse(
 
         String cardIssuer,
         String cardName,
-        String cardType,
         int annualFee,
         List<CardBenefitsResponse> cardBenefits
 

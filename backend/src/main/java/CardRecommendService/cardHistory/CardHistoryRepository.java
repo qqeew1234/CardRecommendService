@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CardHistoryRepository extends JpaRepository<CardHistory, Long> {
-
-    //조회
 
     List<CardHistory> findByMemberCard_IdAndPaymentDateTimeBetween(Long memberCardId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 

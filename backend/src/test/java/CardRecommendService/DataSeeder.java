@@ -2,11 +2,11 @@ package CardRecommendService;
 
 import CardRecommendService.card.Card;
 import CardRecommendService.card.CardRepository;
-import CardRecommendService.card.CardType;
 import CardRecommendService.cardBenefits.CardBenefits;
 import CardRecommendService.cardBenefits.CardBenefitsRepository;
 import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.cardHistory.CardHistoryRepository;
+import CardRecommendService.cardHistory.Category;
 import CardRecommendService.member.Member;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
@@ -36,14 +36,14 @@ public class DataSeeder {
     @Transactional
     public void initData() {
         Card card = new Card(
-                "고금리은행", "넌이제파산", CardType.DEBIT, 10000, new ArrayList<>()
+                "고금리은행", "넌이제파산", 10000, new ArrayList<>()
         );
         cardRepository.save(card);
 
         CardBenefits benefits1 = new CardBenefits("우엥", "5원지급", "ㅇㅇ", card);
         cardBenefitsRepository.save(benefits1);
 
-        Member member = new Member(1L);  // 예시 Member 객체
+        Member member = new Member("1L");  // 예시 Member 객체
 
 
         MemberCard memberCard = new MemberCard(
@@ -59,8 +59,8 @@ public class DataSeeder {
 
 
         List<CardHistory> cardHistories = Arrays.asList(  // 예시로 결제 내역 추가
-                new CardHistory(10000, "스타벅스", "1", LocalDateTime.parse("2025-03-01T14:30:00"), "음료", memberCard),
-                new CardHistory(5000, "맥도날드", "1", LocalDateTime.parse("2025-03-02T12:00:00"), "음식", memberCard)
+                new CardHistory( "스타벅스", 10000, LocalDateTime.parse("2025-03-01T14:30:00"), Category.커피제과, memberCard),
+                new CardHistory("맥도날드", 5000, LocalDateTime.parse("2025-03-02T12:00:00"), Category.음식점, memberCard)
         );
 
         cardHistoryRepository.saveAll(cardHistories);
