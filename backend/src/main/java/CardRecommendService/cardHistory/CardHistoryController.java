@@ -19,8 +19,8 @@ public class CardHistoryController {
     }
 
     //사용자의 모든 카드 결제내역 조회
-    @GetMapping("cardHistories/{memberId}")
-    public FindAllResponse getAllCardHistories(@PathVariable (name = "memberId") String uuid,
+    @GetMapping("cardHistories/{uuid}")
+    public FindAllResponse getAllCardHistories(@PathVariable (name = "uuid") String uuid,
                                                @RequestParam (required = false) LocalDateTime startDate,
                                                @RequestParam (required = false) LocalDateTime endDate) {
 

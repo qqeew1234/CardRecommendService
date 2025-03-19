@@ -3,7 +3,6 @@ package CardRecommendService.memberCard;
 
 import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.card.Card;
-import CardRecommendService.member.Member;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -25,16 +24,17 @@ public class MemberCard {
     @OneToMany(mappedBy = "memberCard")
     private List<CardHistory> cardHistories;
 
-    private String memberId;
+    private String uuid;
 
     public MemberCard() {
     }
 
-    public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
+    public MemberCard(String cardNumber, String cardImg, Card card, List<CardHistory> cardHistories, String uuid) {
         this.cardNumber = cardNumber;
         this.cardImg = cardImg;
         this.card = card;
         this.cardHistories = cardHistories;
+        this.uuid = uuid;
     }
 
     public Long getId() {
@@ -51,6 +51,10 @@ public class MemberCard {
 
     public Card getCard() {
         return card;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public List<CardHistory> getCardHistories() {

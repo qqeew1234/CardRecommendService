@@ -1,3 +1,4 @@
+
 package CardRecommendService.cardHistory;
 
 
@@ -36,7 +37,7 @@ public class CardHistoryQueryRepository {
     private BooleanBuilder queryConditions(QCardHistory qCardHistory, String uuid, LocalDateTime startDate, LocalDateTime endDate){
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        booleanBuilder.and(qCardHistory.member.id.eq(uuid));
+        booleanBuilder.and(qCardHistory.uuid.eq(uuid));
 
         //startDate, endDate 값이 null일 때
         if(startDate == null && endDate == null){
@@ -73,7 +74,7 @@ public class CardHistoryQueryRepository {
         Integer totalAmount = queryFactory
                 .select(qCardHistory.amount.sum())
                 .from(qCardHistory)
-                .where(qCardHistory.member.id.eq(uuid),
+                .where(qCardHistory.uuid.eq(uuid),
                         qCardHistory.paymentDatetime.between(startDate, endDate))
                 .fetchOne();
         return (totalAmount != null) ? totalAmount : 0;

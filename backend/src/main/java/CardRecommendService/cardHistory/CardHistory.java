@@ -1,7 +1,6 @@
 package CardRecommendService.cardHistory;
 
 
-import CardRecommendService.member.Member;
 import CardRecommendService.memberCard.MemberCard;
 import jakarta.persistence.*;
 
@@ -31,8 +30,8 @@ public class CardHistory {
     @ManyToOne
     private MemberCard memberCard;
 
-    @ManyToOne
-    private Member member;
+
+    private String uuid;
 
     protected CardHistory() {
     }
@@ -43,6 +42,14 @@ public class CardHistory {
         this.paymentDatetime = paymentDatetime;
         this.category = category;
         this.memberCard = memberCard;
+    }
+
+    public CardHistory(int amount, String storeName, LocalDateTime paymentDatetime, Category category, String uuid) {
+        this.amount = amount;
+        this.storeName = storeName;
+        this.paymentDatetime = paymentDatetime;
+        this.category = category;
+        this.uuid = uuid;
     }
 
     public Long getId() {
