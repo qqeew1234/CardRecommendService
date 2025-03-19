@@ -9,7 +9,7 @@ public record MemberCardResponse(
 
         String cardNumber,
         String cardImg,
-        Long memberId,
+        String uuid,
         CardDetailResponse card,
         List<CardHistoryResponse> cardHistories,
         boolean isHidden

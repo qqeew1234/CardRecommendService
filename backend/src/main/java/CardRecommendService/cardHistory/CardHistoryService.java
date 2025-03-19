@@ -46,14 +46,14 @@ public class CardHistoryService {
 
 
 
-    public CardResponse getCardWithHighestAmount(String memberId) {
+    public CardResponse getCardWithHighestAmount(String uuid) {
 
         //최근 한 달 날짜 구하기.
         LocalDateTime endDateTime = LocalDateTime.now();
         LocalDateTime startDateTime = endDateTime.minusMonths(1);
 
         //멤버가 가진 카드 리스트 조회
-        List<MemberCard> memberCards = memberCardRepository.findByMemberId(memberId);
+        List<MemberCard> memberCards = memberCardRepository.findByUuid(uuid);
 
         //최고 결제 금액을 가진 카드, 최고 결제 금액 저장 변수들.
         Card cardWithHighestAmount = null;
