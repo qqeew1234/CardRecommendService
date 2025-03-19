@@ -18,11 +18,16 @@ import javax.crypto.SecretKey;
 @Component
 public class JwtProvider {
 
+    // 에러 로깅을 위해 로거 준비
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
+    // JWT secret을 저장할 변수
     private final SecretKey secretKey;
+
+    // 토큰 만료 시간을 저장할 변수
     private final Long expirationInMilliseconds;
 
+    // 생성자 함수
     public JwtProvider(
             @Value("${jwt.secret}") String secretKey,
             @Value("${jwt.expiration-time}") Long expirationInMilliseconds) {
@@ -31,6 +36,7 @@ public class JwtProvider {
         this.expirationInMilliseconds = expirationInMilliseconds;
     }
 
+    // 유효한 토큰인지 검증하는 함수
     public Boolean isValidToken(String token) {
         try {
             parseToken(token);
@@ -55,6 +61,7 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
+    // 유효한 토큰의 데이터를 읽는 함수
     private Claims parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)

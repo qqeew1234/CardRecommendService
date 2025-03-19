@@ -28,6 +28,8 @@ public class LoginMemberResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String bearerToken = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+        // 토큰 추출 및 검증
         String token = extractToken(bearerToken);
         if (!jwtProvider.isValidToken(token)) {
             throw new IllegalArgumentException(INVALID_TOKEN_MESSAGE);
