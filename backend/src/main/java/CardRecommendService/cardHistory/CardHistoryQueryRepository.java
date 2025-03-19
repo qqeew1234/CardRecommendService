@@ -27,12 +27,13 @@ public class CardHistoryQueryRepository {
         return queryFactory
                 .selectFrom(qCardHistory)
                 .where(conditions)
+                .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
     }
 
 
     //기간 조건 설정하기(최대 3개월, 기본값은 한 달)
-    public BooleanBuilder queryConditions(QCardHistory qCardHistory, String uuid, LocalDateTime startDate, LocalDateTime endDate){
+    private BooleanBuilder queryConditions(QCardHistory qCardHistory, String uuid, LocalDateTime startDate, LocalDateTime endDate){
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         booleanBuilder.and(qCardHistory.member.id.eq(uuid));
@@ -51,7 +52,7 @@ public class CardHistoryQueryRepository {
 
         //종료날짜가 3개월보다 길면 3개월을 강제함
         if(endDate.isAfter(startDate.plusMonths(3))){
-                endDate = startDate.plusMonths(3);
+            endDate = startDate.plusMonths(3);
         }
 
         //종료날짜가 현재 날짜를 넘어가면 현재날짜로 강제함
