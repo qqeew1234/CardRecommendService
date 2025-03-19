@@ -31,19 +31,35 @@ public class CardHistoryQueryRepository {
     }
 
 
-    //기간 조건 설정하기(최대 3개월, 92일)
+    //기간 조건 설정하기(최대 3개월, 기본값은 한 달)
     public BooleanBuilder queryConditions(QCardHistory qCardHistory, String uuid, LocalDateTime startDate, LocalDateTime endDate){
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         booleanBuilder.and(qCardHistory.member.id.eq(uuid));
 
-        //종료날짜가 92일보다 크면 92일 강제
-        if(startDate != null && endDate != null){
-            if(endDate.isAfter(startDate.plusDays(92))){
-                endDate = startDate.plusDays(92);
-            }
+        //startDate, endDate 값이 null일 때
+        if(startDate == null && endDate == null){
+            endDate = LocalDateTime.now();
+            startDate = endDate.minusMonths(1);
+        }
+        else if(startDate != null && endDate == null) {
+            endDate = startDate.plusMonths(1);
+        }
+         else if(startDate == null && endDate != null){
+            startDate = endDate.minusMonths(1);
+        }
 
-        }booleanBuilder.and(qCardHistory.paymentDatetime.between(startDate, endDate));
+        //종료날짜가 3개월보다 길면 3개월을 강제함
+        if(endDate.isAfter(startDate.plusMonths(3))){
+                endDate = startDate.plusMonths(3);
+        }
+
+        //종료날짜가 현재 날짜를 넘어가면 현재날짜로 강제함
+        if(endDate.isAfter(LocalDateTime.now())){
+            endDate = LocalDateTime.now();
+        }
+
+        booleanBuilder.and(qCardHistory.paymentDatetime.between(startDate, endDate));
 
         return booleanBuilder;
     }
