@@ -20,13 +20,12 @@ public class MemberCard {
     private String cardImg;
 
     @ManyToOne
-    private Member member;
-
-    @ManyToOne
     private Card card;
 
     @OneToMany(mappedBy = "memberCard")
     private List<CardHistory> cardHistories;
+
+    private String memberId;
 
     public MemberCard() {
     }
@@ -34,7 +33,6 @@ public class MemberCard {
     public MemberCard(String cardNumber, String cardImg, Member member, Card card, List<CardHistory> cardHistories) {
         this.cardNumber = cardNumber;
         this.cardImg = cardImg;
-        this.member = member;
         this.card = card;
         this.cardHistories = cardHistories;
     }
@@ -49,10 +47,6 @@ public class MemberCard {
 
     public String getCardImg() {
         return cardImg;
-    }
-
-    public Member getMember() {
-        return member;
     }
 
     public Card getCard() {
