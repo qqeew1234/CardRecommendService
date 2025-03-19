@@ -26,7 +26,6 @@ public class CardService {
                 .map(card -> new CardResponse(
                         card.getCardIssuer(),
                         card.getCardName(),
-                        card.getCardType().name(),
                         card.getAnnualFee(),
                         card.getCardBenefits().stream()
                                 .map(cardBenefits -> new CardBenefitsResponse(
@@ -60,7 +59,6 @@ public class CardService {
         return new CardDetailResponse(
                 card.getCardIssuer(),
                 card.getCardName(),
-                card.getCardType().name(),
                 card.getAnnualFee(),
                 cardBenefitsResponses
         );

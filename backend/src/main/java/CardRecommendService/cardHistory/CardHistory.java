@@ -1,6 +1,7 @@
 package CardRecommendService.cardHistory;
 
 
+import CardRecommendService.member.Member;
 import CardRecommendService.memberCard.MemberCard;
 import jakarta.persistence.*;
 
@@ -14,28 +15,33 @@ public class CardHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount; // 각 결제 금액
+    @Column(nullable = false)
+    private int amount; // 각 결제 금액
 
+    @Column(nullable = false)
     private String storeName;
 
-    private String paymentCount; // 결제 횟수
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime paymentDatetime; // 결제 시각
 
-    private LocalDateTime paymentDateTime; // 결제 시각
-
-    private String paymentCategory;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Category category;
 
     @ManyToOne
     private MemberCard memberCard;
 
+    @ManyToOne
+    private Member member;
+
     protected CardHistory() {
     }
 
-    public CardHistory(double amount, String storeName, String paymentCount, LocalDateTime paymentDateTime, String paymentCategory, MemberCard memberCard) {
-        this.amount = amount;
+    public CardHistory(String storeName, int amount, LocalDateTime paymentDatetime, Category category, MemberCard memberCard) {
         this.storeName = storeName;
-        this.paymentCount = paymentCount;
-        this.paymentDateTime = paymentDateTime;
-        this.paymentCategory = paymentCategory;
+        this.amount = amount;
+        this.paymentDatetime = paymentDatetime;
+        this.category = category;
         this.memberCard = memberCard;
     }
 
@@ -51,16 +57,16 @@ public class CardHistory {
         return storeName;
     }
 
-    public String getPaymentCount() {
-        return paymentCount;
-    }
-
     public LocalDateTime getPaymentDateTime() {
-        return paymentDateTime;
+        return paymentDatetime;
     }
 
-    public String getPaymentCategory() {
-        return paymentCategory;
+    public Category getCategory() {
+        return category;
+    }
+
+    public LocalDateTime getPaymentDatetime() {
+        return paymentDatetime;
     }
 
     public MemberCard getMemberCard() {

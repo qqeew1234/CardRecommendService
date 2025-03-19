@@ -20,9 +20,6 @@ public class Card {
     @Column(nullable = false)
     private String cardName;     // 카드 이름
 
-    @Enumerated(EnumType.STRING)
-    private CardType cardType;   // 카드 종류 (이넘) (신용카드, 체크카드)
-
     @Column(nullable = false)
     private int annualFee;  // 연회비
 
@@ -36,10 +33,9 @@ public class Card {
     }
 
 
-    public Card(String cardIssuer, String cardName, CardType cardType, int annualFee, List<CardBenefits> cardBenefits) {
+    public Card(String cardIssuer, String cardName, int annualFee, List<CardBenefits> cardBenefits) {
         this.cardIssuer = cardIssuer;
         this.cardName = cardName;
-        this.cardType = cardType;
         this.annualFee = annualFee;
         this.cardBenefits = cardBenefits;
     }
@@ -54,10 +50,6 @@ public class Card {
 
     public String getCardName() {
         return cardName;
-    }
-
-    public CardType getCardType() {
-        return cardType;
     }
 
     public int getAnnualFee() {
