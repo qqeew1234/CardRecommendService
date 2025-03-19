@@ -25,8 +25,10 @@ public class CardHistoryService {
     }
 
     //사용자의 모든 카드 결제내역 조회 + 총 결제금액 합산
-    public FindAllResponse getAll (String uuid, LocalDateTime startDate, LocalDateTime endDatetime){
-        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDatetime);
+    public FindAllResponse getAll(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
+
+        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDate);
+        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDate);
 
         List<CardHistoryResponse> cardHistoryResponses = cardHistories
                 .stream()
@@ -37,13 +39,8 @@ public class CardHistoryService {
                         cardHistory.getCategory()
                 )).toList();
 
-        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDatetime);
-        Integer safeTotalAmount = (totalAmount != null) ? totalAmount : 0;
-
         return new FindAllResponse(cardHistoryResponses, totalAmount);
     }
-
-
 
 
     public CardResponse getCardWithHighestAmount(String uuid) {

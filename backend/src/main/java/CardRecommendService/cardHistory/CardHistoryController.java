@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 
 @RestController
-@RequestMapping("/cardhistory")
 public class CardHistoryController {
 
     private final CardHistoryService cardHistoryService;
@@ -19,8 +18,8 @@ public class CardHistoryController {
     }
 
     //사용자의 모든 카드 결제내역 조회
-    @GetMapping("cardHistories/{uuid}")
-    public FindAllResponse getAllCardHistories(@PathVariable (name = "uuid") String uuid,
+    @GetMapping("/cardhistories/{uuid}")
+    public FindAllResponse getAllCardHistories(@PathVariable String uuid,
                                                @RequestParam (required = false) LocalDateTime startDate,
                                                @RequestParam (required = false) LocalDateTime endDate) {
 
