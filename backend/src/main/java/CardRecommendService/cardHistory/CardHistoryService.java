@@ -42,6 +42,26 @@ public class CardHistoryService {
         return new FindAllResponse(cardHistoryResponses, totalAmount);
     }
 
+    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate){
+        List<CardHistory> selectedMemberCards
+                = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, startDate, endDate);
+
+        Integer memberCardsTotalAmount
+                = qCardRepository.getMemberCardsTotalAmount(uuid, memberCardIds, startDate, endDate);
+
+        List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards
+                .stream()
+                .map(selectedMemberCard -> new CardHistoryResponse(
+                        selectedMemberCard.getStoreName(),
+                        selectedMemberCard.getAmount(),
+                        selectedMemberCard.getPaymentDatetime(),
+                        selectedMemberCard.getCategory()
+                )).toList();
+
+        return new FindAllResponse(cardHistoryResponses, memberCardsTotalAmount);
+    }
+
+
 
     public CardResponse getCardWithHighestAmount(String uuid) {
 
