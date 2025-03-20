@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+import "./reset.css";
 import "@/styles/globals.scss";
-import PageHeader from "@/components/globals/PageHeader";
-
 
 export const metadata: Metadata = {
   title: "Card Fit",
@@ -14,12 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={""}>
-        <PageHeader>
-          <button>BUTTON</button>
-        </PageHeader>
+    <html lang="ko">
+      <body>
+        
         {children}
+        
       </body>
     </html>
   );
