@@ -7,7 +7,6 @@ import java.util.List;
 
 public record CardResponse(
 
-
         String cardIssuer,
         String cardName,
         int annualFee,

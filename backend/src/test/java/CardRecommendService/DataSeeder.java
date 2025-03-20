@@ -45,26 +45,46 @@ public class DataSeeder {
 //        Card card9 = new Card("행복은행", "통장두둑", 18000, new ArrayList<>());
 //        Card card10 = new Card("미래은행", "절약마스터", 19000,new ArrayList<>());
 
-        Card card1 = new Card("고금리은행", "넌이제파산", 10000, "할인점", "스트리밍", "배달앱", new ArrayList<>());
-        Card card2 = new Card("황금은행", "부자되세요", 12000, "백화점", "음식점", "편의점", new ArrayList<>());
-        Card card3 = new Card("희망은행", "미래희망", 15000, "온라인쇼핑", "교통", "보험", new ArrayList<>());
-        Card card4 = new Card("무한대출은행", "적자행진", 13000, "주유소", "여행", "커피제과", new ArrayList<>());
-        Card card5 = new Card("절약은행", "알뜰카드", 11000, "생활잡화", "병원", "교육", new ArrayList<>());
-        Card card6 = new Card("풍요은행", "대출천국", 14000, "해외결제", "스트리밍", "항공", new ArrayList<>());
-        Card card7 = new Card("천하은행", "VIP클럽", 16000, "영화", "주유소", "생활", new ArrayList<>());
-        Card card8 = new Card("자유은행", "한도무제한", 17000, "편의점", "배달앱", "반려동물", new ArrayList<>());
-        Card card9 = new Card("행복은행", "통장두둑", 18000, "온라인쇼핑", "음식점", "주유소", new ArrayList<>());
-        Card card10 = new Card("미래은행", "절약마스터", 19000, "할인점", "병원", "여행", new ArrayList<>());
-        Card card11 = new Card("하늘은행", "럭셔리클럽", 20000, "호텔", "레스토랑", "쇼핑", new ArrayList<>());
-        Card card12 = new Card("별은행", "스타카드", 21000, "편의점", "헬스", "온라인쇼핑", new ArrayList<>());
-        Card card13 = new Card("백만장자은행", "금고", 22000, "백화점", "영화", "보험", new ArrayList<>());
-        Card card14 = new Card("파란하늘은행", "스카이클럽", 23000, "여행", "외식", "인터넷", new ArrayList<>());
-        Card card15 = new Card("은하은행", "별빛카드", 24000, "주유소", "스트리밍", "자동차", new ArrayList<>());
-        Card card16 = new Card("로얄은행", "황금카드", 25000, "골프장", "레스토랑", "헬스", new ArrayList<>());
-        Card card17 = new Card("미래비전은행", "비전카드", 26000, "인터넷쇼핑", "패션", "여행", new ArrayList<>());
-        Card card18 = new Card("그랜드은행", "슈퍼클럽", 27000, "쇼핑몰", "편의점", "음악", new ArrayList<>());
-        Card card19 = new Card("넥스트은행", "넥스트레벨", 28000, "디지털기기", "음식점", "영화", new ArrayList<>());
-        Card card20 = new Card("프리미엄은행", "최고의카드", 29000, "레스토랑", "의료", "항공", new ArrayList<>());
+        Card card1 = new Card("고금리은행", "넌이제파산", 10000,
+                Category.할인점, Category.스트리밍, Category.배달앱, new ArrayList<>());
+        Card card2 = new Card("황금은행", "부자되세요", 12000,
+                Category.백화점, Category.음식점, Category.편의점, new ArrayList<>());
+        Card card3 = new Card("희망은행", "미래희망", 15000,
+                Category.온라인쇼핑, Category.교통, Category.보험, new ArrayList<>());
+        Card card4 = new Card("무한대출은행", "적자행진", 13000,
+                Category.주유소, Category.여행, Category.커피제과, new ArrayList<>());
+        Card card5 = new Card("절약은행", "알뜰카드", 11000,
+                Category.생활잡화, Category.병원, Category.교육, new ArrayList<>());
+        Card card6 = new Card("풍요은행", "대출천국", 14000,
+                Category.해외결제, Category.스트리밍, Category.항공, new ArrayList<>());
+        Card card7 = new Card("천하은행", "VIP클럽", 16000,
+                Category.영화, Category.주유소, Category.생활, new ArrayList<>());
+        Card card8 = new Card("자유은행", "한도무제한", 17000,
+                Category.편의점, Category.배달앱, Category.반려동물, new ArrayList<>());
+        Card card9 = new Card("행복은행", "통장두둑", 18000,
+                Category.온라인쇼핑, Category.음식점, Category.주유소, new ArrayList<>());
+        Card card10 = new Card("미래은행", "절약마스터", 19000,
+                Category.할인점, Category.병원, Category.여행, new ArrayList<>());
+        Card card11 = new Card("별은행", "스타카드", 21000,
+                Category.편의점, Category.보험, Category.온라인쇼핑, new ArrayList<>());
+        Card card12 = new Card("백만장자은행", "금고", 22000,
+                Category.백화점, Category.영화, Category.보험, new ArrayList<>());
+        Card card13 = new Card("파란하늘은행", "스카이클럽", 23000,
+                Category.여행, Category.편의점, Category.생활, new ArrayList<>());
+        Card card14 = new Card("은하은행", "별빛카드", 24000,
+                Category.주유소, Category.스트리밍, Category.편의점, new ArrayList<>());
+        Card card15 = new Card("로얄은행", "황금카드", 25000,
+                Category.보험, Category.편의점, Category.커피제과, new ArrayList<>());
+        Card card16 = new Card("미래비전은행", "비전카드", 26000,
+                Category.온라인쇼핑, Category.편의점, Category.여행, new ArrayList<>());
+        Card card17 = new Card("그랜드은행", "슈퍼클럽", 27000,
+                Category.슈퍼마켓, Category.편의점, Category.보험, new ArrayList<>());
+        Card card18 = new Card("넥스트은행", "넥스트레벨", 28000,
+                Category.보험, Category.음식점, Category.영화, new ArrayList<>());
+        Card card19 = new Card("프리미엄은행", "최고의카드", 29000,
+                Category.음식점, Category.보험, Category.항공, new ArrayList<>());
+        Card card20 = new Card("프리미엄슈퍼은행", "갓카", 33000,
+                Category.편의점, Category.영화, Category.항공, new ArrayList<>());
 
         cardRepository.save(card1);
         cardRepository.save(card2);
