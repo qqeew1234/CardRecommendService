@@ -33,16 +33,19 @@ public class Card {
 
     EnumSet<Category> category; // cardHistory 패키지의 Category enum을 사용
 
-    private String store1;
+    @Enumerated(EnumType.STRING)
+    private Category store1;
 
-    private String store2;
+    @Enumerated(EnumType.STRING)
+    private Category store2;
 
-    private String store3;
+    @Enumerated(EnumType.STRING)
+    private Category store3;
 
     protected Card() {
     }
 
-    public Card(String cardIssuer, String cardName, int annualFee, String store1, String store2, String store3, List<CardBenefits> cardBenefits) {
+    public Card(String cardIssuer, String cardName, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardIssuer = cardIssuer;
         this.cardName = cardName;
         this.annualFee = annualFee;
@@ -51,7 +54,6 @@ public class Card {
         this.store3 = store3;
         this.cardBenefits = cardBenefits;
     }
-
 
     public Long getId() {
         return Id;
@@ -77,15 +79,15 @@ public class Card {
         return cardBenefits;
     }
 
-    public String getStore1() {
+    public Category getStore1() {
         return store1;
     }
 
-    public String getStore2() {
+    public Category getStore2() {
         return store2;
     }
 
-    public String getStore3() {
+    public Category getStore3() {
         return store3;
     }
 }
