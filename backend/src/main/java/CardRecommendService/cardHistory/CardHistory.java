@@ -52,11 +52,21 @@ public class CardHistory {
         this.uuid = uuid;
     }
 
+    public CardHistory(Long id, int amount, String storeName, LocalDateTime paymentDatetime, Category category, MemberCard memberCard, String uuid) {
+        this.id = id;
+        this.amount = amount;
+        this.storeName = storeName;
+        this.paymentDatetime = paymentDatetime;
+        this.category = category;
+        this.memberCard = memberCard;
+        this.uuid = uuid;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 

@@ -2,14 +2,11 @@
 package CardRecommendService.cardHistory;
 
 
-import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.DateTemplate;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +14,7 @@ import java.util.List;
 public class CardHistoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    QCardHistory qCardHistory = QCardHistory.cardHistory;
+    private final QCardHistory qCardHistory = QCardHistory.cardHistory;
 
     public CardHistoryQueryRepository(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
@@ -32,6 +29,16 @@ public class CardHistoryQueryRepository {
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
     }
+
+    public List<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
+
+        return queryFactory
+                .selectFrom(qCardHistory)
+                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(startDate, endDate))
+                .orderBy(qCardHistory.paymentDatetime.asc())
+                .fetch();
+    }
+
 
     //기간 조건 설정하기(최대 3개월, 기본값은 한 달)
     private BooleanExpression queryConditions(LocalDateTime startDate, LocalDateTime endDate) {
@@ -74,6 +81,20 @@ public class CardHistoryQueryRepository {
         return (totalAmount != null) ? totalAmount : 0;
 
     }
+
+    public int getMemberCardsTotalAmount(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
+        QCardHistory qCardHistory = QCardHistory.cardHistory;
+
+        Integer totalAmount = queryFactory
+                .select(qCardHistory.amount.sum())
+                .from(qCardHistory)
+                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(startDate, endDate))
+                .fetchOne();
+        return (totalAmount != null) ? totalAmount : 0;
+
+    }
+
+
 
 
 //

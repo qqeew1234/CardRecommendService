@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public record CardHistoryResponse(
         String storeName,
-        double amount,
+        int amount,
         LocalDateTime paymentDatetime,
         Category category
 
