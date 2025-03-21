@@ -62,6 +62,16 @@ public class Card {
         this.store3 = store3;
     }
 
+    public Card(String cardName, String cardCrop, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+        this.cardName = cardName;
+        this.cardCrop = cardCrop;
+        this.annualFee = annualFee;
+        this.store1 = store1;
+        this.store2 = store2;
+        this.store3 = store3;
+        this.cardBenefits = cardBenefits;
+    }
+
     public Long getId() {
         return Id;
     }

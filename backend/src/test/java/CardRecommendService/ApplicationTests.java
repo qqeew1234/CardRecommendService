@@ -75,16 +75,6 @@ public class ApplicationTests extends AcceptanceTest {
                 .jsonPath();
     }
 
-
-//    //사용자의 모든 카드 결제내역 조회
-//    @GetMapping("/cardhistories/{uuid}")
-//    public FindAllResponse getAllCardHistories(@PathVariable String uuid,
-//                                               @RequestParam(required = false) LocalDateTime startDate,
-//                                               @RequestParam (required = false) LocalDateTime endDate) {
-//
-//        return cardHistoryService.getAll(uuid, startDate, endDate);
-//    }
-
     //카드 추천 로직 테스트
     @DisplayName("카드 추천 로직 테스트")
     @Test
