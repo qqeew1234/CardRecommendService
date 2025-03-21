@@ -52,8 +52,7 @@ public class CardHistory {
         this.uuid = uuid;
     }
 
-    public CardHistory(Long id, int amount, String storeName, LocalDateTime paymentDatetime, Category category, MemberCard memberCard, String uuid) {
-        this.id = id;
+    public CardHistory(int amount, String storeName, LocalDateTime paymentDatetime, Category category, MemberCard memberCard, String uuid) {
         this.amount = amount;
         this.storeName = storeName;
         this.paymentDatetime = paymentDatetime;
