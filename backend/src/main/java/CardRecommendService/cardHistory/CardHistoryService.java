@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CardHistoryService {
@@ -25,22 +26,22 @@ public class CardHistoryService {
     }
 
     //사용자의 모든 카드 결제내역 조회 + 총 결제금액 합산
-    public FindAllResponse getAll(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
-
-        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDate);
-        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDate);
-
-        List<CardHistoryResponse> cardHistoryResponses = cardHistories
-                .stream()
-                .map(cardHistory -> new CardHistoryResponse(
-                        cardHistory.getStoreName(),
-                        cardHistory.getAmount(),
-                        cardHistory.getPaymentDatetime(),
-                        cardHistory.getCategory()
-                )).toList();
-
-        return new FindAllResponse(cardHistoryResponses, totalAmount);
-    }
+//    public FindAllResponse getAll(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
+//
+//        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDate);
+//        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDate);
+//
+//        List<CardHistoryResponse> cardHistoryResponses = cardHistories
+//                .stream()
+//                .map(cardHistory -> new CardHistoryResponse(
+//                        cardHistory.getStoreName(),
+//                        cardHistory.getAmount(),
+//                        cardHistory.getPaymentDatetime(),
+//                        cardHistory.getCategory()
+//                )).toList();
+//
+//        return new FindAllResponse(cardHistoryResponses, totalAmount);
+//    }
 
     public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate){
         List<CardHistory> selectedMemberCards
@@ -52,13 +53,17 @@ public class CardHistoryService {
         List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards
                 .stream()
                 .map(selectedMemberCard -> new CardHistoryResponse(
+                        selectedMemberCard.getMemberCard().getCard().getCardName(),
+                        selectedMemberCard.getMemberCard().getCard().getCardCrop(),
                         selectedMemberCard.getStoreName(),
                         selectedMemberCard.getAmount(),
                         selectedMemberCard.getPaymentDatetime(),
                         selectedMemberCard.getCategory()
                 )).toList();
 
-        return new FindAllResponse(cardHistoryResponses, memberCardsTotalAmount);
+        int totalCount = cardHistoryResponses.size();
+
+        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalAmount);
     }
 
 
