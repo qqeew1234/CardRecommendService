@@ -43,6 +43,8 @@ public class CardHistoryService {
 //        return new FindAllResponse(cardHistoryResponses, totalAmount);
 //    }
 
+
+    //TODO 기간조회 확인
     public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate){
         List<CardHistory> selectedMemberCards
                 = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, startDate, endDate);
