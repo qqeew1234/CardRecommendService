@@ -11,8 +11,7 @@ public record MemberCardResponse(
         String cardImg,
         String uuid,
         CardDetailResponse card,
-        List<CardHistoryResponse> cardHistories,
-        boolean isHidden
+        List<CardHistoryResponse> cardHistories
 
 
 ) {

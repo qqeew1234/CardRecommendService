@@ -96,7 +96,7 @@ public class CardHistoryService {
         }
 
         return new CardResponse(
-                cardWithHighestAmount.getCardIssuer(),
+                cardWithHighestAmount.getCardCrop(),
                 cardWithHighestAmount.getCardName(),
                 cardWithHighestAmount.getAnnualFee(),
                 cardWithHighestAmount.getCardBenefits().stream()
