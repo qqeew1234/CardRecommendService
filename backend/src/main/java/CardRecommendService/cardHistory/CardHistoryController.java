@@ -29,9 +29,9 @@ public class CardHistoryController {
     }
 
     //선택한 카드 결제내역 조회
-    @GetMapping("membercardhistories/{uuid}/{membercardids}")
-    public FindAllResponse getSelectedMemberCards(@PathVariable @CurrentUserId String uuid,
-                                                  @PathVariable (name = "membercardids") List<Long> memberCardIds,
+    @GetMapping("membercardhistories/{uuid}/selected")
+    public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
+                                                  @RequestParam (required = false) List<Long> memberCardIds,
                                                   @RequestParam (required = false) LocalDateTime startDate,
                                                   @RequestParam  (required = false) LocalDateTime endDate){
 

@@ -37,6 +37,13 @@ public class MemberCard {
         this.uuid = uuid;
     }
 
+    public MemberCard(String cardNumber, String cardImg, Card card, String uuid) {
+        this.cardNumber = cardNumber;
+        this.cardImg = cardImg;
+        this.card = card;
+        this.uuid = uuid;
+    }
+
     public Long getId() {
         return id;
     }

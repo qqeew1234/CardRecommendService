@@ -44,23 +44,35 @@ public class ApplicationTests extends AcceptanceTest {
     //메인 카드 조회
     @DisplayName("메인 카드 조회")
     @Test
-    void 메인카드조회() {
+    void 메인카드조회_결제총액() {
 
         String uuid = "1";
-
-//        LocalDateTime startDate = LocalDateTime.of(2025, 3, 1, 12, 0, 0);
-//        LocalDateTime endDate = LocalDateTime.of(2025, 3, 10, 12, 0, 0);
 
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .pathParam("uuid", uuid)
-//                .queryParam("startDate", startDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-//                .queryParam("endDate", endDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .when()
                 .get("/cardhistories/{uuid}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @DisplayName("선택한 카드 조회")
+    @Test
+    void 선택한카드조회_결제총액(){
+
+        String uuid = "1";
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("uuid", uuid)
+                .queryParam("memberCardIds", 1L, 2L)
+                .get("membercardhistories/{uuid}/selected")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .jsonPath();
     }
 
 

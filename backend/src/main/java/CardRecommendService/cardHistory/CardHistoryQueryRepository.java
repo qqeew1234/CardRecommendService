@@ -44,7 +44,7 @@ public class CardHistoryQueryRepository {
     private BooleanExpression queryConditions(LocalDateTime startDate, LocalDateTime endDate) {
 
 
-        //startDate, endDate 값이 null일 때
+        //startDate, endDate 값이 null일 때  //월초~월말조회  전월1일~31일
         if (startDate == null && endDate == null) {
             endDate = LocalDateTime.now();
             startDate = endDate.minusMonths(1);
