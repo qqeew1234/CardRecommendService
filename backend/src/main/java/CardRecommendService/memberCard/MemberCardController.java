@@ -8,8 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MemberCardController {
@@ -40,15 +42,15 @@ public class MemberCardController {
 
     // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
     @GetMapping("/membercard/cards/history")
-    public List<CardHistoryResponse> getCardsHistories(
+    public Map<LocalDate, List<CardHistoryResponse>> getCardsHistories(
             @RequestParam List<Long> memberCardIds,
             @RequestParam int month) {
 
-        Month monthEnum = Month.of(month);
-        return memberCardService.getCardsHistories(memberCardIds, monthEnum);
+        Month convertedMonth = Month.of(month); // int를 Month로 변환
+
+        return memberCardService.getCardsHistories(memberCardIds, convertedMonth);
 
     }
-
 
 
 }

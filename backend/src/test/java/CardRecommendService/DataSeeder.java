@@ -109,8 +109,8 @@ public class DataSeeder {
 
 
         CardHistory history1 = new CardHistory(1000, "스타벅스", LocalDateTime.parse("2025-03-01T14:30:00"), Category.커피제과, memberCard1, uuid);
-        CardHistory history2 = new CardHistory(5000, "파리바게트", LocalDateTime.parse("2025-03-02T09:15:00"), Category.커피제과, memberCard1, uuid);
-        CardHistory history3 = new CardHistory(12000, "BBQ치킨", LocalDateTime.parse("2025-03-03T19:00:00"), Category.음식점, memberCard1, uuid);
+        CardHistory history2 = new CardHistory(5000, "파리바게트", LocalDateTime.parse("2025-03-01T09:15:00"), Category.커피제과, memberCard1, uuid);
+        CardHistory history3 = new CardHistory(12000, "BBQ치킨", LocalDateTime.parse("2025-03-01T19:00:00"), Category.음식점, memberCard1, uuid);
         CardHistory history4 = new CardHistory(3000, "GS25", LocalDateTime.parse("2025-03-04T13:45:00"), Category.편의점, memberCard1, uuid);
         CardHistory history5 = new CardHistory(8000, "CGV", LocalDateTime.parse("2025-03-05T18:30:00"), Category.생활, memberCard2, uuid);
         CardHistory history6 = new CardHistory(1500, "투썸플레이스", LocalDateTime.parse("2025-03-06T10:00:00"), Category.커피제과, memberCard2, uuid);
