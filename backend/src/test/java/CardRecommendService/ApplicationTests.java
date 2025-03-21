@@ -145,6 +145,24 @@ public class ApplicationTests extends AcceptanceTest {
     }
 
 
+    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링2 - 3월
+    @DisplayName("멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링2 - 3월")
+    @Test
+    void getCardsHistories2MonthOf3() {
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .param("memberCardIds", "1,2,3")  // 쿼리 파라미터로 memberCardIds 추가
+                .param("month", "3")
+                .when()
+                .get("/membercard/cards/history")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath();
+    }
+
+
+
 //    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
 //    @GetMapping("/membercard/cards/history")
 //    public List<CardHistoryResponse> getCardsHistories(

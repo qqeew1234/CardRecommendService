@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +51,7 @@ public class MemberCardService {
                 .collect(Collectors.toList());
     }
 
-    public List<CardHistoryResponse> getCardsHistories(List<Long> memberCardIds, Month month) {
+    public Map<LocalDate, List<CardHistoryResponse>> getCardsHistories(List<Long> memberCardIds, Month month) {
 
         // 1. 해당하는 MemberCard들 조회
         List<MemberCard> memberCards = memberCardRepository.findAllByIdIn(memberCardIds);
@@ -69,7 +69,7 @@ public class MemberCardService {
                         memberCards, startOfMonthTime, endOfMonthTime
                 );
 
-        // 3. CardHistory -> CardHistoryResponse로 변환
+        // 3. CardHistory -> CardHistoryResponse로 변환 후, 일별로 그룹화하여 Map 생성
         return cardHistories.stream()
                 .map(cardHistory -> new CardHistoryResponse(
                         cardHistory.getMemberCard().getCard().getCardName(),
@@ -79,7 +79,10 @@ public class MemberCardService {
                         cardHistory.getPaymentDatetime(),
                         cardHistory.getCategory()
                 ))
-                .collect(Collectors.toList());
-
+                .collect(Collectors.groupingBy(
+                        cardHistory -> cardHistory.paymentDatetime().toLocalDate(), // 날짜별로 그룹화
+                        LinkedHashMap::new, // 순서 유지
+                        Collectors.toList()
+                ));
     }
 }
