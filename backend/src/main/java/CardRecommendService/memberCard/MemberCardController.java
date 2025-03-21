@@ -23,18 +23,19 @@ public class MemberCardController {
     // uuid에 해당하는 사용자의 모든 카드 목록 조회
     @GetMapping("/membercard/{uuid}")
     public List<CardBasicInfoResponse> getAllMemberCardBasicInfo(@PathVariable String uuid) {
+
         return memberCardService.getAllMemberCardBasicInfoByUserId(uuid); // 카드 목록을 리스트로 반환
+
     }
 
 
-//    //분석 카드 선택 : 분석할 로그인된 유저의 카드를 1개 또는 여러개 선택
-//    @GetMapping("/membercard/analysiscards")
-//    public MemberCardListResponse getAnalysisCardsByUserIdAndCardIds(
-//            @PathVariable String uuid,  // 사용자 ID
-//            @RequestParam List<Long> cardIds) {
-//        return memberCardService.getAnalysisCardsByUserIdAndCardIds(uuid, memberCardId);
-//    }
+    // 카드 선택 API (Controller)
+    @PostMapping("/api/cards/select")
+    public List<CardBasicInfoResponse> selectCardsByIds(@RequestBody List<Long> memberCardIds) {
+        // MemberCardService에서 선택된 카드들 반환
+        return memberCardService.selectCardsByIds(memberCardIds);
 
+    }
 
 }
 
