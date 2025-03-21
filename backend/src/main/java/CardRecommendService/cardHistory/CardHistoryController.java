@@ -20,13 +20,13 @@ public class CardHistoryController {
     }
 
     //사용자의 모든 카드 결제내역 조회
-    @GetMapping("/cardhistories/{uuid}")
-    public FindAllResponse getAllCardHistories(@PathVariable @CurrentUserId String uuid,
-                                               @RequestParam (required = false) LocalDateTime startDate,
-                                               @RequestParam (required = false) LocalDateTime endDate) {
-
-        return cardHistoryService.getAll(uuid, startDate, endDate);
-    }
+//    @GetMapping("/cardhistories/{uuid}")
+//    public FindAllResponse getAllCardHistories(@PathVariable @CurrentUserId String uuid,
+//                                               @RequestParam (required = false) LocalDateTime startDate,
+//                                               @RequestParam (required = false) LocalDateTime endDate) {
+//
+//        return cardHistoryService.getAll(uuid, startDate, endDate);
+//    }
 
     //선택한 카드 결제내역 조회
     @GetMapping("membercardhistories/{uuid}/selected")

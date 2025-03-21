@@ -2,7 +2,6 @@
 package CardRecommendService.cardHistory;
 
 
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -14,11 +13,13 @@ import java.util.List;
 public class CardHistoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final QCardHistory qCardHistory = QCardHistory.cardHistory;
+    private final QCardHistory qCardHistory =QCardHistory.cardHistory;
 
     public CardHistoryQueryRepository(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
+
     }
+
 
     public List<CardHistory> findByMemberIdAndPeriod(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
 
