@@ -23,7 +23,8 @@ public class MemberCardService {
                 .stream()
                 .map(memberCard -> new CardBasicInfoResponse(
                         memberCard.getCard().getCardName(),
-                        memberCard.getCard().getImgUrl()
+                        memberCard.getCard().getImgUrl(),
+                        memberCard.getId()
                 ))
                 .collect(Collectors.toList()); // 리스트로 반환
     }
