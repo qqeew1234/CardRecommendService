@@ -16,9 +16,4 @@ public record CardDetailResponse(
 ) {
 
 
-
-
-
-
-
 }

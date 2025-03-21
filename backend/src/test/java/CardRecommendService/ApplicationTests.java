@@ -89,8 +89,21 @@ public class ApplicationTests extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().jsonPath();
+    }
 
 
+    // uuid에 해당하는 사용자의 모든 카드 목록 조회
+    @DisplayName("uuid에 해당하는 사용자의 모든 카드 목록 조회")
+    @Test
+    void uuid에사용자의모든카드목록조회() {
+        RestAssured
+                .given().log().all()
+                .pathParam("uuid",1L)// 카테고리 3개 선택
+                .when()
+                .get("/membercard/{uuid}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath();
     }
 
 }

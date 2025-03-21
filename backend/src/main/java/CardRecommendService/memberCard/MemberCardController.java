@@ -2,6 +2,7 @@ package CardRecommendService.memberCard;
 
 
 import CardRecommendService.card.Card;
+import CardRecommendService.card.CardBasicInfoResponse;
 import CardRecommendService.cardHistory.CardHistoryResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/membercard")
 public class MemberCardController {
 
 
@@ -20,35 +20,20 @@ public class MemberCardController {
         this.memberCardService = memberCardService;
     }
 
-    //분석 카드 선택창 : (로그인된) 사용자가 가진 모든(ALL) 카드 가져오기
-//    @GetMapping("/{userId}")
-//    public MemberCardListResponse getAllMemberCardListByUserId(@PathVariable String userId) {
-//        return memberCardService.getAllMemberCardListByUserId(userId);
-//    }
+    // uuid에 해당하는 사용자의 모든 카드 목록 조회
+    @GetMapping("/membercard/{uuid}")
+    public List<CardBasicInfoResponse> getAllMemberCardBasicInfo(@PathVariable String uuid) {
+        return memberCardService.getAllMemberCardBasicInfoByUserId(uuid); // 카드 목록을 리스트로 반환
+    }
 
 
-    //분석 카드 선택 : 분석할 로그인된 유저의 카드를 1개 또는 여러개 선택
-//    @GetMapping("/analysiscards")
+//    //분석 카드 선택 : 분석할 로그인된 유저의 카드를 1개 또는 여러개 선택
+//    @GetMapping("/membercard/analysiscards")
 //    public MemberCardListResponse getAnalysisCardsByUserIdAndCardIds(
-//            @PathVariable String userId,  // 사용자 ID
+//            @PathVariable String uuid,  // 사용자 ID
 //            @RequestParam List<Long> cardIds) {
-//        return memberCardService.getAnalysisCardsByUserIdAndCardIds(userId, cardIds);
+//        return memberCardService.getAnalysisCardsByUserIdAndCardIds(uuid, memberCardId);
 //    }
-
-
-    //숨김온오프
-//    @PatchMapping("/{userId}/{cardId}/hidden")
-//    public boolean updateMemberCardIsHidden(
-//            @PathVariable String userId,
-//            @PathVariable Long cardId,
-//            @RequestParam boolean isHidden) {
-//        return memberCardService.updateMemberCardIsHidden(userId, cardId, isHidden);
-//    }
-
-
-
-
-
 
 
 }

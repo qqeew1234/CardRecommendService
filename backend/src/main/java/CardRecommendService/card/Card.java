@@ -48,18 +48,15 @@ public class Card {
     protected Card() {
     }
 
-    public Card(Long id, String cardName, String cardCrop, String imgUrl, int annualFee, List<MemberCard> memberCards, List<CardBenefits> cardBenefits, EnumSet<Category> category, Category store1, Category store2, Category store3) {
-        Id = id;
+    public Card(String cardName, String cardCrop, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
         this.cardCrop = cardCrop;
         this.imgUrl = imgUrl;
         this.annualFee = annualFee;
-        this.memberCards = memberCards;
-        this.cardBenefits = cardBenefits;
-        this.category = category;
         this.store1 = store1;
         this.store2 = store2;
         this.store3 = store3;
+        this.cardBenefits = cardBenefits;
     }
 
     public Card(String cardName, String cardCrop, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
