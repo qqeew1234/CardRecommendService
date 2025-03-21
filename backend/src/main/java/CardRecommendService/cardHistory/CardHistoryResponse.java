@@ -5,8 +5,8 @@ import CardRecommendService.memberCard.MemberCardResponse;
 import java.time.LocalDateTime;
 
 public record CardHistoryResponse(
-        String cardCrop,
         String cardName,
+        String cardCrop,
         String storeName,
         int amount,
         LocalDateTime paymentDatetime,
