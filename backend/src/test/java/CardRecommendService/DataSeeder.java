@@ -117,7 +117,7 @@ public class DataSeeder {
         CardHistory history7 = new CardHistory(4200, "이마트24", LocalDateTime.parse("2025-03-07T15:20:00"), Category.편의점, memberCard2, uuid);
         CardHistory history8 = new CardHistory(25000, "교보문고", LocalDateTime.parse("2025-03-08T11:10:00"), Category.생활, memberCard3, uuid);
         CardHistory history9 = new CardHistory(13000, "맥도날드", LocalDateTime.parse("2025-03-09T17:50:00"), Category.음식점, memberCard3, uuid);
-        CardHistory history10 = new CardHistory(6000, "올리브영", LocalDateTime.parse("2025-03-10T14:00:00"), Category.생활잡화, memberCard3, uuid);
+        CardHistory history10 = new CardHistory(6000, "올리브영", LocalDateTime.parse("2025-02-10T14:00:00"), Category.생활잡화, memberCard3, uuid);
 
         cardHistoryRepository.save(history1);
         cardHistoryRepository.save(history2);

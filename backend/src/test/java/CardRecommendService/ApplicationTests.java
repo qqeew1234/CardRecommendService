@@ -1,12 +1,16 @@
 package CardRecommendService;
 
+import CardRecommendService.cardHistory.CardHistoryResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,7 +65,7 @@ public class ApplicationTests extends AcceptanceTest {
 
     @DisplayName("선택한 카드 조회")
     @Test
-    void 선택한카드조회_결제총액(){
+    void 선택한카드조회_결제총액() {
 
         String uuid = "1";
 
@@ -99,7 +103,7 @@ public class ApplicationTests extends AcceptanceTest {
     void uuid에사용자의모든카드목록조회() {
         RestAssured
                 .given().log().all()
-                .pathParam("uuid",1L)// 카테고리 3개 선택
+                .pathParam("uuid", 1L)// 카테고리 3개 선택
                 .when()
                 .get("/membercard/{uuid}")
                 .then().log().all()
@@ -124,5 +128,30 @@ public class ApplicationTests extends AcceptanceTest {
     }
 
 
+    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
+    @DisplayName("멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링")
+    @Test
+    void getCardsHistories() {
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .param("memberCardIds", "1,2,3")  // 쿼리 파라미터로 memberCardIds 추가
+                .param("month", "2")
+                .when()
+                .get("/membercard/cards/history")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath();
+    }
+
+
+//    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
+//    @GetMapping("/membercard/cards/history")
+//    public List<CardHistoryResponse> getCardsHistories(
+//            @RequestParam List<Long> memberCardIds,
+//            @RequestParam Month month) {
+//        return memberCardService.getCardsHistories(memberCardIds, month);
+//
+//    }
 
 }
