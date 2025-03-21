@@ -73,10 +73,6 @@ public class CardHistory {
         return storeName;
     }
 
-    public LocalDateTime getPaymentDateTime() {
-        return paymentDatetime;
-    }
-
     public Category getCategory() {
         return category;
     }

@@ -17,10 +17,13 @@ public class Card {
     private Long Id;
 
     @Column(nullable = false)
-    private String cardIssuer;   // 카드 발급사
+    private String cardName;  // 카드 이름
 
     @Column(nullable = false)
-    private String cardName;     // 카드 이름
+    private String cardCrop;  // 카드 발급사
+
+    @Column(nullable = false)
+    private String imgUrl;
 
     @Column(nullable = false)
     private int annualFee;  // 연회비
@@ -45,26 +48,38 @@ public class Card {
     protected Card() {
     }
 
-    public Card(String cardIssuer, String cardName, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
-        this.cardIssuer = cardIssuer;
+    public Card(Long id, String cardName, String cardCrop, String imgUrl, int annualFee, List<MemberCard> memberCards, List<CardBenefits> cardBenefits, EnumSet<Category> category, Category store1, Category store2, Category store3) {
+        Id = id;
         this.cardName = cardName;
+        this.cardCrop = cardCrop;
+        this.imgUrl = imgUrl;
         this.annualFee = annualFee;
+        this.memberCards = memberCards;
+        this.cardBenefits = cardBenefits;
+        this.category = category;
         this.store1 = store1;
         this.store2 = store2;
         this.store3 = store3;
-        this.cardBenefits = cardBenefits;
     }
 
     public Long getId() {
         return Id;
     }
 
-    public String getCardIssuer() {
-        return cardIssuer;
-    }
-
     public String getCardName() {
         return cardName;
+    }
+
+    public String getCardCrop() {
+        return cardCrop;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public EnumSet<Category> getCategory() {
+        return category;
     }
 
     public int getAnnualFee() {
