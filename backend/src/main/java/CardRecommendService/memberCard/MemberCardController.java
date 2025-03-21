@@ -40,17 +40,27 @@ public class MemberCardController {
 
     }
 
-    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
     @GetMapping("/membercard/cards/history")
-    public Map<LocalDate, List<CardHistoryResponse>> getCardsHistories(
+    public List<DailyCardHistoryResponse> getCardsHistories(
             @RequestParam List<Long> memberCardIds,
             @RequestParam int month) {
-
         Month convertedMonth = Month.of(month); // int를 Month로 변환
 
         return memberCardService.getCardsHistories(memberCardIds, convertedMonth);
-
     }
+
+
+//    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
+//    @GetMapping("/membercard/cards/history")
+//    public Map<LocalDate, List<CardHistoryResponse>> getCardsHistories(
+//            @RequestParam List<Long> memberCardIds,
+//            @RequestParam int month) {
+//
+//        Month convertedMonth = Month.of(month); // int를 Month로 변환
+//
+//        return memberCardService.getCardsHistories(memberCardIds, convertedMonth);
+//
+//    }
 
 
 }
