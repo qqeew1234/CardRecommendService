@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -105,5 +106,23 @@ public class ApplicationTests extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().jsonPath();
     }
+
+
+    List<Long> memberCardId = Arrays.asList(1L, 2L, 3L); // 예시로  카드 선택
+
+    @Test
+    void 카드선택() {
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(memberCardId)
+                .when()
+                .post("/api/cards/select")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().jsonPath();
+    }
+
+
 
 }

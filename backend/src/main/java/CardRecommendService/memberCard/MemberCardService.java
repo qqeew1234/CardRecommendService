@@ -28,4 +28,17 @@ public class MemberCardService {
                 ))
                 .collect(Collectors.toList()); // 리스트로 반환
     }
+
+    // 선택된 카드 아이디 리스트로 카드 정보 조회 (MemberCardService)
+    public List<CardBasicInfoResponse> selectCardsByIds(List<Long> memberCardId) {
+        List<MemberCard> memberCards = memberCardRepository.findAllByIdIn(memberCardId);
+
+        return memberCards.stream()
+                .map(memberCard -> new CardBasicInfoResponse(
+                        memberCard.getCard().getCardName(),
+                        memberCard.getCard().getImgUrl(),
+                        memberCard.getId() // 선택된 카드들 반환
+                ))
+                .collect(Collectors.toList());
+    }
 }
