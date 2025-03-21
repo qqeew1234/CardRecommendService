@@ -2,8 +2,15 @@ package CardRecommendService.memberCard;
 
 import CardRecommendService.card.CardBasicInfoResponse;
 import CardRecommendService.card.CardDetailResponse;
+import CardRecommendService.cardHistory.CardHistory;
+import CardRecommendService.cardHistory.CardHistoryRepository;
+import CardRecommendService.cardHistory.CardHistoryResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,9 +18,11 @@ import java.util.stream.Collectors;
 public class MemberCardService {
 
     private final MemberCardRepository memberCardRepository;
+    private final CardHistoryRepository cardHistoryRepository;
 
-    public MemberCardService(MemberCardRepository memberCardRepository) {
+    public MemberCardService(MemberCardRepository memberCardRepository, CardHistoryRepository cardHistoryRepository) {
         this.memberCardRepository = memberCardRepository;
+        this.cardHistoryRepository = cardHistoryRepository;
     }
 
     // uuid에 해당하는 사용자의 모든 카드 정보 조회
@@ -40,5 +49,37 @@ public class MemberCardService {
                         memberCard.getId() // 선택된 카드들 반환
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public List<CardHistoryResponse> getCardsHistories(List<Long> memberCardIds, Month month) {
+
+        // 1. 해당하는 MemberCard들 조회
+        List<MemberCard> memberCards = memberCardRepository.findAllByIdIn(memberCardIds);
+
+        // 2. 해당 카드들에 대한 결제 내역 조회 (특정 달에 해당하는)
+        YearMonth yearMonth = YearMonth.now().withMonth(month.getValue()); // 현재 연도에 해당 월을 지정
+        LocalDate startOfMonth = yearMonth.atDay(1); // 해당 달의 첫 번째 날
+        LocalDate endOfMonth = yearMonth.atEndOfMonth(); // 해당 달의 마지막 날
+
+        LocalDateTime startOfMonthTime = startOfMonth.atStartOfDay(); // 시작 시간 (00:00)
+        LocalDateTime endOfMonthTime = endOfMonth.atTime(23, 59, 59); // 종료 시간 (23:59:59)
+
+        List<CardHistory> cardHistories = cardHistoryRepository.findByMemberCardInAndPaymentDatetimeBetween
+                (
+                        memberCards, startOfMonthTime, endOfMonthTime
+                );
+
+        // 3. CardHistory -> CardHistoryResponse로 변환
+        return cardHistories.stream()
+                .map(cardHistory -> new CardHistoryResponse(
+                        cardHistory.getMemberCard().getCard().getCardName(),
+                        cardHistory.getMemberCard().getCard().getCardCrop(),
+                        cardHistory.getStoreName(),
+                        cardHistory.getAmount(),
+                        cardHistory.getPaymentDatetime(),
+                        cardHistory.getCategory()
+                ))
+                .collect(Collectors.toList());
+
     }
 }
