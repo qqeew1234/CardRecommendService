@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/cards")
 public class CardController {
 
     private final CardRepository cardRepository;
@@ -20,20 +19,20 @@ public class CardController {
     }
 
     //모든 카드 리스트를 목록으로 조회
-    @GetMapping
+    @GetMapping("/cards")
     public List<CardResponse> getAllCards() {
         return cardService.getAllCards();
     }
 
     //특정 카드 상세 조회
-    @GetMapping("/{cardId}")
+    @GetMapping("/cards/{cardId}")
     public CardDetailResponse getCardDetailByCardId(@PathVariable Long cardId) {
 
         return cardService.getCardDetailByCardId(cardId);
     }
 
     //카드 추천 서비스 로직
-    @GetMapping("/recommend")
+    @GetMapping("/cards/recommend")
     public List<long[]> getRecommendCards(
             @RequestParam int minAnnualFee,
             @RequestParam int maxAnnualFee,
