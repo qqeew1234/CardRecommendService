@@ -1,5 +1,7 @@
 package CardRecommendService;
 
+import CardRecommendService.Classification.ClassificationResponse;
+import CardRecommendService.Classification.CreateClassificationRequest;
 import CardRecommendService.cardHistory.CardHistoryResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -7,8 +9,7 @@ import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Month;
 import java.util.Arrays;
@@ -22,7 +23,6 @@ public class ApplicationTests extends AcceptanceTest {
     @DisplayName("카드 목록 조회")
     @Test
     void 카드목록조회() {
-
         RestAssured
                 .given().log().all()
                 .when()
@@ -39,7 +39,6 @@ public class ApplicationTests extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .pathParam("cardId", 1L)
-
                 .when()
                 .get("/cards/{cardId}")
                 .then().log().all()
@@ -143,6 +142,71 @@ public class ApplicationTests extends AcceptanceTest {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract().jsonPath();
+    }
+
+
+    // 분류 생성 테스트
+    @DisplayName("분류 생성 테스트")
+    @Test
+    void 분류생성() {
+        CreateClassificationRequest request = new CreateClassificationRequest("새로운 분류");
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+                .body(request)
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    // 분류 목록 조회 테스트
+    @DisplayName("분류 목록 조회 테스트")
+    @Test
+    void 분류목록조회() {
+
+        CreateClassificationRequest request = new CreateClassificationRequest("새로운 분류");
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+                .body(request)
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .when()
+                .get("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    // 분류 삭제 테스트
+    @DisplayName("분류 삭제 테스트")
+    @Test
+    void 분류삭제() {
+        CreateClassificationRequest request = new CreateClassificationRequest("새로운 분류");
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+                .body(request)
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .when()
+                .pathParam("classificationId", 1L)
+                .delete("/classifications/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 
 
