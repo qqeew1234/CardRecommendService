@@ -46,22 +46,6 @@ public class ApplicationTests extends AcceptanceTest {
                 .statusCode(HttpStatus.OK.value());
     }
 
-    //메인 카드 조회
-    @DisplayName("메인 카드 조회")
-    @Test
-    void 메인카드조회_결제총액() {
-
-        String uuid = "1";
-
-        RestAssured
-                .given().log().all()
-                .contentType(ContentType.JSON)
-                .pathParam("uuid", uuid)
-                .when()
-                .get("/cardhistories/{uuid}")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
-    }
 
     @DisplayName("선택한 카드 조회")
     @Test
@@ -161,15 +145,5 @@ public class ApplicationTests extends AcceptanceTest {
                 .extract().jsonPath();
     }
 
-
-
-//    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
-//    @GetMapping("/membercard/cards/history")
-//    public List<CardHistoryResponse> getCardsHistories(
-//            @RequestParam List<Long> memberCardIds,
-//            @RequestParam Month month) {
-//        return memberCardService.getCardsHistories(memberCardIds, month);
-//
-//    }
 
 }

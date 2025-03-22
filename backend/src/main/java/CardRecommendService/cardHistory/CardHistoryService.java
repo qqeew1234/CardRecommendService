@@ -25,27 +25,9 @@ public class CardHistoryService {
         this.qCardRepository = qCardRepository;
     }
 
-    //사용자의 모든 카드 결제내역 조회 + 총 결제금액 합산
-//    public FindAllResponse getAll(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
-//
-//        List<CardHistory> cardHistories = qCardRepository.findByMemberIdAndPeriod(uuid, startDate, endDate);
-//        Integer totalAmount = qCardRepository.getTotalAmount(uuid, startDate, endDate);
-//
-//        List<CardHistoryResponse> cardHistoryResponses = cardHistories
-//                .stream()
-//                .map(cardHistory -> new CardHistoryResponse(
-//                        cardHistory.getStoreName(),
-//                        cardHistory.getAmount(),
-//                        cardHistory.getPaymentDatetime(),
-//                        cardHistory.getCategory()
-//                )).toList();
-//
-//        return new FindAllResponse(cardHistoryResponses, totalAmount);
-//    }
 
-
-    //TODO 기간조회 확인
-    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate){
+    //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
+    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
         List<CardHistory> selectedMemberCards
                 = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, startDate, endDate);
 
@@ -69,81 +51,52 @@ public class CardHistoryService {
     }
 
 
-
-    public CardResponse getCardWithHighestAmount(String uuid) {
-
-        //최근 한 달 날짜 구하기.
-        LocalDateTime endDateTime = LocalDateTime.now();
-        LocalDateTime startDateTime = endDateTime.minusMonths(1);
-
-        //멤버가 가진 카드 리스트 조회
-        List<MemberCard> memberCards = memberCardRepository.findByUuid(uuid);
-
-        //최고 결제 금액을 가진 카드, 최고 결제 금액 저장 변수들.
-        Card cardWithHighestAmount = null;
-        double highestAmount = 0;
-
-        //각 카드의 결제 내역 조회 후 합산
-        for (MemberCard memberCard : memberCards) {
-
-            //카드 결제 내역 조회
-            List<CardHistory> cardHistoryList = cardHistoryRepository.findByMemberCard_IdAndPaymentDatetimeBetween(
-                    memberCard.getId(), startDateTime, endDateTime);
-
-            //결제 금액 합산
-            double totalAmount = cardHistoryList.stream()
-                    .mapToDouble(CardHistory::getAmount)
-                    .sum();
-
-            //가장 높은 결제 금액카드 찾기, 비교 후 선정
-            if (totalAmount > highestAmount) {
-                highestAmount = totalAmount;
-                cardWithHighestAmount = memberCard.getCard();
-            }
-        }
-
-        return new CardResponse(
-                cardWithHighestAmount.getCardCrop(),
-                cardWithHighestAmount.getCardName(),
-                cardWithHighestAmount.getAnnualFee(),
-                cardWithHighestAmount.getCardBenefits().stream()
-                        .map(benefit -> new CardBenefitsResponse(
-                                benefit.getBnfName(),
-                                benefit.getBnfDetail(),
-                                benefit.getBngDetail()
-                        ))
-                        .collect(Collectors.toList())
-        );
-
-
-    }
-
-//    @Transactional
-//    public CardHistoryResponse getCardHistoryByUserIdAndCard(String userId, Long cardId) {
-//        // 사용자가 선택한 카드의 결제 내역 조회
-//        CardHistory cardHistory = cardHistoryRepository.findByMemberIdAndCardId(userId, cardId);
+//    //최근 한달 가장 많은 금액을 쓴 카드 선정하는 로직. 안씀.
+//    public CardResponse getCardWithHighestAmount(String uuid) {
 //
-//        // CardHistory 엔티티를 CardHistoryResponse로 변환하여 반환
-//        return new CardHistoryResponse(
-//                cardHistory.getAmount(),
-//                cardHistory.getStoreName(),
-//                cardHistory.getPaymentCount(),
-//                cardHistory.getPaymentDateTime(),
-//                cardHistory.getPaymentCategory()
+//        //최근 한 달 날짜 구하기.
+//        LocalDateTime endDateTime = LocalDateTime.now();
+//        LocalDateTime startDateTime = endDateTime.minusMonths(1);
+//
+//        //멤버가 가진 카드 리스트 조회
+//        List<MemberCard> memberCards = memberCardRepository.findByUuid(uuid);
+//
+//        //최고 결제 금액을 가진 카드, 최고 결제 금액 저장 변수들.
+//        Card cardWithHighestAmount = null;
+//        double highestAmount = 0;
+//
+//        //각 카드의 결제 내역 조회 후 합산
+//        for (MemberCard memberCard : memberCards) {
+//
+//            //카드 결제 내역 조회
+//            List<CardHistory> cardHistoryList = cardHistoryRepository.findByMemberCard_IdAndPaymentDatetimeBetween(
+//                    memberCard.getId(), startDateTime, endDateTime);
+//
+//            //결제 금액 합산
+//            double totalAmount = cardHistoryList.stream()
+//                    .mapToDouble(CardHistory::getAmount)
+//                    .sum();
+//
+//            //가장 높은 결제 금액카드 찾기, 비교 후 선정
+//            if (totalAmount > highestAmount) {
+//                highestAmount = totalAmount;
+//                cardWithHighestAmount = memberCard.getCard();
+//            }
+//        }
+//
+//        return new CardResponse(
+//                cardWithHighestAmount.getCardCrop(),
+//                cardWithHighestAmount.getCardName(),
+//                cardWithHighestAmount.getAnnualFee(),
+//                cardWithHighestAmount.getCardBenefits().stream()
+//                        .map(benefit -> new CardBenefitsResponse(
+//                                benefit.getBnfName(),
+//                                benefit.getBnfDetail(),
+//                                benefit.getBngDetail()
+//                        ))
+//                        .collect(Collectors.toList())
 //        );
-//    }
-
-
-//    public List<CardHistoryDateResponse> getDailyCardHistory(String startDate, String endDate) {
-//        // String을 LocalDate로 변환
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
-//        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
 //
-//        // CardHistoryQueryRepository의 인스턴스를 생성
-//        CardHistoryQueryRepository cardHistoryQueryRepository = new CardHistoryQueryRepository(queryFactory);
 //
-//        // 변환된 LocalDate를 사용하여 findCardHistoryByDateRange 호출
-//        return cardHistoryQueryRepository.findCardHistoryByDateRange(parsedStartDate, parsedEndDate);
 //    }
 }

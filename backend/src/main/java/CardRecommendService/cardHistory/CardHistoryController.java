@@ -19,40 +19,14 @@ public class CardHistoryController {
         this.memberCardService = memberCardService;
     }
 
-    //사용자의 모든 카드 결제내역 조회
-//    @GetMapping("/cardhistories/{uuid}")
-//    public FindAllResponse getAllCardHistories(@PathVariable @CurrentUserId String uuid,
-//                                               @RequestParam (required = false) LocalDateTime startDate,
-//                                               @RequestParam (required = false) LocalDateTime endDate) {
-//
-//        return cardHistoryService.getAll(uuid, startDate, endDate);
-//    }
-
-    //선택한 카드 결제내역 조회
+    //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
     @GetMapping("membercardhistories/{uuid}/selected")
     public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
-                                                  @RequestParam (required = false) List<Long> memberCardIds,
-                                                  @RequestParam (required = false) LocalDateTime startDate,
-                                                  @RequestParam  (required = false) LocalDateTime endDate){
+                                                  @RequestParam(required = false) List<Long> memberCardIds,
+                                                  @RequestParam(required = false) LocalDateTime startDate,
+                                                  @RequestParam(required = false) LocalDateTime endDate) {
 
         return cardHistoryService.getSelected(uuid, memberCardIds, startDate, endDate);
     }
-
-    //로그인된 유저의 id와 membercardlistresponse로 특정 카드의 이용내역 보기
-//    @GetMapping("/analysiscards/{userId}")
-//    public CardHistoryResponse getCardHistoryByUserIdAndCard(@PathVariable String userId,  // 로그인된 유저 ID
-//                                                             @RequestParam Long cardId) {
-//        MemberCardListResponse memberCardListResponse = memberCardService.getAllMemberCardListByUserId(userId);
-//
-//        return cardHistoryService.getCardHistoryByUserIdAndCard(userId, cardId);
-//    }
-
-
-    //(이용일별로) 결제내역 보기
-//    @GetMapping("/daily")
-//    public List<CardHistoryDateResponse> getDailyCardHistory(@RequestParam String startDate, @RequestParam String endDate) {
-//        return cardHistoryService.getDailyCardHistory(startDate, endDate);
-//    }
-
 
 }

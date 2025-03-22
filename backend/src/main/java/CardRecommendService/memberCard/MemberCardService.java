@@ -51,7 +51,7 @@ public class MemberCardService {
                 .collect(Collectors.toList());
     }
 
-
+    // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
     public List<DailyCardHistoryResponse> getCardsHistories(List<Long> memberCardIds, Month month) {
 
         // 1. 해당하는 MemberCard들 조회
@@ -98,39 +98,4 @@ public class MemberCardService {
                 .toList();
     }
 
-
-//    public Map<LocalDate, List<CardHistoryResponse>> getCardsHistories(List<Long> memberCardIds, Month month) {
-//
-//        // 1. 해당하는 MemberCard들 조회
-//        List<MemberCard> memberCards = memberCardRepository.findAllByIdIn(memberCardIds);
-//
-//        // 2. 해당 카드들에 대한 결제 내역 조회 (특정 달에 해당하는)
-//        YearMonth yearMonth = YearMonth.now().withMonth(month.getValue()); // 현재 연도에 해당 월을 지정
-//        LocalDate startOfMonth = yearMonth.atDay(1); // 해당 달의 첫 번째 날
-//        LocalDate endOfMonth = yearMonth.atEndOfMonth(); // 해당 달의 마지막 날
-//
-//        LocalDateTime startOfMonthTime = startOfMonth.atStartOfDay(); // 시작 시간 (00:00)
-//        LocalDateTime endOfMonthTime = endOfMonth.atTime(23, 59, 59); // 종료 시간 (23:59:59)
-//
-//        List<CardHistory> cardHistories = cardHistoryRepository.findByMemberCardInAndPaymentDatetimeBetween
-//                (
-//                        memberCards, startOfMonthTime, endOfMonthTime
-//                );
-//
-//        // 3. CardHistory -> CardHistoryResponse로 변환 후, 일별로 그룹화하여 Map 생성
-//        return cardHistories.stream()
-//                .map(cardHistory -> new CardHistoryResponse(
-//                        cardHistory.getMemberCard().getCard().getCardName(),
-//                        cardHistory.getMemberCard().getCard().getCardCrop(),
-//                        cardHistory.getStoreName(),
-//                        cardHistory.getAmount(),
-//                        cardHistory.getPaymentDatetime(),
-//                        cardHistory.getCategory()
-//                ))
-//                .collect(Collectors.groupingBy(
-//                        cardHistory -> cardHistory.paymentDatetime().toLocalDate(), // 날짜별로 그룹화
-//                        LinkedHashMap::new, // 순서 유지
-//                        Collectors.toList()
-//                ));
-//    }
 }
