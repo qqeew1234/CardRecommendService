@@ -5,6 +5,7 @@ import CardRecommendService.card.CardResponse;
 import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,22 +18,22 @@ public class CardHistoryService {
 
     private final CardHistoryRepository cardHistoryRepository;
     private final MemberCardRepository memberCardRepository;
-    private final CardHistoryQueryRepository qCardRepository;
+    private final CardHistoryQueryRepository cardHistoryQueryRepository;
 
-    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardRecommendService.cardHistory.CardHistoryQueryRepository qCardRepository) {
+    public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardHistoryQueryRepository cardHistoryQueryRepository) {
         this.cardHistoryRepository = cardHistoryRepository;
         this.memberCardRepository = memberCardRepository;
-        this.qCardRepository = qCardRepository;
+        this.cardHistoryQueryRepository = cardHistoryQueryRepository;
     }
 
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
-    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
+    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, Integer monthOffset) {
         List<CardHistory> selectedMemberCards
-                = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, startDate, endDate);
+                = cardHistoryQueryRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset);
 
         Integer memberCardsTotalAmount
-                = qCardRepository.getMemberCardsTotalAmount(uuid, memberCardIds, startDate, endDate);
+                = cardHistoryQueryRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
 
         List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards
                 .stream()
@@ -49,6 +50,10 @@ public class CardHistoryService {
 
         return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalAmount);
     }
+
+//    public CHAnalysisResponse getClassification(){
+//
+//    }
 
 
 //    //최근 한달 가장 많은 금액을 쓴 카드 선정하는 로직. 안씀.
