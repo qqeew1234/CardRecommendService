@@ -23,10 +23,9 @@ public class CardHistoryController {
     @GetMapping("membercardhistories/{uuid}/selected")
     public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
                                                   @RequestParam(required = false) List<Long> memberCardIds,
-                                                  @RequestParam(required = false) LocalDateTime startDate,
-                                                  @RequestParam(required = false) LocalDateTime endDate) {
+                                                  @RequestParam(required = false) Integer monthOffset) {
 
-        return cardHistoryService.getSelected(uuid, memberCardIds, startDate, endDate);
+        return cardHistoryService.getSelected(uuid, memberCardIds, monthOffset);
     }
 
 }

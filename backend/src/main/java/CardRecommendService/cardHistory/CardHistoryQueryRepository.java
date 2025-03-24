@@ -6,96 +6,76 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 
 @Repository
 public class CardHistoryQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final QCardHistory qCardHistory =QCardHistory.cardHistory;
+    private final QCardHistory qCardHistory = QCardHistory.cardHistory;
 
     public CardHistoryQueryRepository(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
-
     }
 
 
-    public List<CardHistory> findByMemberIdAndPeriod(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
-
+    public List<CardHistory> findByMemberIdAndPeriod(String uuid, Integer monthOffset) {
 
         return queryFactory
                 .selectFrom(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), queryConditions(startDate, endDate))
+                .where(qCardHistory.uuid.eq(uuid), queryConditions(monthOffset))
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
     }
 
-    public List<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, Integer monthOffset) {
 
         return queryFactory
                 .selectFrom(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(startDate, endDate))
+                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(monthOffset))
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
     }
 
 
-    //기간 조건 설정하기(최대 3개월, 기본값은 한 달)
-    private BooleanExpression queryConditions(LocalDateTime startDate, LocalDateTime endDate) {
+    //기간 조건 설정하기
+    private BooleanExpression queryConditions(Integer monthOffset) {
 
+        //현재 날짜의 전월, 전전월, 전전전월. 최장 3개월
+        YearMonth targetMonth = YearMonth.from(LocalDate.now()).minusMonths(monthOffset);
 
-        //startDate, endDate 값이 null일 때  //월초~월말조회  전월1일~31일
-        if (startDate == null && endDate == null) {
-            endDate = LocalDateTime.now();
-            startDate = endDate.minusMonths(1);
-        } else if (startDate == null) {
-            startDate = endDate.minusMonths(1);
-        } else if (endDate == null) {
-            endDate = startDate.plusMonths(1);
-        }
-
-        //종료날짜가 현재 날짜를 넘어가면 현재날짜로 강제함
-        if (endDate.isAfter(LocalDateTime.now())) {
-            endDate = LocalDateTime.now();
-        }
-
-        //종료날짜가 3개월보다 길면 3개월을 강제함
-        if (endDate.isAfter(startDate.plusMonths(3))) {
-            endDate = startDate.plusMonths(3);
-        }
-
+        LocalDateTime startDate = targetMonth.atDay(1).atStartOfDay();
+        LocalDateTime endDate = targetMonth.atEndOfMonth().atTime(23, 59, 59);
 
         return qCardHistory.paymentDatetime.between(startDate, endDate);
     }
 
 
     //총 결제금액 계산하기
-    public int getTotalAmount(String uuid, LocalDateTime startDate, LocalDateTime endDate) {
+    public int getTotalAmount(String uuid, Integer monthOffset) {
         QCardHistory qCardHistory = QCardHistory.cardHistory;
 
         Integer totalAmount = queryFactory
                 .select(qCardHistory.amount.sum())
                 .from(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), queryConditions(startDate, endDate))
+                .where(qCardHistory.uuid.eq(uuid), queryConditions(monthOffset))
                 .fetchOne();
         return (totalAmount != null) ? totalAmount : 0;
-
     }
 
-    public int getMemberCardsTotalAmount(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
+    public int getMemberCardsTotalAmount(String uuid, List<Long> memberCardIds, Integer monthOffset) {
         QCardHistory qCardHistory = QCardHistory.cardHistory;
 
         Integer totalAmount = queryFactory
                 .select(qCardHistory.amount.sum())
                 .from(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(startDate, endDate))
+                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(monthOffset))
                 .fetchOne();
         return (totalAmount != null) ? totalAmount : 0;
-
     }
-
-
 
 
 //

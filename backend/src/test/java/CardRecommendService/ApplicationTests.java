@@ -54,8 +54,9 @@ public class ApplicationTests extends AcceptanceTest {
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .pathParam("uuid", uuid)
-                .queryParam("memberCardIds", 1L, 2L)
+                .pathParam("uuid", 1L)
+                .queryParam("memberCardIds", 3L)
+                .queryParam("monthOffset",1 )
                 .get("membercardhistories/{uuid}/selected")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
