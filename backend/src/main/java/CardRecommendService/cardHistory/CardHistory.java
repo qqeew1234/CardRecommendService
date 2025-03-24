@@ -31,6 +31,12 @@ public class CardHistory {
     @ManyToOne
     private MemberCard memberCard;
 
+
+    @ManyToOne
+    private Classification classification;
+
+
+
     private String uuid;
 
 
@@ -97,9 +103,11 @@ public class CardHistory {
     }
 
 
+
     public void setClassification(Classification classification) {
         this.classification = classification;
     }
+
 
     public String getUuid() {
         return uuid;

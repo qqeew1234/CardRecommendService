@@ -7,7 +7,12 @@ import CardRecommendService.card.CardResponse;
 import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
+
 import jakarta.transaction.Transactional;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +25,7 @@ public class CardHistoryService {
 
     private final CardHistoryRepository cardHistoryRepository;
     private final MemberCardRepository memberCardRepository;
+
     private final CardHistoryQueryRepository qCardRepository;
     private final ClassificationRepository classificationRepository;
 
@@ -28,17 +34,17 @@ public class CardHistoryService {
         this.memberCardRepository = memberCardRepository;
         this.qCardRepository = qCardRepository;
         this.classificationRepository = classificationRepository;
+
     }
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
-    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, LocalDateTime startDate, LocalDateTime endDate) {
-        List<CardHistory> selectedMemberCards
-                = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, startDate, endDate);
+    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
+        Page<CardHistory> selectedMemberCards = cardHistoryQueryRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset, pageable);
 
-        Integer memberCardsTotalAmount
-                = qCardRepository.getMemberCardsTotalAmount(uuid, memberCardIds, startDate, endDate);
+        Integer memberCardsTotalCost
+                = cardHistoryQueryRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
 
-        List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards
+        List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards.getContent()
                 .stream()
                 .map(selectedMemberCard -> new CardHistoryResponse(
                         selectedMemberCard.getMemberCard().getCard().getCardName(),
@@ -50,10 +56,11 @@ public class CardHistoryService {
                         selectedMemberCard.getClassification() != null ? selectedMemberCard.getClassification().getTitle() : "-" // 🔥 `String` 변환
                 )).toList();
 
-        int totalCount = cardHistoryResponses.size();
+        long totalCount = selectedMemberCards.getTotalElements();
 
-        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalAmount);
+        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalCost);
     }
+
 
     //기능 1. 결제 기록에 Classification 추가.
     @Transactional
@@ -138,6 +145,7 @@ public class CardHistoryService {
         // 결과 반환
         return new CardHistoryResultResponse(filteredCardHistories, totalAmount, selectedAmount, percentage);
     }
+
 
 //    //최근 한달 가장 많은 금액을 쓴 카드 선정하는 로직. 안씀.
 //    public CardResponse getCardWithHighestAmount(String uuid) {
