@@ -31,15 +31,7 @@ public class CardHistory {
     @ManyToOne
     private MemberCard memberCard;
 
-
-    @ManyToOne
-    private Classification classification;
-
-
-
     private String uuid;
-
-
 
     @ManyToOne
     @JoinColumn(name = "classification_id")
