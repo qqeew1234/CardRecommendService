@@ -1,7 +1,9 @@
 
 package CardRecommendService.cardHistory;
-
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -22,22 +24,46 @@ public class CardHistoryQueryRepository {
     }
 
 
-    public List<CardHistory> findByMemberIdAndPeriod(String uuid, Integer monthOffset) {
+    public Page<CardHistory> findByMemberIdAndPeriod(String uuid, Integer monthOffset, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page -1, pageSize);
 
-        return queryFactory
+        List<CardHistory> content = queryFactory
                 .selectFrom(qCardHistory)
                 .where(qCardHistory.uuid.eq(uuid), queryConditions(monthOffset))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
+
+        Long total = queryFactory
+                .select(qCardHistory.count())
+                .from(qCardHistory)
+                .where(qCardHistory.uuid.eq(uuid))
+                .fetchOne();
+
+        return new PageImpl<CardHistory>(content, pageable, total);
     }
 
-    public List<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, Integer monthOffset) {
+    public Page<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
 
-        return queryFactory
+        List<CardHistory> content = queryFactory
                 .selectFrom(qCardHistory)
                 .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(monthOffset))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(qCardHistory.paymentDatetime.asc())
                 .fetch();
+
+        Long pageCount = queryFactory
+                .select(qCardHistory.count())
+                .where(qCardHistory.uuid.eq(uuid), qCardHistory.memberCard.id.in(memberCardIds), queryConditions(monthOffset))
+                .from(qCardHistory)
+                .fetchOne();
+
+        //pageCount null 방지
+        long safePageCount = (pageCount != null) ? pageCount : 0L;
+
+        return new PageImpl<>(content, pageable, safePageCount);
     }
 
 

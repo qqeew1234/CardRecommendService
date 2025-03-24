@@ -6,6 +6,8 @@ import CardRecommendService.cardBenefits.CardBenefitsResponse;
 import CardRecommendService.memberCard.MemberCard;
 import CardRecommendService.memberCard.MemberCardRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,14 +30,13 @@ public class CardHistoryService {
 
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
-    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, Integer monthOffset) {
-        List<CardHistory> selectedMemberCards
-                = cardHistoryQueryRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset);
+    public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
+        Page<CardHistory> selectedMemberCards = cardHistoryQueryRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset, pageable);
 
-        Integer memberCardsTotalAmount
+        Integer memberCardsTotalCost
                 = cardHistoryQueryRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
 
-        List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards
+        List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards.getContent()
                 .stream()
                 .map(selectedMemberCard -> new CardHistoryResponse(
                         selectedMemberCard.getMemberCard().getCard().getCardName(),
@@ -46,9 +47,9 @@ public class CardHistoryService {
                         selectedMemberCard.getCategory()
                 )).toList();
 
-        int totalCount = cardHistoryResponses.size();
+        long totalCount = selectedMemberCards.getTotalElements();
 
-        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalAmount);
+        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalCost);
     }
 
 //    public CHAnalysisResponse getClassification(){
