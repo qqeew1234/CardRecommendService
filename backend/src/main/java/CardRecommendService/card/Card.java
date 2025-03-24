@@ -69,6 +69,8 @@ public class Card {
         this.cardBenefits = cardBenefits;
     }
 
+
+
     public Long getId() {
         return Id;
     }

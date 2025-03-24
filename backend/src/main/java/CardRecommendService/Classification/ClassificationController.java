@@ -1,9 +1,11 @@
 package CardRecommendService.Classification;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ClassificationController {
@@ -16,8 +18,9 @@ public class ClassificationController {
 
     //분류 생성
     @PostMapping("/classifications")
-    public void createClassification(@RequestBody CreateClassificationRequest request) {
-        classificationService.createClassification(request);
+    public ResponseEntity<Map<String, Long>> createClassification(@RequestBody CreateClassificationRequest request) {
+        Long classificationId = classificationService.createClassification(request);
+        return ResponseEntity.ok(Map.of("id", classificationId));
     }
 
     //분류 목록 조회

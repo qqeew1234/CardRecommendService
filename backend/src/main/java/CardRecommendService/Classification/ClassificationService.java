@@ -23,13 +23,15 @@ public class ClassificationService {
 
     //분류 등록
     @Transactional
-    public void createClassification(CreateClassificationRequest request) {
+    public Long createClassification(CreateClassificationRequest request) {
 
         Classification classification = new Classification(
                 request.title()
         );
 
         classificationRepository.save(classification);
+
+        return classification.getId();
     }
 
     //분류 조회

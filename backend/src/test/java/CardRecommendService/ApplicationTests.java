@@ -1,17 +1,16 @@
 package CardRecommendService;
 
-import CardRecommendService.Classification.ClassificationResponse;
 import CardRecommendService.Classification.CreateClassificationRequest;
-import CardRecommendService.cardHistory.CardHistoryResponse;
+import CardRecommendService.cardHistory.CardHistoryResultResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -210,4 +209,185 @@ public class ApplicationTests extends AcceptanceTest {
     }
 
 
+    //기능 1. 결제 기록에 Classification 추가.
+    @DisplayName("결제 기록에 Classification 추가")
+    @Test
+    void 결제기록에Classification추가() {
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("욜로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("골로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("지옥으로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        Response response = RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
+                .pathParam("classificationId", 3)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .response();  // 응답 객체를 변수로 저장
+
+// 응답 본문을 직접 확인하고 문제를 파악
+        System.out.println("응답 본문: " + response.asString());
+
+
+    }
+
+    //기능 2: 결제 기록에서 Classification 삭제
+    @DisplayName("결제 기록에서 Classification 삭제")
+    @Test
+    void 결제기록에서Classification삭제() {
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("욜로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
+                .pathParam("classificationId", 1)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("cardHistoryId", 1)
+                .pathParam("classificationId", 1)
+                .when()
+                .delete("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+
+    //기능 3. 특정 Classification  로 해당 Classification 에 해당하는 결제 기록과 총 결제 금액, 퍼센테이지 표시
+    @DisplayName("특정 Classification  로 해당 Classification 에 해당하는 결제 기록과 총 결제 금액, 퍼센테이지 표시")
+    @Test
+    void getClassificationStatistics() {
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("욜로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateClassificationRequest("골로"))
+                .when()
+                .post("/classifications")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
+                .pathParam("classificationId", 1)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 2)  // cardHistoryId 먼저
+                .pathParam("classificationId", 1)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 3)  // cardHistoryId 먼저
+                .pathParam("classificationId", 1)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+
+                .pathParam("cardHistoryId", 4)  // cardHistoryId 먼저
+                .pathParam("classificationId", 2)  // classificationId 나중에
+                .when()
+                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given().log().all()
+                .contentType("application/json")
+                .queryParam("classificationIds", 1)
+                .queryParam("classificationIds", 2)
+                .when()
+                .get("/cardhistory/classification")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+
+//        //기능 3. 특정 ClassificationID N개로 해당 Classification들에 해당하는 CardHistory들과 마지막에 Classification들에 대한 총 결제 금액, 퍼센테이지 표시
+//        @GetMapping("/cardhistory/classification")
+//        public CardHistoryResultResponse calculatePayments(@RequestParam List<Long> classificationIds) {
+//            return cardHistoryService.calculateClassificationPayments(classificationIds);
+//        }
+
+    }
 }
