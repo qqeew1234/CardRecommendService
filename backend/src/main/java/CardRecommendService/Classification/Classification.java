@@ -18,7 +18,7 @@ public class Classification {
     @ManyToOne
     private CardHistory getCardHistories;
 
-    @OneToMany
+    @OneToMany(mappedBy = "classification")
     private List<CardHistory> cardHistories;
 
     private boolean isChecked; // 체크 여부를 나타내는 필드

@@ -77,7 +77,8 @@ public class MemberCardService {
                         cardHistory.getStoreName(),
                         cardHistory.getAmount(),
                         cardHistory.getPaymentDatetime(),
-                        cardHistory.getCategory()
+                        cardHistory.getCategory(),
+                        cardHistory.getClassification() != null ? cardHistory.getClassification().getTitle() : "-"
                 ))
                 .toList();
 
