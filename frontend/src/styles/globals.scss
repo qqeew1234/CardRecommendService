@@ -1,3 +1,56 @@
 @import "./mixin";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
+.page-header{
+  padding-bottom: 10px;
+  position: fixed;
+  width: 100%;
+  padding-top: 120px;
+  background: #efefef;
+  z-index: 1;
+
+
+
+  header{
+   @include layout_center;
+
+   display: flex;
+   justify-content: space-between;
+  
+  .hdr{
+    //재귀: 다시선택
+    &-left{
+      width: 680px;
+      h6{font-family: var(--ff_sans);
+        font-weight: 900;
+        font-size: 60px;
+        line-height: 60px;
+        color: #ccc;
+      }
+
+      h2{
+        font-family: var(--ff_sans);
+        font-weight: 700;
+        font-size: 72px;
+        line-height: 80px;
+        color: #000;
+        margin-top: -40px;
+        padding-left: 20px;
+      }
+
+      p{
+        font-family: var(--ff_sans);
+        color: #555;
+        padding-left: 20px;
+      }
+    }
+
+    &-right{
+      width: calc(100% - 680px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+  }
+}
+}
