@@ -3,6 +3,9 @@ import "./reset.css";
 import "@/src/styles/globals.scss"
 
 
+
+
+
 export const metadata: Metadata = {
   title: "카드핏",
 };
