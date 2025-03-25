@@ -24,26 +24,7 @@ public class CardHistoryQueryRepository {
     }
 
 
-    public Page<CardHistory> findByMemberIdAndPeriod(String uuid, Integer monthOffset, int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page -1, pageSize);
-
-        List<CardHistory> content = queryFactory
-                .selectFrom(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), queryConditions(monthOffset))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(qCardHistory.paymentDatetime.asc())
-                .fetch();
-
-        Long total = queryFactory
-                .select(qCardHistory.count())
-                .from(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid))
-                .fetchOne();
-
-        return new PageImpl<CardHistory>(content, pageable, total);
-    }
-
+    //선택한 카드 결제 내역 조회하기
     public Page<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
 
         List<CardHistory> content = queryFactory
@@ -70,6 +51,10 @@ public class CardHistoryQueryRepository {
     //기간 조건 설정하기
     private BooleanExpression queryConditions(Integer monthOffset) {
 
+        if(monthOffset == null || monthOffset > 3){
+            throw new IllegalArgumentException("조회는 최장 3개월 전까지 가능합니다");
+        }
+
         //현재 날짜의 전월, 전전월, 전전전월. 최장 3개월
         YearMonth targetMonth = YearMonth.from(LocalDate.now()).minusMonths(monthOffset);
 
@@ -81,17 +66,6 @@ public class CardHistoryQueryRepository {
 
 
     //총 결제금액 계산하기
-    public int getTotalAmount(String uuid, Integer monthOffset) {
-        QCardHistory qCardHistory = QCardHistory.cardHistory;
-
-        Integer totalAmount = queryFactory
-                .select(qCardHistory.amount.sum())
-                .from(qCardHistory)
-                .where(qCardHistory.uuid.eq(uuid), queryConditions(monthOffset))
-                .fetchOne();
-        return (totalAmount != null) ? totalAmount : 0;
-    }
-
     public int getMemberCardsTotalAmount(String uuid, List<Long> memberCardIds, Integer monthOffset) {
         QCardHistory qCardHistory = QCardHistory.cardHistory;
 
