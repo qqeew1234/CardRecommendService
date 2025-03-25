@@ -15,6 +15,4 @@ public record CardHistoryResponse(
         Category category,
         String classification
 ) {
-
-
 }

@@ -95,7 +95,6 @@ public class CardHistory {
     }
 
 
-
     public void setClassification(Classification classification) {
         this.classification = classification;
     }
