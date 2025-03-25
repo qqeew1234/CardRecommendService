@@ -31,15 +31,7 @@ public class CardHistory {
     @ManyToOne
     private MemberCard memberCard;
 
-
-    @ManyToOne
-    private Classification classification;
-
-
-
     private String uuid;
-
-
 
     @ManyToOne
     @JoinColumn(name = "classification_id")
@@ -101,7 +93,6 @@ public class CardHistory {
     public Classification getClassification() {
         return classification;
     }
-
 
 
     public void setClassification(Classification classification) {

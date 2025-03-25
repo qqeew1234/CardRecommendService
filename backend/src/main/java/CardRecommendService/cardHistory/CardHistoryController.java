@@ -1,5 +1,6 @@
 package CardRecommendService.cardHistory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class CardHistoryController {
                                                   @RequestParam(defaultValue = "1") int page,
                                                   @RequestParam(defaultValue = "13") int size) {
 
-        Pageable pageable = PageRequest.of(page -1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         return cardHistoryService.getSelected(uuid, memberCardIds, monthOffset, pageable);
     }
@@ -60,10 +62,14 @@ public class CardHistoryController {
         return new CardHistoryWithClassificationResponse(updatedHistory);
     }
 
-    //기능 3. 특정 ClassificationID N개로 해당 Classification들에 해당하는 CardHistory들과 마지막에 Classification들에 대한 총 결제 금액, 퍼센테이지 표시
+
     @GetMapping("/cardhistory/classification")
-    public CardHistoryResultResponse calculatePayments(@RequestParam List<Long> classificationIds) {
-        return cardHistoryService.calculateClassificationPayments(classificationIds);
+    public CardHistoryResultResponse calculatePayments(@RequestParam String uuid,
+                                                       @RequestParam List<Long> memberCardIds,
+                                                       @RequestParam(required = false) Integer monthOffset,
+                                                       @RequestParam List<Long> classificationIds) {
+
+        return cardHistoryService.calculateClassificationPayments(uuid, memberCardIds, monthOffset, classificationIds);
     }
 
 

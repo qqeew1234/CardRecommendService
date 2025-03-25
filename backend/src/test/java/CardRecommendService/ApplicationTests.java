@@ -55,7 +55,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .contentType(ContentType.JSON)
                 .pathParam("uuid", 1L)
                 .queryParam("memberCardIds", 3L)
-                .queryParam("monthOffset",1 )
+                .queryParam("monthOffset", 1)
                 .get("membercardhistories/{uuid}/selected")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
@@ -375,20 +375,17 @@ public class ApplicationTests extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .contentType("application/json")
-                .queryParam("classificationIds", 1)
-                .queryParam("classificationIds", 2)
+                .queryParam("uuid", 1l) // 예시 uuid 값
+                .queryParam("memberCardIds", 1, 2, 3) // 예시 memberCardIds 값
+                .queryParam("monthOffset", 1) // 예시 monthOffset 값
+                .queryParam("classificationIds", 1, 2) // 예시 classificationIds 값
+                .queryParam("page", 0) // 페이지 번호
+                .queryParam("size", 10) // 페이지 크기
                 .when()
                 .get("/cardhistory/classification")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
-
-
-//        //기능 3. 특정 ClassificationID N개로 해당 Classification들에 해당하는 CardHistory들과 마지막에 Classification들에 대한 총 결제 금액, 퍼센테이지 표시
-//        @GetMapping("/cardhistory/classification")
-//        public CardHistoryResultResponse calculatePayments(@RequestParam List<Long> classificationIds) {
-//            return cardHistoryService.calculateClassificationPayments(classificationIds);
-//        }
 
     }
 }
