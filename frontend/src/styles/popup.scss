@@ -1,0 +1,96 @@
+.popup-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.80);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .popup-box {
+    width: 780px;
+    height: 480px;
+    background-color: #fff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    border-radius: 20px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 380px;
+      margin: 0 auto;
+
+      input {
+        margin-top: 10px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      button {
+        margin-top: 10px;
+      }
+
+      .email {}
+
+      .password {}
+
+      .login {}
+
+      .signup {
+        background-color: transparent;
+        color: #06F;
+        box-shadow: none;
+      }
+
+      .naver {
+        background-color: #0C6;
+        margin-top: 30px;
+      }
+
+      .google {
+        background-color: #fff;
+        color: #000;
+      }
+
+      .github {
+        background-color: #000;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .isLoginFail {
+      width: 80%;
+      height: 80%;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 2px 2px 40px rgba(0, 0, 0, 0.40);
+    }
+  }
+}
