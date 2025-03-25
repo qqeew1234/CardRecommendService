@@ -28,7 +28,9 @@ public class CardHistoryService {
 
     private final CardHistoryRepository cardHistoryRepository;
     private final MemberCardRepository memberCardRepository;
-    private final CardHistoryQueryRepository cardHistoryQueryRepository;
+
+    private final CardHistoryQueryRepository qCardRepository;
+
     private final ClassificationRepository classificationRepository;
 
     public CardHistoryService(CardHistoryRepository cardHistoryRepository, MemberCardRepository memberCardRepository, CardHistoryQueryRepository cardHistoryQueryRepository, ClassificationRepository classificationRepository) {
@@ -40,10 +42,10 @@ public class CardHistoryService {
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
     public FindAllResponse getSelected(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
-        Page<CardHistory> selectedMemberCards = cardHistoryQueryRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset, pageable);
+        Page<CardHistory> selectedMemberCards = qCardRepository.findSelectedByMemberIdAndPeriod(uuid, memberCardIds, monthOffset, pageable);
 
         Integer memberCardsTotalCost
-                = cardHistoryQueryRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
+                = qCardRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
 
         List<CardHistoryResponse> cardHistoryResponses = selectedMemberCards.getContent()
                 .stream()
@@ -154,4 +156,3 @@ public class CardHistoryService {
     }
 
 
-}

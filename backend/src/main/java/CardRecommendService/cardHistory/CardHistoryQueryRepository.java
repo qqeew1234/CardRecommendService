@@ -25,6 +25,7 @@ public class CardHistoryQueryRepository {
     }
 
 
+
     public Page<CardHistory> findSelectedByMemberIdAndPeriod(String uuid, List<Long> memberCardIds, Integer monthOffset, Pageable pageable) {
 
         List<CardHistory> content = queryFactory
@@ -51,6 +52,10 @@ public class CardHistoryQueryRepository {
     //기간 조건 설정하기
     private BooleanExpression queryConditions(Integer monthOffset) {
 
+        if(monthOffset == null || monthOffset > 3){
+            throw new IllegalArgumentException("조회는 최장 3개월 전까지 가능합니다");
+        }
+
         //현재 날짜의 전월, 전전월, 전전전월. 최장 3개월
         YearMonth targetMonth = YearMonth.from(LocalDate.now()).minusMonths(monthOffset);
 
@@ -59,6 +64,7 @@ public class CardHistoryQueryRepository {
 
         return qCardHistory.paymentDatetime.between(startDate, endDate);
     }
+
 
 
     public int getMemberCardsTotalAmount(String uuid, List<Long> memberCardIds, Integer monthOffset) {
