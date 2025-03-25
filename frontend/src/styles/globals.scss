@@ -54,3 +54,21 @@
   }
 }
 }
+
+button{
+  color: #FFF;
+  background-color: #09f;
+  border: 0;
+  height: 40px;
+  padding: 0 20px;
+  margin-left: 10px;
+  border-radius: 5px;
+
+  &.dim{
+    background-color: #999;
+  }
+
+  &.active{
+    background-color: #06f;
+  }
+}
