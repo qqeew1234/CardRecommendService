@@ -3,9 +3,9 @@
 
 .page-header{
   padding-bottom: 10px;
-  position: fixed;
+  // position: fixed;
   width: 100%;
-  padding-top: 120px;
+  padding-top: 80px;
   background: #efefef;
   z-index: 1;
 
@@ -23,18 +23,18 @@
       width: 680px;
       h6{font-family: var(--ff_sans);
         font-weight: 900;
-        font-size: 60px;
-        line-height: 60px;
+        font-size: 48px;
+        line-height: 48px;
         color: #ccc;
       }
 
       h2{
         font-family: var(--ff_sans);
         font-weight: 700;
-        font-size: 72px;
-        line-height: 80px;
+        font-size: 60px;
+        line-height: 60px;
         color: #000;
-        margin-top: -40px;
+        margin-top: -30px;
         padding-left: 20px;
       }
 
@@ -42,6 +42,9 @@
         font-family: var(--ff_sans);
         color: #555;
         padding-left: 20px;
+        padding-top: 20px;
+        font-size: 16px;
+        line-height: 20px;
       }
     }
 
@@ -59,10 +62,12 @@ button{
   color: #FFF;
   background-color: #09f;
   border: 0;
-  height: 40px;
+  height: 30px;
   padding: 0 20px;
-  margin-left: 10px;
   border-radius: 5px;
+  cursor: pointer;
+
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
 
   &.dim{
     background-color: #999;
@@ -71,4 +76,12 @@ button{
   &.active{
     background-color: #06f;
   }
+}
+
+input{
+  height: 30px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  padding: 0 10px;
+ border-radius: 4px;
 }

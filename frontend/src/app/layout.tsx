@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./reset.css";
-import "@/src/styles/globals.scss"
+import "@/styles/globals.scss"
 
 
 
