@@ -28,7 +28,7 @@
 
 ### **CardHistoryController API 스펙**
 
-- **`/membercardhistories/{uuid}/selected`**
+- **`/cardhistories/{uuid}/selected`**
   - **HTTP 메서드**: `GET`
   - **요청 파라미터**:
     - `uuid`: 사용자 UUID (`String`)
@@ -37,6 +37,137 @@
     - `page`: 페이지 번호 (`int`, 기본값: 1)
     - `size`: 페이지 크기 (`int`, 기본값: 13)
   - **응답**: 사용 내역 조회 결과 (`FindAllResponse`)
+  ```json
+  {
+      "cardHistoryResponseList": [
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "브레드 토크",
+              "amount": 1138105,
+              "paymentDatetime": "2025-02-01T00:04:06",
+              "category": "커피제과",
+              "classification": "-"
+          },
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "대중교통",
+              "amount": 424164,
+              "paymentDatetime": "2025-02-01T06:50:46",
+              "category": "교통",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "쇼핑엔티",
+              "amount": 575055,
+              "paymentDatetime": "2025-02-01T21:51:59",
+              "category": "홈쇼핑",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "에어부산",
+              "amount": 870567,
+              "paymentDatetime": "2025-02-02T12:18:07",
+              "category": "항공",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "롯데오일",
+              "amount": 1006258,
+              "paymentDatetime": "2025-02-04T19:04:42",
+              "category": "주유소",
+              "classification": "-"
+          },
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "삼백",
+              "amount": 1467319,
+              "paymentDatetime": "2025-02-05T11:41:06",
+              "category": "음식점",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "하나로약국",
+              "amount": 1886217,
+              "paymentDatetime": "2025-02-05T14:38:34",
+              "category": "병원",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "멜론",
+              "amount": 782339,
+              "paymentDatetime": "2025-02-05T23:54:09",
+              "category": "스트리밍",
+              "classification": "-"
+          },
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "넷플릭스",
+              "amount": 1222371,
+              "paymentDatetime": "2025-02-07T05:05:40",
+              "category": "스트리밍",
+              "classification": "-"
+          },
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "대한항공",
+              "amount": 562409,
+              "paymentDatetime": "2025-02-07T11:09:58",
+              "category": "항공",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "플라이강원",
+              "amount": 1980153,
+              "paymentDatetime": "2025-02-07T23:08:47",
+              "category": "항공",
+              "classification": "-"
+          },
+          {
+              "cardName": "삼성카드 taptap O",
+              "cardCrop": "삼성카드",
+              "storeName": "동아백화점",
+              "amount": 246333,
+              "paymentDatetime": "2025-02-08T13:15:13",
+              "category": "백화점",
+              "classification": "-"
+          },
+          {
+              "cardName": "신한카드 주거래 신용",
+              "cardCrop": "신한카드",
+              "storeName": "대한항공",
+              "amount": 430487,
+              "paymentDatetime": "2025-02-08T14:11:34",
+              "category": "항공",
+              "classification": "-"
+          }
+      ],
+      "totalCost": 51793142,
+      "page": {
+          "pageNumber": 0,
+          "size": 13,
+          "totalPages": 5,
+          "totalCount": 56
+      }
+  }
+
+```
 
 - **`/cardhistory/{cardHistoryId}/classification/{classificationId}`**
   - **HTTP 메서드**: `PATCH`
@@ -97,15 +228,39 @@
 
 ### **MemberCardController API 스펙**
 
-- **`/membercard/{uuid}`**
+- **`/membercards/{uuid}`**
   - **HTTP 메서드**: `GET`
   - **요청 파라미터**: `uuid`: 사용자 UUID (`String`)
   - **응답**: 카드 목록 (`List<CardBasicInfoResponse>`)
+    ```json
+    [
+      {
+        "id": 1,
+        "cardName": "신한카드 주거래 신용",
+        "cardCorp": "신한카드",
+        "cardImg": "img.png",
+        "memberCardId": 1,
+        "altTxt": null
+      }
+    ]
+    ```
 
-- **`/api/cards/select`**
+- **`/membercards/select`**
   - **HTTP 메서드**: `POST`
   - **요청 파라미터**: `memberCardIds`: 선택된 카드 ID 목록 (`List<Long>`)
   - **응답**: 선택된 카드 목록 (`List<CardBasicInfoResponse>`)
+  ```json
+  [
+    {
+      "id": 1,
+      "cardName": "신한카드 주거래 신용",
+      "cardCorp": "https://d1c5n4ri2guedi.cloudfront.net/card/895/card_img/21647/895card.png",
+      "cardImg": "신한카드",
+      "memberCardId": 1,
+      "altTxt": null
+    }
+  ]
+  ```
 
 - **`/membercard/cards/history`**
   - **HTTP 메서드**: `GET`

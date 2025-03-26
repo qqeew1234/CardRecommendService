@@ -29,7 +29,7 @@ public class CardService {
 
         return cards.stream()
                 .map(card -> new CardResponse(
-                        card.getCardCrop(),
+                        card.getCardCorp(),
                         card.getCardName(),
                         card.getAnnualFee(),
                         card.getCardBenefits().stream()
@@ -62,7 +62,7 @@ public class CardService {
                 .collect(Collectors.toList());
 
         return new CardDetailResponse(
-                card.getCardCrop(),
+                card.getCardCorp(),
                 card.getCardName(),
                 card.getAnnualFee(),
                 cardBenefitsResponses

@@ -16,8 +16,6 @@ public class MemberCard {
 
     private String cardNumber;
 
-    private String cardImg;
-
     @ManyToOne
     private Card card;
 
@@ -29,17 +27,15 @@ public class MemberCard {
     public MemberCard() {
     }
 
-    public MemberCard(String cardNumber, String cardImg, Card card, List<CardHistory> cardHistories, String uuid) {
+    public MemberCard(String cardNumber, Card card, List<CardHistory> cardHistories, String uuid) {
         this.cardNumber = cardNumber;
-        this.cardImg = cardImg;
         this.card = card;
         this.cardHistories = cardHistories;
         this.uuid = uuid;
     }
 
-    public MemberCard(String cardNumber, String cardImg, Card card, String uuid) {
+    public MemberCard(String cardNumber, Card card, String uuid) {
         this.cardNumber = cardNumber;
-        this.cardImg = cardImg;
         this.card = card;
         this.uuid = uuid;
     }
@@ -54,10 +50,6 @@ public class MemberCard {
 
     public String getCardNumber() {
         return cardNumber;
-    }
-
-    public String getCardImg() {
-        return cardImg;
     }
 
     public Card getCard() {

@@ -99,9 +99,9 @@ public class DataSeeder {
 
         String uuid = "1";  // 예시 Member 객체
 
-        MemberCard memberCard1 = new MemberCard("1234-5678-9012-3456", "img1", card1, uuid);
-        MemberCard memberCard2 = new MemberCard("5678-9012-3456-7890", "img2", card2, uuid);
-        MemberCard memberCard3 = new MemberCard("9012-3456-7890-1234", "img3", card1, uuid);
+        MemberCard memberCard1 = new MemberCard("1234-5678-9012-3456", card1, uuid);
+        MemberCard memberCard2 = new MemberCard("5678-9012-3456-7890", card2, uuid);
+        MemberCard memberCard3 = new MemberCard("9012-3456-7890-1234", card1, uuid);
 
         memberCardRepository.save(memberCard1);
         memberCardRepository.save(memberCard2);
