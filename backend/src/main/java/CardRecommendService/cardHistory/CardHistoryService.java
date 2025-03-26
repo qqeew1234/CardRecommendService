@@ -59,9 +59,13 @@ public class CardHistoryService {
                         selectedMemberCard.getClassification() != null ? selectedMemberCard.getClassification().getTitle() : "-" // 🔥 `String` 변환
                 )).toList();
 
-        long totalCount = selectedMemberCards.getTotalElements();
+        Paging page = new Paging(
+                selectedMemberCards.getNumber(),
+                selectedMemberCards.getSize(),
+                selectedMemberCards.getTotalPages(),
+                selectedMemberCards.getTotalElements());
 
-        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalCost);
+        return new FindAllResponse(cardHistoryResponses, memberCardsTotalCost, page);
     }
 
 
