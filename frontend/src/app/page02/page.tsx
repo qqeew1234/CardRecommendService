@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function page02() {
-  const hd_props = {
+  
+const hd_props = {
     num: "02",
     tit: "내 카드 불러오기",
     des: "소지하신 카드를 불러와 소비패턴 분석을 하거나 기간별 사용내역을 조회할 수 있습니다.",
   };
   const [isLoading, setIsLoading] = useState(false);
+  const [cardList, setCardList] = useState([]);
   const hasCardList = [
     {
       key: 0,
@@ -118,7 +120,10 @@ export default function page02() {
               </h4>
               <div className="btns">
                 <button>이전으로</button>
-                <button onClick={() => setIsLoading(true)}>카드불러오기</button>
+                <button onClick={async() => { 
+                    let data = await fetch(`http://localhost:8080/membercard/${member_id}`)
+                    let posts = await data.json()
+                  setIsLoading(true)}}>카드불러오기</button>
               </div>
             </div>
           )}
