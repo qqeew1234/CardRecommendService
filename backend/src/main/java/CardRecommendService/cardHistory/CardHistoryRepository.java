@@ -18,5 +18,5 @@ public interface CardHistoryRepository extends JpaRepository<CardHistory, Long> 
             Pageable pageable
     );
 
-    List<CardHistory> findByClassificationIdIn(List<Long> classificationIds);
+    Page<CardHistory> findByClassificationIdIn(List<Long> classificationIds, Pageable pageable);
 }
