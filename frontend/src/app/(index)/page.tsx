@@ -2,7 +2,7 @@
 
 import CreditCard from "@/components/CreditCard";
 import PageHeader from "@/components/PageHeader";
-import "@/styles/index.page.scss";
+import "@/styles/page01.scss";
 import "@/styles/popup.scss";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,7 +44,7 @@ export default function Home() {
           </button>
         )}
       </PageHeader>
-      <div className="page-body">
+      <div className="page-body p01">
         <section>
           <div className="art-box">
             <article>
@@ -90,7 +90,7 @@ export default function Home() {
         <div className="popup-screen">
           <div className="popup-box">
             <form action="">
-              <input
+              {/* <input
                 type="email"
                 className="email"
                 placeholder="example@cardfit.com"
@@ -103,7 +103,7 @@ export default function Home() {
               <button className="login">이메일 로그인</button>
               <Link href={"/signup"}>
                 <button className="signup">[회원가입하기]</button>
-              </Link>
+              </Link> */}
 
               <button className="naver">네이버 로그인</button>
               <button className="google">구글 로그인</button>

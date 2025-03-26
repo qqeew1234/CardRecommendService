@@ -16,7 +16,7 @@ export default function page04() {
       >
         <></>
       </PageHeader>
-      <div className="page-body p04">
+      <div className="page-body">
         <section></section>
       </div>
     </>

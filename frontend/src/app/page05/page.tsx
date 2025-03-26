@@ -1,5 +1,5 @@
 import PageHeader from "@/components/PageHeader04";
-export default function page04() {
+export default function page05() {
   const hd_props = {
     num: "04",
     goods: "My Card",
@@ -16,7 +16,7 @@ export default function page04() {
       >
         <></>
       </PageHeader>
-      <div className="page-body p04">
+      <div className="page-body p05">
         <section></section>
       </div>
     </>

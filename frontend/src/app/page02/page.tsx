@@ -3,6 +3,8 @@ import PageHeader from "@/components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import "@/styles/page02.scss";
+import { FaCheck } from "react-icons/fa";
 
 export default function page02() {
   const hd_props = {
@@ -10,7 +12,7 @@ export default function page02() {
     tit: "내 카드 불러오기",
     des: "소지하신 카드를 불러와 소비패턴 분석을 하거나 기간별 사용내역을 조회할 수 있습니다.",
   };
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const hasCardList = [
     {
       key: 0,
@@ -89,13 +91,22 @@ export default function page02() {
           <></>
         )}
       </PageHeader>
-      <div className="page-body">
+      <div className="page-body p02">
         <section>
           {isLoading ? (
             hasCardList.map((data) => {
               return (
                 <article key={data.key}>
+                  <input
+                    type="checkbox"
+                    name="cardcheck"
+                    id={"c-" + data.key}
+                  />
                   <div className="card-image">
+                    <span>
+                      <FaCheck />
+                    </span>
+
                     <Image
                       src={data.card_image}
                       width={0}
@@ -107,6 +118,7 @@ export default function page02() {
                     [<span className="card-company">{data.card_company}</span>]
                     <span className="card-goods">{data.card_goods}</span>
                   </h4>
+                  <label htmlFor={"c-" + data.key}></label>
                 </article>
               );
             })

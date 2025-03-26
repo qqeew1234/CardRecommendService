@@ -1,7 +1,7 @@
 import PageHeader from "@/components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
-import "@/styles/index.page.scss";
+import "@/styles/page01.scss";
 import "@/styles/signup.page.scss";
 import CreditCard from "@/components/CreditCard";
 export default function signup() {
@@ -19,7 +19,7 @@ export default function signup() {
       >
         <></>
       </PageHeader>
-      <div className="page-body">
+      <div className="page-body p01">
         <section>
           <div className="art-box">
             <form action="">
