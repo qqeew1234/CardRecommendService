@@ -8,24 +8,23 @@ import Image from "next/image";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {FaTimesCircle} from "react-icons/fa";
-import {signOutAction} from "@/actions";
 import {KakaoLoginButton} from "@/components/kakaoLogin";
 import {GoogleLoginButton} from "@/components/googleLogin";
 import {GitHubLoginButton} from "@/components/gitHubLogin";
 import {createClient} from "@/utils/supabase/client";
 
 export default function Home() {
-    const [isLogin, setIsLogin] = useState(true);
     const [isPopup, setIsPopup] = useState(false);
     const [displayName, setDisplayName] = useState("");
     const isLoginFail = false;
-    const client = createClient()
+    const supabase = createClient()
     useEffect(() => {
         async function getDisplayName() {
-            const {data} = await client.auth.getUser()
+            const {data} = await supabase.auth.getUser()
             const displayName = data?.user?.user_metadata?.full_name || data?.user?.email;
             setDisplayName(displayName);
         }
+
         getDisplayName();
     }, [])
 
@@ -41,15 +40,13 @@ export default function Home() {
                 title={hd_props.tit}
                 description={hd_props.des}
             >
-                {isLogin ? (
+                {displayName ? (
                     <div className="user-box">
                         <h4>
                             {displayName}님 어서오세요.{" "}
-                            <form action={signOutAction}>
-                                <button onClick={() => setIsLogin(false)}>
-                                    로그아웃
-                                </button>
-                            </form>
+                            <button onClick={async () => {await supabase.auth.signOut(); setDisplayName("");}}>
+                                로그아웃
+                            </button>
                         </h4>
                         <div className="btn-bot">
                             <Link href={"/page02"}>
