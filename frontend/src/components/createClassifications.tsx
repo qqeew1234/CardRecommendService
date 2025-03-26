@@ -2,10 +2,10 @@
 export async function createClassifications(uid: string, origin: string) {
     // API에 전송할 분류 목록 (예시)
     const classifications = [
-        { uuid: uid, name: "의류" },
-        { uuid: uid, name: "식량" },
-        { uuid: uid, name: "주거" },
-        { uuid: uid, name: "기타" },
+        { uuid: uid, title: "의류비" },
+        { uuid: uid, title: "식사비" },
+        { uuid: uid, title: "주거비" },
+        { uuid: uid, title: "기타비용" },
     ];
 
     for (const classification of classifications) {
