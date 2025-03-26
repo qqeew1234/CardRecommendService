@@ -59,9 +59,13 @@ public class CardHistoryService {
                         selectedMemberCard.getClassification() != null ? selectedMemberCard.getClassification().getTitle() : "-" // 🔥 `String` 변환
                 )).toList();
 
-        long totalCount = selectedMemberCards.getTotalElements();
+        Paging page = new Paging(
+                selectedMemberCards.getNumber(),
+                selectedMemberCards.getSize(),
+                selectedMemberCards.getTotalPages(),
+                selectedMemberCards.getTotalElements());
 
-        return new FindAllResponse(cardHistoryResponses, totalCount, memberCardsTotalCost);
+        return new FindAllResponse(cardHistoryResponses, memberCardsTotalCost, page);
     }
 
 
@@ -114,14 +118,14 @@ public class CardHistoryService {
 
 
     @Transactional
-    public CardHistoryResultResponse calculateClassificationPayments(
-            String uuid, List<Long> memberCardIds, Integer monthOffset, List<Long> classificationIds) {
+    public CardHistoryResultPageResponse calculateClassificationPayments(
+            String uuid, List<Long> memberCardIds, Integer monthOffset, List<Long> classificationIds, Pageable pageable) {
 
         // 1. 총 결제 금액을 `getMemberCardsTotalAmount`로 구하기
         Integer totalAmount = cardHistoryQueryRepository.getMemberCardsTotalAmount(uuid, memberCardIds, monthOffset);
 
         // 2. classificationIds에 해당하는 CardHistory 목록을 조회
-        List<CardHistory> cardHistories = cardHistoryRepository.findByClassificationIdIn(classificationIds);
+        Page<CardHistory> cardHistories = cardHistoryRepository.findByClassificationIdIn(classificationIds, pageable);
 
         double selectedAmount = 0;
 
@@ -145,6 +149,11 @@ public class CardHistoryService {
             }
         }
 
+        Paging paging = new Paging(cardHistories.getNumber(),
+                cardHistories.getSize(),
+                cardHistories.getTotalPages(),
+                cardHistories.getTotalElements());
+
         // 4. 퍼센티지 계산 (총 금액 대비 선택된 금액 비율)
         double percentage = totalAmount > 0 ? (selectedAmount / totalAmount) * 100 : 0;
 
@@ -152,7 +161,10 @@ public class CardHistoryService {
         BigDecimal percentageDecimal = new BigDecimal(percentage).setScale(2, RoundingMode.HALF_UP);
 
         // 5. 결과 반환
-        return new CardHistoryResultResponse(filteredCardHistories, totalAmount, selectedAmount, percentageDecimal.doubleValue());
+
+
+        return new CardHistoryResultPageResponse( new CardHistoryResultResponse(filteredCardHistories, totalAmount, selectedAmount, percentageDecimal.doubleValue()),
+                paging);
     }
 }
 

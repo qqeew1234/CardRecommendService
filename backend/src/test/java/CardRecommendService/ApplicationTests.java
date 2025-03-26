@@ -56,7 +56,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("uuid", 1L)
                 .queryParam("memberCardIds", 3L)
                 .queryParam("monthOffset", 1)
-                .get("membercardhistories/{uuid}/selected")
+                .get("cardhistories/{uuid}/selected")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
@@ -252,7 +252,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
                 .pathParam("classificationId", 3)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
@@ -286,7 +286,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
                 .pathParam("classificationId", 1)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
@@ -297,7 +297,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 1)
                 .pathParam("classificationId", 1)
                 .when()
-                .delete("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .delete("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -334,7 +334,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 1)  // cardHistoryId 먼저
                 .pathParam("classificationId", 1)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
@@ -345,7 +345,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 2)  // cardHistoryId 먼저
                 .pathParam("classificationId", 1)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
@@ -356,7 +356,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 3)  // cardHistoryId 먼저
                 .pathParam("classificationId", 1)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
@@ -367,7 +367,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .pathParam("cardHistoryId", 4)  // cardHistoryId 먼저
                 .pathParam("classificationId", 2)  // classificationId 나중에
                 .when()
-                .patch("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+                .patch("/cardhistories/{cardHistoryId}/classification/{classificationId}")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 
@@ -382,7 +382,7 @@ public class ApplicationTests extends AcceptanceTest {
                 .queryParam("page", 0) // 페이지 번호
                 .queryParam("size", 10) // 페이지 크기
                 .when()
-                .get("/cardhistory/classification")
+                .get("/cardhistories/classification")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
 

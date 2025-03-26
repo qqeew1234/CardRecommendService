@@ -25,7 +25,7 @@ public class CardHistoryController {
     }
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
-    @GetMapping("membercardhistories/{uuid}/selected")
+    @GetMapping("/cardhistories/{uuid}/selected")
     public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
                                                   @RequestParam(required = false) List<Long> memberCardIds,
                                                   @RequestParam(required = false) Integer monthOffset,
@@ -39,7 +39,7 @@ public class CardHistoryController {
 
 
     //기능 1. 결제 기록에 Classification 추가.
-    @PatchMapping("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+    @PatchMapping("/cardhistories/{cardHistoryId}/classification/{classificationId}")
     public CardHistoryWithClassificationResponse updateClassification(
             @PathVariable Long cardHistoryId,
             @PathVariable Long classificationId) {
@@ -50,7 +50,7 @@ public class CardHistoryController {
     }
 
     //기능 2: 결제 기록에서 특정 Classification 삭제
-    @DeleteMapping("/cardhistory/{cardHistoryId}/classification/{classificationId}")
+    @DeleteMapping("/cardhistories/{cardHistoryId}/classification/{classificationId}")
     public CardHistoryWithClassificationResponse deleteClassification(
             @PathVariable Long cardHistoryId,
             @PathVariable Long classificationId) {
@@ -63,13 +63,17 @@ public class CardHistoryController {
     }
 
 
-    @GetMapping("/cardhistory/classification")
-    public CardHistoryResultResponse calculatePayments(@RequestParam String uuid,
+    @GetMapping("/cardhistories/classification")
+    public CardHistoryResultPageResponse calculatePayments(@RequestParam String uuid,
                                                        @RequestParam List<Long> memberCardIds,
                                                        @RequestParam(required = false) Integer monthOffset,
-                                                       @RequestParam List<Long> classificationIds) {
+                                                       @RequestParam List<Long> classificationIds,
+                                                       @RequestParam (defaultValue = "1") int page,
+                                                       @RequestParam (defaultValue = "13") int size) {
 
-        return cardHistoryService.calculateClassificationPayments(uuid, memberCardIds, monthOffset, classificationIds);
+        Pageable pageable = PageRequest.of(page -1, size);
+
+        return cardHistoryService.calculateClassificationPayments(uuid, memberCardIds, monthOffset, classificationIds, pageable);
     }
 
 
