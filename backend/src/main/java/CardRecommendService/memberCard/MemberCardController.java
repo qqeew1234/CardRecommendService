@@ -4,6 +4,8 @@ package CardRecommendService.memberCard;
 import CardRecommendService.card.Card;
 import CardRecommendService.card.CardBasicInfoResponse;
 import CardRecommendService.cardHistory.CardHistoryResponse;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +43,16 @@ public class MemberCardController {
 
     // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
     @GetMapping("/membercard/cards/history")
-    public List<DailyCardHistoryResponse> getCardsHistories(
+    public DailyCardHistoryPageResponse getCardsHistories(
             @RequestParam List<Long> memberCardIds,
-            @RequestParam int month) {
+            @RequestParam int month,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "13") int size) {
         Month convertedMonth = Month.of(month); // int를 Month로 변환
 
-        return memberCardService.getCardsHistories(memberCardIds, convertedMonth);
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        return memberCardService.getCardsHistories(memberCardIds, convertedMonth, pageable);
     }
 
 }

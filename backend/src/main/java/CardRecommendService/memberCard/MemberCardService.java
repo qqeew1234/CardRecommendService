@@ -5,7 +5,11 @@ import CardRecommendService.card.CardDetailResponse;
 import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.cardHistory.CardHistoryRepository;
 import CardRecommendService.cardHistory.CardHistoryResponse;
+import CardRecommendService.cardHistory.Paging;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,7 +56,7 @@ public class MemberCardService {
     }
 
     // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
-    public List<DailyCardHistoryResponse> getCardsHistories(List<Long> memberCardIds, Month month) {
+    public DailyCardHistoryPageResponse getCardsHistories(List<Long> memberCardIds, Month month, Pageable pageable) {
 
         // 1. 해당하는 MemberCard들 조회
         List<MemberCard> memberCards = memberCardRepository.findAllByIdIn(memberCardIds);
@@ -65,8 +69,8 @@ public class MemberCardService {
         LocalDateTime startOfMonthTime = startOfMonth.atStartOfDay(); // 시작 시간 (00:00)
         LocalDateTime endOfMonthTime = endOfMonth.atTime(23, 59, 59); // 종료 시간 (23:59:59)
 
-        List<CardHistory> cardHistories = cardHistoryRepository.findByMemberCardInAndPaymentDatetimeBetween(
-                memberCards, startOfMonthTime, endOfMonthTime
+        Page<CardHistory> cardHistories = cardHistoryRepository.findByMemberCardInAndPaymentDatetimeBetween(
+                memberCards, startOfMonthTime, endOfMonthTime, pageable
         );
 
         // 3. CardHistory -> CardHistoryResponse 변환
@@ -82,8 +86,13 @@ public class MemberCardService {
                 ))
                 .toList();
 
+        Paging paging = new Paging(cardHistories.getNumber(),
+                cardHistories.getSize(),
+                cardHistories.getTotalPages(),
+                cardHistories.getTotalElements());
+
         // 4. 일별 그룹화 + totalAmount 계산
-        return responses.stream()
+        List<DailyCardHistoryResponse> dailyCardHistoryResponses = responses.stream()
                 .collect(Collectors.groupingBy(
                         response -> response.paymentDatetime().toLocalDate(), // 날짜별 그룹화
                         LinkedHashMap::new, // 순서 유지
@@ -97,6 +106,8 @@ public class MemberCardService {
                         entry.getValue().stream().mapToInt(CardHistoryResponse::amount).sum() // 총 결제 금액
                 ))
                 .toList();
+
+        return new DailyCardHistoryPageResponse(dailyCardHistoryResponses, paging);
     }
 
 }
