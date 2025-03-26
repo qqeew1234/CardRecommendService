@@ -29,7 +29,8 @@ export default function Home() {
         {isLogin ? (
           <div className="user-box">
             <h4>
-              {"닉네임"}님 어서오세요. <button>로그아웃</button>
+              {"닉네임"}님 어서오세요.{" "}
+              <button onClick={() => setIsLogin(false)}>로그아웃</button>
             </h4>
             <div className="btn-bot">
               <Link href={"/page02"}>

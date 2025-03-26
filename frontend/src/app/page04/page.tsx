@@ -1,17 +1,18 @@
-import PageHeader from "@/components/PageHeader";
-
-export default function page02() {
+import PageHeader from "@/components/PageHeader04";
+export default function page04() {
   const hd_props = {
-    num: "02",
-    tit: "내 카드 불러오기",
-    des: "소지 하신 카드를 불러와 소비패턴을 분석하거나 기간별 사용 내역을 조회할수 있습니다.",
+    num: "04",
+    goods: "My Card",
+    coast: "1,000,000",
+    dates: "2024년 2월 1일 ~ 29일 사용내역",
   };
   return (
     <>
       <PageHeader
         number={hd_props.num}
-        title={hd_props.tit}
-        description={hd_props.des}
+        card_goods={hd_props.goods}
+        total_coast={hd_props.coast}
+        card_date={hd_props.dates}
       >
         <></>
       </PageHeader>

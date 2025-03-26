@@ -3,24 +3,27 @@ import "@/styles/PageHeader.scss";
 
 interface myType {
   number: string;
-  title: string;
-  description: string;
+  card_goods: string;
+  total_coast: string;
+  card_date: string;
   children: React.ReactNode;
 }
 
-export default function PageHeader({
+export default function PageHeader04({
   number,
-  title,
-  description,
+  card_goods,
+  total_coast,
+  card_date,
   children,
 }: myType) {
   return (
-    <div className="page-header">
+    <div className="page-header page-header-04">
       <header>
         <div className="hdr-left">
           <h6>{number}</h6>
-          <h2>{title}</h2>
-          <p>{description}</p>
+          <h3>{card_goods}</h3>
+          <h2>{total_coast}</h2>
+          <h5>{card_date}</h5>
         </div>
         <div className="hdr-right">{children}</div>
       </header>

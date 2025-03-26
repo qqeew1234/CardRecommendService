@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import "./reset.css";
+import "@/styles/reset.css";
 import "@/styles/globals.scss";
 
 export const metadata: Metadata = {
-  title: "Card Fit",
-  description: "card fit",
+  title: "카드핏",
 };
 
 export default function RootLayout({

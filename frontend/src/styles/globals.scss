@@ -1,67 +1,9 @@
 @import "./mixin";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.page-header {
-  padding-bottom: 10px;
-  // position: fixed;
-  width: 100%;
-  padding-top: 80px;
-  z-index: 1;
-
-  header {
-    @include layout_center;
-
-    display: flex;
-    justify-content: space-between;
-
-    .hdr {
-
-      //재귀: 다시선택
-      &-left {
-        width: 680px;
-
-        h6 {
-          font-family: var(--ff_sans);
-          font-weight: 900;
-          font-size: 48px;
-          line-height: 48px;
-          color: #ccc;
-        }
-
-        h2 {
-          font-family: var(--ff_sans);
-          font-weight: 700;
-          font-size: 60px;
-          line-height: 60px;
-          color: #000;
-          margin-top: -30px;
-          padding-left: 20px;
-        }
-
-        p {
-          padding-top: 20px;
-          padding-left: 20px;
-          height: 60px;
-        }
-      }
-
-      &-right {
-        width: calc(100% - 680px);
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        padding-right: 10px;
-      }
-    }
-  }
-}
 
 .page-body {
   section {
     @include layout_center;
-
+    border-top: 1px solid #ccc;
   }
 }
 
