@@ -8,7 +8,7 @@ interface myType {
   children: React.ReactNode;
 }
 
-export default function PageHeader({
+export default function PageHeader05({
   number,
   title,
   description,

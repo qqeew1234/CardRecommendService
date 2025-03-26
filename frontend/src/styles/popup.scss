@@ -1,69 +1,73 @@
-.popup-screen{
+.popup-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.80);
 
-  background-color: rgba(0,0,0, 0.80);
-
-  //폼을 가운데로 (팝업박스가 하나일 때만 가능)
   display: flex;
   justify-content: center;
   align-items: center;
 
-
-  .popup-box{
+  .popup-box {
     width: 780px;
     height: 480px;
-    background-color: #FFF;
+    background-color: #fff;
 
     display: flex;
     justify-content: center;
     align-items: center;
-  
-    position: relative;
 
-    form{
+    position: relative;
+    border-radius: 20px;
+
+    form {
       display: flex;
       flex-direction: column;
       width: 380px;
-  
+      margin: 0 auto;
 
-      input{
+      input {
+        margin-top: 10px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      button {
         margin-top: 10px;
       }
-      button{
-        margin-top: 10px;
-      }
 
-      input.email{}
+      .email {}
 
-      input.password{}
+      .password {}
 
-      .login{}
+      .login {}
 
-      .signup{
+      .signup {
         background-color: transparent;
-        color: #06f;
+        color: #06F;
         box-shadow: none;
       }
 
-      .naver{
-        background-color: #00ce00;
+      .naver {
+        background-color: #0C6;
         margin-top: 30px;
       }
 
-      .google{
-        background-color: white;
+      .google {
+        background-color: #fff;
         color: #000;
       }
 
-      .github{
-        background-color: black;
+      .github {
+        background-color: #000;
       }
     }
-    .close-btn{
+
+    .close-btn {
       position: absolute;
       top: 0;
       right: 0;
@@ -73,6 +77,20 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+    }
+
+    .isLoginFail {
+      width: 80%;
+      height: 80%;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 2px 2px 40px rgba(0, 0, 0, 0.40);
     }
   }
 }

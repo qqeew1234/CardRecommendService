@@ -1,0 +1,31 @@
+.page-body {
+
+  section {
+    form {
+      width: 640px;
+
+      &>div {
+        display: flex;
+        flex-direction: column;
+        margin-top: 40px;
+
+        label {
+          font-weight: 700;
+        }
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      &>div.btns {
+        flex-direction: row;
+        justify-content: flex-end;
+
+        button {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

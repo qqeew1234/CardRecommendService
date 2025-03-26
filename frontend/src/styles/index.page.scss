@@ -1,0 +1,44 @@
+.page-body {
+  section {
+    display: flex;
+    padding-top: 40px;
+
+    .art-box {
+      width: calc(100% - 480px);
+      padding-right: 40px;
+
+      article {
+        margin-top: 40px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .img-box {
+      width: 480px;
+      height: 760px;
+
+      margin-top: -200px;
+      position: relative;
+      z-index: -1;
+      border-radius: 20px;
+      position: relative;
+
+      &::before {
+        display: block;
+        content: '';
+        width: 378px;
+        height: 600px;
+        background-color: #ccc;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        right: -140px;
+        border-radius: 20px;
+      }
+    }
+  }
+}

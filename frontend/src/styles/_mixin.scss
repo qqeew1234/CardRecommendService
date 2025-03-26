@@ -1,10 +1,18 @@
-:root{
-  --ff_sans : "Noto Sans KR";
+:root {
+  --ff_sans: "Noto Sans KR";
   --ff_serif: "Noto Serif KR";
 
 }
-@mixin layout_center{
+
+@mixin layout_center {
   width: 90%;
-  max-width: 1180px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 10px;
+}
+
+@mixin flex_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
