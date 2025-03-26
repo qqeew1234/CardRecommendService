@@ -20,13 +20,15 @@ public class Card {
     private String cardName;  // 카드 이름
 
     @Column(nullable = false)
-    private String cardCrop;  // 카드 발급사
+    private String cardCorp;  // 카드 발급사
 
     @Column(nullable = false)
     private String imgUrl;
 
     @Column(nullable = false)
     private int annualFee;  // 연회비
+
+    private String altTxt;
 
     @OneToMany(mappedBy = "card")
     private List<MemberCard> memberCards;
@@ -48,9 +50,9 @@ public class Card {
     protected Card() {
     }
 
-    public Card(String cardName, String cardCrop, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+    public Card(String cardName, String cardCorp, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
-        this.cardCrop = cardCrop;
+        this.cardCorp = cardCorp;
         this.imgUrl = imgUrl;
         this.annualFee = annualFee;
         this.store1 = store1;
@@ -59,9 +61,9 @@ public class Card {
         this.cardBenefits = cardBenefits;
     }
 
-    public Card(String cardName, String cardCrop, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+    public Card(String cardName, String cardCorp, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
-        this.cardCrop = cardCrop;
+        this.cardCorp = cardCorp;
         this.annualFee = annualFee;
         this.store1 = store1;
         this.store2 = store2;
@@ -79,8 +81,8 @@ public class Card {
         return cardName;
     }
 
-    public String getCardCrop() {
-        return cardCrop;
+    public String getCardCorp() {
+        return cardCorp;
     }
 
     public String getImgUrl() {
@@ -113,5 +115,9 @@ public class Card {
 
     public Category getStore3() {
         return store3;
+    }
+
+    public String getAltTxt() {
+        return altTxt;
     }
 }

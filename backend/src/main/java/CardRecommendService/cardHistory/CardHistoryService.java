@@ -51,7 +51,7 @@ public class CardHistoryService {
                 .stream()
                 .map(selectedMemberCard -> new CardHistoryResponse(
                         selectedMemberCard.getMemberCard().getCard().getCardName(),
-                        selectedMemberCard.getMemberCard().getCard().getCardCrop(),
+                        selectedMemberCard.getMemberCard().getCard().getCardCorp(),
                         selectedMemberCard.getStoreName(),
                         selectedMemberCard.getAmount(),
                         selectedMemberCard.getPaymentDatetime(),
@@ -137,7 +137,7 @@ public class CardHistoryService {
                 filteredCardHistories.add(
                         new CardHistoryResponse(
                                 history.getMemberCard().getCard().getCardName(),
-                                history.getMemberCard().getCard().getCardCrop(),
+                                history.getMemberCard().getCard().getCardCorp(),
                                 history.getStoreName(),
                                 history.getAmount(),
                                 history.getPaymentDatetime(),

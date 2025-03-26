@@ -35,9 +35,12 @@ public class MemberCardService {
         return memberCardRepository.findByUuid(uuid)
                 .stream()
                 .map(memberCard -> new CardBasicInfoResponse(
+                        memberCard.getId(),
                         memberCard.getCard().getCardName(),
+                        memberCard.getCard().getCardCorp(),
                         memberCard.getCard().getImgUrl(),
-                        memberCard.getId()
+                        memberCard.getId(),
+                        memberCard.getCard().getAltTxt()
                 ))
                 .collect(Collectors.toList()); // 리스트로 반환
     }
@@ -48,9 +51,12 @@ public class MemberCardService {
 
         return memberCards.stream()
                 .map(memberCard -> new CardBasicInfoResponse(
+                        memberCard.getId(),
                         memberCard.getCard().getCardName(),
                         memberCard.getCard().getImgUrl(),
-                        memberCard.getId() // 선택된 카드들 반환
+                        memberCard.getCard().getCardCorp(),
+                        memberCard.getId(),
+                        memberCard.getCard().getAltTxt() // 선택된 카드들 반환
                 ))
                 .collect(Collectors.toList());
     }
@@ -77,7 +83,7 @@ public class MemberCardService {
         List<CardHistoryResponse> responses = cardHistories.stream()
                 .map(cardHistory -> new CardHistoryResponse(
                         cardHistory.getMemberCard().getCard().getCardName(),
-                        cardHistory.getMemberCard().getCard().getCardCrop(),
+                        cardHistory.getMemberCard().getCard().getCardCorp(),
                         cardHistory.getStoreName(),
                         cardHistory.getAmount(),
                         cardHistory.getPaymentDatetime(),
