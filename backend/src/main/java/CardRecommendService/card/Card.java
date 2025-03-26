@@ -20,7 +20,7 @@ public class Card {
     private String cardName;  // 카드 이름
 
     @Column(nullable = false)
-    private String cardCorp;  // 카드 발급사
+    private String cardCrop;  // 카드 발급사
 
     @Column(nullable = false)
     private String imgUrl;
@@ -48,9 +48,9 @@ public class Card {
     protected Card() {
     }
 
-    public Card(String cardName, String cardCorp, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+    public Card(String cardName, String cardCrop, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
-        this.cardCorp = cardCorp;
+        this.cardCrop = cardCrop;
         this.imgUrl = imgUrl;
         this.annualFee = annualFee;
         this.store1 = store1;
@@ -59,9 +59,9 @@ public class Card {
         this.cardBenefits = cardBenefits;
     }
 
-    public Card(String cardName, String cardCorp, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+    public Card(String cardName, String cardCrop, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
-        this.cardCorp = cardCorp;
+        this.cardCrop = cardCrop;
         this.annualFee = annualFee;
         this.store1 = store1;
         this.store2 = store2;
@@ -80,7 +80,7 @@ public class Card {
     }
 
     public String getCardCrop() {
-        return cardCorp;
+        return cardCrop;
     }
 
     public String getImgUrl() {

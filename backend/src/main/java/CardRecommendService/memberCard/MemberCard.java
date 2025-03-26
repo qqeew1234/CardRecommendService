@@ -18,8 +18,6 @@ public class MemberCard {
 
     private String cardImg;
 
-    private String altTxt;
-
     @ManyToOne
     private Card card;
 
@@ -45,10 +43,6 @@ public class MemberCard {
         this.card = card;
         this.uuid = uuid;
     }
-
-
-
-
 
     public MemberCard(Long id) {
         this.id = id;
@@ -76,9 +70,5 @@ public class MemberCard {
 
     public List<CardHistory> getCardHistories() {
         return cardHistories;
-    }
-
-    public String getAltTxt() {
-        return altTxt;
     }
 }
