@@ -35,9 +35,12 @@ public class MemberCardService {
         return memberCardRepository.findByUuid(uuid)
                 .stream()
                 .map(memberCard -> new CardBasicInfoResponse(
+                        memberCard.getId(),
+                        memberCard.getCard().getCardCrop(),
                         memberCard.getCard().getCardName(),
                         memberCard.getCard().getImgUrl(),
-                        memberCard.getId()
+                        memberCard.getId(),
+                        memberCard.getAltTxt()
                 ))
                 .collect(Collectors.toList()); // 리스트로 반환
     }
@@ -48,9 +51,12 @@ public class MemberCardService {
 
         return memberCards.stream()
                 .map(memberCard -> new CardBasicInfoResponse(
+                        memberCard.getId(),
+                        memberCard.getCard().getCardCrop(),
                         memberCard.getCard().getCardName(),
                         memberCard.getCard().getImgUrl(),
-                        memberCard.getId() // 선택된 카드들 반환
+                        memberCard.getId(),
+                        memberCard.getAltTxt()// 선택된 카드들 반환
                 ))
                 .collect(Collectors.toList());
     }
