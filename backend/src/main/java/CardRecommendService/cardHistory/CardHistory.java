@@ -1,6 +1,7 @@
 package CardRecommendService.cardHistory;
 
 
+import CardRecommendService.Classification.Classification;
 import CardRecommendService.memberCard.MemberCard;
 import jakarta.persistence.*;
 
@@ -30,8 +31,11 @@ public class CardHistory {
     @ManyToOne
     private MemberCard memberCard;
 
-
     private String uuid;
+
+    @ManyToOne
+    @JoinColumn(name = "classification_id")
+    private Classification classification;
 
     protected CardHistory() {
     }
@@ -52,8 +56,7 @@ public class CardHistory {
         this.uuid = uuid;
     }
 
-    public CardHistory(Long id, int amount, String storeName, LocalDateTime paymentDatetime, Category category, MemberCard memberCard, String uuid) {
-        this.id = id;
+    public CardHistory(int amount, String storeName, LocalDateTime paymentDatetime, Category category, MemberCard memberCard, String uuid) {
         this.amount = amount;
         this.storeName = storeName;
         this.paymentDatetime = paymentDatetime;
@@ -74,10 +77,6 @@ public class CardHistory {
         return storeName;
     }
 
-    public LocalDateTime getPaymentDateTime() {
-        return paymentDatetime;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -89,4 +88,20 @@ public class CardHistory {
     public MemberCard getMemberCard() {
         return memberCard;
     }
+
+
+    public Classification getClassification() {
+        return classification;
+    }
+
+
+    public void setClassification(Classification classification) {
+        this.classification = classification;
+    }
+
+
+    public String getUuid() {
+        return uuid;
+    }
 }
+

@@ -1,58 +1,80 @@
 package CardRecommendService.cardHistory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import CardRecommendService.loginUtils.CurrentUserId;
 import CardRecommendService.memberCard.MemberCardService;
+import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
 public class CardHistoryController {
 
     private final CardHistoryService cardHistoryService;
-    private final MemberCardService memberCardService;
 
-    public CardHistoryController(CardHistoryService cardHistoryService, MemberCardService memberCardService) {
+    public CardHistoryController(CardHistoryService cardHistoryService) {
         this.cardHistoryService = cardHistoryService;
-        this.memberCardService = memberCardService;
     }
 
-    //사용자의 모든 카드 결제내역 조회
-    @GetMapping("/cardhistories/{uuid}")
-    public FindAllResponse getAllCardHistories(@PathVariable @CurrentUserId String uuid,
-                                               @RequestParam (required = false) LocalDateTime startDate,
-                                               @RequestParam (required = false) LocalDateTime endDate) {
+    //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
+    @GetMapping("/cardhistories/{uuid}/selected")
+    public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
+                                                  @RequestParam(required = false) List<Long> memberCardIds,
+                                                  @RequestParam(required = false) Integer monthOffset,
+                                                  @RequestParam(defaultValue = "1") int page,
+                                                  @RequestParam(defaultValue = "13") int size) {
 
-        return cardHistoryService.getAll(uuid, startDate, endDate);
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        return cardHistoryService.getSelected(uuid, memberCardIds, monthOffset, pageable);
     }
 
-    //선택한 카드 결제내역 조회
-    @GetMapping("membercardhistories/{uuid}/{membercardids}")
-    public FindAllResponse getSelectedMemberCards(@PathVariable @CurrentUserId String uuid,
-                                                  @PathVariable (name = "membercardids") List<Long> memberCardIds,
-                                                  @RequestParam (required = false) LocalDateTime startDate,
-                                                  @RequestParam  (required = false) LocalDateTime endDate){
 
-        return cardHistoryService.getSelected(uuid, memberCardIds, startDate, endDate);
+    //기능 1. 결제 기록에 Classification 추가.
+    @PatchMapping("/cardhistories/{cardHistoryId}/classification/{classificationId}")
+    public CardHistoryWithClassificationResponse updateClassification(
+            @PathVariable Long cardHistoryId,
+            @PathVariable Long classificationId) {
+
+        CardHistory updatedHistory = cardHistoryService.updateClassification(cardHistoryId, classificationId);
+
+        return new CardHistoryWithClassificationResponse(updatedHistory);
     }
 
-    //로그인된 유저의 id와 membercardlistresponse로 특정 카드의 이용내역 보기
-//    @GetMapping("/analysiscards/{userId}")
-//    public CardHistoryResponse getCardHistoryByUserIdAndCard(@PathVariable String userId,  // 로그인된 유저 ID
-//                                                             @RequestParam Long cardId) {
-//        MemberCardListResponse memberCardListResponse = memberCardService.getAllMemberCardListByUserId(userId);
-//
-//        return cardHistoryService.getCardHistoryByUserIdAndCard(userId, cardId);
-//    }
+    //기능 2: 결제 기록에서 특정 Classification 삭제
+    @DeleteMapping("/cardhistories/{cardHistoryId}/classification/{classificationId}")
+    public CardHistoryWithClassificationResponse deleteClassification(
+            @PathVariable Long cardHistoryId,
+            @PathVariable Long classificationId) {
+
+        // 서비스에서 해당 결제 기록에서 Classification 삭제 처리
+        CardHistory updatedHistory = cardHistoryService.deleteClassification(cardHistoryId, classificationId);
+
+        // 삭제된 결제 기록을 응답으로 반환
+        return new CardHistoryWithClassificationResponse(updatedHistory);
+    }
 
 
-    //(이용일별로) 결제내역 보기
-//    @GetMapping("/daily")
-//    public List<CardHistoryDateResponse> getDailyCardHistory(@RequestParam String startDate, @RequestParam String endDate) {
-//        return cardHistoryService.getDailyCardHistory(startDate, endDate);
-//    }
+    @GetMapping("/cardhistories/classification")
+    public CardHistoryResultPageResponse calculatePayments(@RequestParam String uuid,
+                                                       @RequestParam List<Long> memberCardIds,
+                                                       @RequestParam(required = false) Integer monthOffset,
+                                                       @RequestParam List<Long> classificationIds,
+                                                       @RequestParam (defaultValue = "1") int page,
+                                                       @RequestParam (defaultValue = "13") int size) {
+
+        Pageable pageable = PageRequest.of(page -1, size);
+
+        return cardHistoryService.calculateClassificationPayments(uuid, memberCardIds, monthOffset, classificationIds, pageable);
+    }
 
 
 }

@@ -1,17 +1,17 @@
+![CardFit 이미지](https://i.namu.wiki/i/p_Pb0Og4wVYKQNg3LfH-u5j-6CIA7usB2ilNr-3ZfekqTde1DwphqIrFRS9ZrXDDkT-EvyYTKkzxRy91zfscgQ.webp)
 
-![image](https://github.com/user-attachments/assets/d5dd51d0-ca5d-4681-bf6c-62aca38c8887)
+---
 
-
-# 👑 퀸카 - 카드 추천 서비스 (가명)
+# 👑 **CardFit - 카드 추천 서비스**
 
 ### 🏆 팀 효진 (가명)  
 
-💳 **퀸카**는 당신에게 딱 맞는 카드를 추천해 주는 스마트한 서비스입니다!  
+💳 **CardFit**은 당신에게 딱 맞는 카드를 추천해 주는 스마트한 서비스입니다!  
 AI 기반으로 소비 패턴을 분석하여 **최고의 카드 조합**을 찾아드립니다.  
 
 ---
 
-## 🎯 왜 퀸카인가?  
+## 🎯 왜 CardFit인가?  
 ✅ **맞춤 추천** – 내 소비 패턴에 딱 맞는 카드 추천  
 ✅ **실시간 혜택** – 카드사별 최신 프로모션 제공  
 ✅ **데이터 기반 분석** – 마이데이터를 활용한 스마트 소비  
@@ -27,7 +27,7 @@ AI 기반으로 소비 패턴을 분석하여 **최고의 카드 조합**을 찾
 ---
 
 ## 🎨 스크린샷 (예시)  
-![퀸카 데모](https://via.placeholder.com/800x400?text=퀸카+스크린샷)
+![CardFit 데모](https://via.placeholder.com/800x400?text=CardFit+스크린샷)
 
 ---
 
@@ -51,4 +51,9 @@ AI 기반으로 소비 패턴을 분석하여 **최고의 카드 조합**을 찾
 MIT License를 따릅니다. 자유롭게 사용하세요!  
 
 ---
-👑 **퀸카와 함께 스마트한 소비를 경험하세요!** 🚀  
+
+👑 **CardFit과 함께 스마트한 소비를 경험하세요!** 🚀  
+
+---
+
+이렇게 수정된 내용을 사용하시면 됩니다.

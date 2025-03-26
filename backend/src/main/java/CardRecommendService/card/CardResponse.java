@@ -7,8 +7,7 @@ import java.util.List;
 
 public record CardResponse(
 
-
-        String cardIssuer,
+        String cardCrop,
         String cardName,
         int annualFee,
         List<CardBenefitsResponse> cardBenefits

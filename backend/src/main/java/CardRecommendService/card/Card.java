@@ -17,10 +17,13 @@ public class Card {
     private Long Id;
 
     @Column(nullable = false)
-    private String cardIssuer;   // 카드 발급사
+    private String cardName;  // 카드 이름
 
     @Column(nullable = false)
-    private String cardName;     // 카드 이름
+    private String cardCrop;  // 카드 발급사
+
+    @Column(nullable = false)
+    private String imgUrl;
 
     @Column(nullable = false)
     private int annualFee;  // 연회비
@@ -33,18 +36,32 @@ public class Card {
 
     EnumSet<Category> category; // cardHistory 패키지의 Category enum을 사용
 
-    private String store1;
+    @Enumerated(EnumType.STRING)
+    private Category store1;
 
-    private String store2;
+    @Enumerated(EnumType.STRING)
+    private Category store2;
 
-    private String store3;
+    @Enumerated(EnumType.STRING)
+    private Category store3;
 
     protected Card() {
     }
 
-    public Card(String cardIssuer, String cardName, int annualFee, String store1, String store2, String store3, List<CardBenefits> cardBenefits) {
-        this.cardIssuer = cardIssuer;
+    public Card(String cardName, String cardCrop, String imgUrl, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
         this.cardName = cardName;
+        this.cardCrop = cardCrop;
+        this.imgUrl = imgUrl;
+        this.annualFee = annualFee;
+        this.store1 = store1;
+        this.store2 = store2;
+        this.store3 = store3;
+        this.cardBenefits = cardBenefits;
+    }
+
+    public Card(String cardName, String cardCrop, int annualFee, Category store1, Category store2, Category store3, List<CardBenefits> cardBenefits) {
+        this.cardName = cardName;
+        this.cardCrop = cardCrop;
         this.annualFee = annualFee;
         this.store1 = store1;
         this.store2 = store2;
@@ -53,16 +70,25 @@ public class Card {
     }
 
 
+
     public Long getId() {
         return Id;
     }
 
-    public String getCardIssuer() {
-        return cardIssuer;
-    }
-
     public String getCardName() {
         return cardName;
+    }
+
+    public String getCardCrop() {
+        return cardCrop;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public EnumSet<Category> getCategory() {
+        return category;
     }
 
     public int getAnnualFee() {
@@ -77,15 +103,15 @@ public class Card {
         return cardBenefits;
     }
 
-    public String getStore1() {
+    public Category getStore1() {
         return store1;
     }
 
-    public String getStore2() {
+    public Category getStore2() {
         return store2;
     }
 
-    public String getStore3() {
+    public Category getStore3() {
         return store3;
     }
 }
