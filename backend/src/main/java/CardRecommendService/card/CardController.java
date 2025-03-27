@@ -1,7 +1,6 @@
 package CardRecommendService.card;
 
 import CardRecommendService.cardHistory.Category;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +40,4 @@ public class CardController {
         return cardService.getRecommendCards(storeCategories, minAnnualFee, maxAnnualFee);
 
     }
-
-
 }

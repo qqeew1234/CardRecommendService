@@ -1,7 +1,6 @@
 package CardRecommendService.memberCard;
 
 import CardRecommendService.card.CardBasicInfoResponse;
-import CardRecommendService.card.CardDetailResponse;
 import CardRecommendService.cardHistory.CardHistory;
 import CardRecommendService.cardHistory.CardHistoryRepository;
 import CardRecommendService.cardHistory.CardHistoryResponse;

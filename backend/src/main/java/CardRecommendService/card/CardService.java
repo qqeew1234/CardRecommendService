@@ -67,7 +67,6 @@ public class CardService {
                 card.getAnnualFee(),
                 cardBenefitsResponses
         );
-
     }
 
 

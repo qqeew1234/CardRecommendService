@@ -69,7 +69,7 @@ public class CardHistoryService {
     }
 
 
-    //기능 1. 결제 기록에 Classification 추가.
+//    기능 1. 결제 기록에 Classification 추가.
     @Transactional
     public CardHistory updateClassification(Long cardHistoryId, Long classificationId) {
 
@@ -116,7 +116,6 @@ public class CardHistoryService {
         return cardHistoryRepository.save(cardHistory);
     }
 
-
     @Transactional
     public CardHistoryResultPageResponse calculateClassificationPayments(
             String uuid, List<Long> memberCardIds, Integer monthOffset, List<Long> classificationIds, Pageable pageable) {
@@ -161,8 +160,6 @@ public class CardHistoryService {
         BigDecimal percentageDecimal = new BigDecimal(percentage).setScale(2, RoundingMode.HALF_UP);
 
         // 5. 결과 반환
-
-
         return new CardHistoryResultPageResponse( new CardHistoryResultResponse(filteredCardHistories, totalAmount, selectedAmount, percentageDecimal.doubleValue()),
                 paging);
     }
