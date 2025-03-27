@@ -1,8 +1,8 @@
 // /auth/callback/route.ts
 import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
-import { isFirstLogin } from '@/components/checkAndCreateClassifications';
-import { createClassifications } from '@/components/createClassifications';
+import { isFirstLogin } from '@/utils/checkAndCreateClassifications';
+import { createClassifications } from '@/utils/createClassifications';
 
 export const GET = async (request: Request) => {
     const { searchParams, origin } = new URL(request.url);

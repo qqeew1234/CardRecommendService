@@ -5,14 +5,15 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function page02() {
-  
+ 
 const hd_props = {
     num: "02",
     tit: "내 카드 불러오기",
     des: "소지하신 카드를 불러와 소비패턴 분석을 하거나 기간별 사용내역을 조회할 수 있습니다.",
   };
   const [isLoading, setIsLoading] = useState(false);
-  const [cardList, setCardList] = useState([]);
+  const [cardList, setCardList] = useState<Card[]>([]);
+  const uuid = 1;
   const hasCardList = [
     {
       key: 0,
@@ -71,6 +72,16 @@ const hd_props = {
       alt_txt: "현대카드 더 레드 8",
     },
   ];
+
+  type Card = {
+    id: number;
+    cardName: string;
+    cardCorp: String;
+    cardImg: string;
+    memberCardId: number;
+    altTxt: string | null;
+  };
+
   return (
     <>
       <PageHeader
@@ -94,20 +105,20 @@ const hd_props = {
       <div className="page-body">
         <section>
           {isLoading ? (
-            hasCardList.map((data) => {
+            cardList.map((card) => {
               return (
-                <article key={data.key}>
+                <article key={card.id}>
                   <div className="card-image">
                     <Image
-                      src={data.card_image}
-                      width={0}
-                      height={0}
-                      alt={data.alt_txt}
+                      src={card.cardImg}
+                      width={120}
+                      height={80}
+                      alt={card.altTxt ?? "카드이미지"}
                     />
                   </div>
                   <h4>
-                    [<span className="card-company">{data.card_company}</span>]
-                    <span className="card-goods">{data.card_goods}</span>
+                    [<span className="card-company">{card.cardCorp}</span>]
+                    <span className="card-goods">{card.cardName}</span>
                   </h4>
                 </article>
               );
@@ -121,8 +132,9 @@ const hd_props = {
               <div className="btns">
                 <button>이전으로</button>
                 <button onClick={async() => { 
-                    let data = await fetch(`http://localhost:8080/membercard/${member_id}`)
+                    let data = await fetch(`http://localhost:8080/membercard/${uuid}`)
                     let posts = await data.json()
+                  setCardList(posts)
                   setIsLoading(true)}}>카드불러오기</button>
               </div>
             </div>
