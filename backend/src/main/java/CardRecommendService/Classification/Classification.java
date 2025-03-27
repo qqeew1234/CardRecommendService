@@ -1,6 +1,5 @@
 package CardRecommendService.Classification;
 
-
 import CardRecommendService.cardHistory.CardHistory;
 import jakarta.persistence.*;
 
