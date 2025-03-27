@@ -26,7 +26,7 @@ public class CardHistoryController {
 
     //특정 사용자의 선택한 카드들의 기간별 사용 내역을 조회
     @GetMapping("/cardhistories/{uuid}/selected")
-    public FindAllResponse getSelectedMemberCards(@PathVariable String uuid,
+    public FindAllResponse getSelectedMemberCards(@CurrentUserId String uuid,
                                                   @RequestParam(required = false) List<Long> memberCardIds,
                                                   @RequestParam(required = false) Integer monthOffset,
                                                   @RequestParam(defaultValue = "1") int page,
@@ -64,7 +64,7 @@ public class CardHistoryController {
 
 
     @GetMapping("/cardhistories/classification")
-    public CardHistoryResultPageResponse calculatePayments(@RequestParam String uuid,
+    public CardHistoryResultPageResponse calculatePayments(@CurrentUserId String uuid,
                                                        @RequestParam List<Long> memberCardIds,
                                                        @RequestParam(required = false) Integer monthOffset,
                                                        @RequestParam List<Long> classificationIds,

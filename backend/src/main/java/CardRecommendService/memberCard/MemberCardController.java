@@ -1,13 +1,10 @@
 package CardRecommendService.memberCard;
 
 
-import CardRecommendService.card.Card;
 import CardRecommendService.card.CardBasicInfoResponse;
-import CardRecommendService.cardHistory.CardHistoryResponse;
+import CardRecommendService.loginUtils.CurrentUserId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,10 +24,9 @@ public class MemberCardController {
 
     // uuid에 해당하는 사용자의 모든 카드 목록 조회
     @GetMapping("/membercard/{uuid}")
-    public List<CardBasicInfoResponse> getAllMemberCardBasicInfo(@PathVariable String uuid) {
+    public List<CardBasicInfoResponse> getAllMemberCardBasicInfo(@CurrentUserId String uuid) {
 
         return memberCardService.getAllMemberCardBasicInfoByUserId(uuid); // 카드 목록을 리스트로 반환
-
     }
 
     // 카드 선택 API (Controller)
@@ -41,6 +37,7 @@ public class MemberCardController {
 
     }
 
+    //TODO PostMapping으로 바꾸기
     // 멤버 카드와 결제 내역을 조회, 결제 내역을 월 단위로 필터링
     @GetMapping("/membercard/cards/history")
     public DailyCardHistoryPageResponse getCardsHistories(
