@@ -2,85 +2,88 @@
 import PageHeader from "@/components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
+import { FaCheck } from "react-icons/fa";
 import { useState } from "react";
+import "@/styles/page02.scss";
+import CardItem from "@/components/CardItem";
 
 export default function page02() {
- 
-const hd_props = {
+  const hd_props = {
     num: "02",
     tit: "내 카드 불러오기",
     des: "소지하신 카드를 불러와 소비패턴 분석을 하거나 기간별 사용내역을 조회할 수 있습니다.",
   };
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [cardList, setCardList] = useState<Card[]>([]);
   const uuid = 1;
-  const hasCardList = [
-    {
-      key: 0,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 1",
-    },
-    {
-      key: 1,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 2",
-    },
-    {
-      key: 2,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 3",
-    },
-    {
-      key: 3,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 4",
-    },
-    {
-      key: 4,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 5",
-    },
-    {
-      key: 5,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 6",
-    },
-    {
-      key: 6,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 7",
-    },
-    {
-      key: 7,
-      card_image: "/card_image.png",
-      card_company: "현대카드",
-      card_goods: "the Red",
-      alt_txt: "현대카드 더 레드 8",
-    },
-  ];
 
   type Card = {
-    id: number;
     cardName: string;
-    cardCorp: String;
+    cardCorp: string;
     cardImg: string;
     memberCardId: number;
     altTxt: string | null;
   };
+
+  const testCardList = [
+    {
+      id: 0,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 1",
+    },
+    {
+      id: 1,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 2",
+    },
+    {
+      id: 2,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 3",
+    },
+    {
+      id: 3,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 4",
+    },
+    {
+      id: 4,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 5",
+    },
+    {
+      id: 5,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 6",
+    },
+    {
+      id: 6,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 7",
+    },
+    {
+      id: 7,
+      cardImg: "/cardImg.png",
+      cardCorp: "현대카드",
+      cardName: "the Red",
+      altTxt: "현대카드 더 레드 8",
+    },
+  ];
 
   return (
     <>
@@ -89,40 +92,33 @@ const hd_props = {
         title={hd_props.tit}
         description={hd_props.des}
       >
-        {isLoading ? (
+        {isLoading && (
           <>
-            <Link href={"/"}>
+            <Link href="/">
               <button>카드다시 불러오기</button>
             </Link>
-            <Link href={"/page03"}>
+            <Link href="/page03">
               <button>분석카드 선택완료</button>
             </Link>
           </>
-        ) : (
-          <></>
         )}
       </PageHeader>
-      <div className="page-body">
+
+      <div className="page-body p02">
         <section>
           {isLoading ? (
-            cardList.map((card) => {
-              return (
-                <article key={card.id}>
-                  <div className="card-image">
-                    <Image
-                      src={card.cardImg}
-                      width={120}
-                      height={80}
-                      alt={card.altTxt ?? "카드이미지"}
-                    />
-                  </div>
-                  <h4>
-                    [<span className="card-company">{card.cardCorp}</span>]
-                    <span className="card-goods">{card.cardName}</span>
-                  </h4>
-                </article>
-              );
-            })
+            testCardList.map((card, index) => (
+              <article className="card-box" key={index}>
+                <CardItem
+                  cardImg={card.cardImg}
+                  cardName={card.cardName}
+                  cardCorp={card.cardCorp}
+                  altText={card.altTxt}
+                  isChecked={false}
+                  index={index}
+                />
+              </article>
+            ))
           ) : (
             <div className="popup">
               <h4>
@@ -131,11 +127,18 @@ const hd_props = {
               </h4>
               <div className="btns">
                 <button>이전으로</button>
-                <button onClick={async() => { 
-                    let data = await fetch(`http://localhost:8080/membercard/${uuid}`)
-                    let posts = await data.json()
-                  setCardList(posts)
-                  setIsLoading(true)}}>카드불러오기</button>
+                <button
+                  onClick={async () => {
+                    // let data = await fetch(
+                    //   `http://localhost:8080/membercard/${uuid}`
+                    // );
+                    // let posts = await data.json();
+                    // setCardList(posts);
+                    setIsLoading(true);
+                  }}
+                >
+                  카드불러오기
+                </button>
               </div>
             </div>
           )}

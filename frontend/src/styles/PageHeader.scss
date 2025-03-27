@@ -9,51 +9,85 @@
 
   header {
     @include layout_center;
-
     display: flex;
     justify-content: space-between;
 
-    .hdr {
-
-      //재귀: 다시선택
-      &-left {
-        width: 680px;
-
-        h6 {
-
-          font-weight: 900;
-          font-size: 48px;
-          line-height: 48px;
-          color: #ccc;
-        }
-
-        h2 {
-
-          font-size: 60px;
-          line-height: 60px;
-          color: #000;
-          margin-top: -30px;
-          padding-left: 20px;
-        }
-
-        p {
-          padding-top: 20px;
-          padding-left: 20px;
-          height: 60px;
-        }
+    .hdr-left {
+      h6 {
+        font-weight: 900;
+        font-size: 48px;
+        line-height: 48px;
+        color: #ccc;
       }
 
-      &-right {
-        width: calc(100% - 680px);
+      h2 {
+        font-size: 60px;
+        line-height: 60px;
+        color: #000;
+        margin-top: -30px;
+        padding-left: 20px;
+      }
+
+      p {
+        padding-top: 20px;
+        padding-left: 20px;
+        height: 60px;
+      }
+
+      .card-chip {
         display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        padding-right: 10px;
+        font-size: 12px;
+        margin-top: 10px;
 
-        button {
-          margin-left: 10px;
+        li {
+          display: flex;
+          align-items: center;
+          color: #fff;
+          background-color: #000;
+          padding: 0 10px;
+          border-radius: 100px;
+          margin: 0 5px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 30px;
+
+          span {
+            height: 30px;
+            margin-left: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+          }
         }
       }
+    }
+
+    .hdr-right {
+      width: calc(100% - 680px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding-right: 10px;
+
+      button {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .user-box {
+    .btn-top {
+      color: #fff;
+
+      button {
+        min-width: 0;
+      }
+    }
+
+    .btn-bot {
+      margin-top: 10px;
     }
   }
 
