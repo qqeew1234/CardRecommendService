@@ -1,6 +1,8 @@
 @import "./mixin";
 
 .page-body {
+  padding-bottom: 80px;
+
   section {
     @include layout_center;
     border-top: 1px solid #ccc;
