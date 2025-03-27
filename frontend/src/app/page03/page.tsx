@@ -14,40 +14,53 @@ export default function page02() {
   };
   const testCardList = [
     {
-      id: 0,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
-      altTxt: "현대카드 더 레드 1",
-    },
-    {
-      id: 1,
-      cardImg: "/cardImg.png",
+      cardImg: "/cardImg/cardimg1.png",
       cardCorp: "삼성카드",
-      cardName: "아멕스 블루",
-      altTxt: "현대카드 더 레드 2",
+      cardName: "아메리칸익스프레스 블루",
+      altTxt: "아메리칸익스프레스 블루",
     },
     {
-      id: 2,
-      cardImg: "/cardImg.png",
-      cardCorp: "국민카드",
-      cardName: "쿠팡",
-      altTxt: "현대카드 더 레드 3",
-    },
-    {
-      id: 3,
-      cardImg: "/cardImg.png",
-      cardCorp: "우리카드",
-      cardName: "우리 사장님",
-      altTxt: "현대카드 더 레드 4",
-    },
-    {
-      id: 4,
-      cardImg: "/cardImg.png",
+      cardImg: "/cardImg/cardimg2.png",
       cardCorp: "신한카드",
-      cardName: "내일배움",
+      cardName: "미스터 라이프",
+      altTxt: "미스터라이프",
+    },
+    {
+      cardImg: "/cardImg/cardimg3.png",
+      cardCorp: "신한카드",
+      cardName: "더 베스트 에프",
+      altTxt: "신한카드",
+    },
+    {
+      cardImg: "/cardImg/cardimg4.png",
+      cardCorp: "국민카드",
+      cardName: "쿠팡 와우",
+      altTxt: "쿠팡와우",
+    },
+    {
+      cardImg: "/cardImg/cardimg5.png",
+      cardCorp: "하나카드",
+      cardName: "제이드 프리미엄",
       altTxt: "현대카드 더 레드 5",
     },
+    // {
+    //   cardImg: "/cardImg/cardimg6.png",
+    //   cardCorp: "우리카드",
+    //   cardName: "카드의 정석 스카이패스",
+    //   altTxt: "현대카드 더 레드 6",
+    // },
+    // {
+    //   cardImg: "/cardImg/cardimg7.png",
+    //   cardCorp: "롯데카드",
+    //   cardName: "L.O.C.A",
+    //   altTxt: "현대카드 더 레드 7",
+    // },
+    // {
+    //   cardImg: "/cardImg/cardimg8.png",
+    //   cardCorp: "NH카드",
+    //   cardName: "올바른 FLEX",
+    //   altTxt: "현대카드 더 레드 8",
+    // },
   ];
   return (
     <>
