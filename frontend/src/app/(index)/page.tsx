@@ -41,31 +41,7 @@ export default function Home() {
         title={hd_props.tit}
         description={hd_props.des}
       >
-        {displayName ? (
-          <div className="user-box">
-            <h4 className="btn-top">
-              {displayName}님
-              <button
-                className=""
-                onClick={async () => {
-                  await supabase.auth.signOut();
-                  setDisplayName("");
-                }}
-              >
-                로그아웃
-              </button>
-            </h4>
-            <div className="btn-bot">
-              <Link href={"/page02"}>
-                <button className={"active"}>소비패턴 분석하기</button>
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <button className={"active"} onClick={() => setIsPopup(true)}>
-            로그인
-          </button>
-        )}
+        <></>
       </PageHeader>
       <div className="page-body p01">
         <section>
@@ -99,6 +75,31 @@ export default function Home() {
             </article>
           </div>
           <div className="img-box">
+            {displayName ? (
+              <div className="user-box">
+                <h4 className="btn-top">
+                  {displayName}님
+                  <button
+                    className=""
+                    onClick={async () => {
+                      await supabase.auth.signOut();
+                      setDisplayName("");
+                    }}
+                  >
+                    로그아웃
+                  </button>
+                </h4>
+                <div className="btn-bot">
+                  <Link href={"/page02"}>
+                    <button className={"active"}>소비패턴 분석하기</button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <button className={"active"} onClick={() => setIsPopup(true)}>
+                로그인
+              </button>
+            )}
             <CreditCard
               cardNumber="1234 5678 9012 3456"
               cardHolder={displayName}

@@ -28,59 +28,51 @@ export default function page02() {
 
   const testCardList = [
     {
-      id: 0,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
-      altTxt: "현대카드 더 레드 1",
+      cardImg: "/cardImg/cardimg1.png",
+      cardCorp: "삼성카드",
+      cardName: "아메리칸익스프레스 블루",
+      altTxt: "",
     },
     {
-      id: 1,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
-      altTxt: "현대카드 더 레드 2",
+      cardImg: "/cardImg/cardimg2.png",
+      cardCorp: "신한카드",
+      cardName: "미스터 라이프",
+      altTxt: "미스터라이프",
     },
     {
-      id: 2,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
-      altTxt: "현대카드 더 레드 3",
+      cardImg: "/cardImg/cardimg3.png",
+      cardCorp: "신한카드",
+      cardName: "더 베스트 에프",
+      altTxt: "신한카드",
     },
     {
-      id: 3,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
-      altTxt: "현대카드 더 레드 4",
+      cardImg: "/cardImg/cardimg4.png",
+      cardCorp: "국민카드",
+      cardName: "쿠팡 와우",
+      altTxt: "쿠팡와우",
     },
     {
-      id: 4,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
+      cardImg: "/cardImg/cardimg5.png",
+      cardCorp: "하나카드",
+      cardName: "제이드 프리미엄",
       altTxt: "현대카드 더 레드 5",
     },
     {
-      id: 5,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
+      cardImg: "/cardImg/cardimg6.png",
+      cardCorp: "우리카드",
+      cardName: "카드의 정석 스카이패스",
       altTxt: "현대카드 더 레드 6",
     },
     {
-      id: 6,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
+      cardImg: "/cardImg/cardimg7.png",
+      cardCorp: "롯데카드",
+      cardName: "L.O.C.A",
       altTxt: "현대카드 더 레드 7",
     },
     {
-      id: 7,
-      cardImg: "/cardImg.png",
-      cardCorp: "현대카드",
-      cardName: "the Red",
+      cardImg: "/cardImg/cardimg8.png",
+      cardCorp: "NH카드",
+      cardName: "올바른 FLEX",
       altTxt: "현대카드 더 레드 8",
     },
   ];
@@ -98,7 +90,7 @@ export default function page02() {
               <button>카드다시 불러오기</button>
             </Link>
             <Link href="/page03">
-              <button>분석카드 선택완료</button>
+              <button className="active">분석카드 선택완료</button>
             </Link>
           </>
         )}
@@ -108,7 +100,7 @@ export default function page02() {
         <section>
           {isLoading ? (
             testCardList.map((card, index) => (
-              <article className="card-box" key={index}>
+              <article className="card-box p02" key={index}>
                 <CardItem
                   cardImg={card.cardImg}
                   cardName={card.cardName}

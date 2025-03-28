@@ -1,6 +1,8 @@
 @import "./mixin";
 
 .page-body {
+  position: relative;
+  top: 230px;
   padding-bottom: 80px;
 
   section {
