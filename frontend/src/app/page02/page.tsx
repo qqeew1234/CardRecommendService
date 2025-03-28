@@ -31,7 +31,7 @@ export default function page02() {
       cardImg: "/cardImg/cardimg1.png",
       cardCorp: "삼성카드",
       cardName: "아메리칸익스프레스 블루",
-      altTxt: "아메리칸익스프레스 블루",
+      altTxt: "",
     },
     {
       cardImg: "/cardImg/cardimg2.png",
