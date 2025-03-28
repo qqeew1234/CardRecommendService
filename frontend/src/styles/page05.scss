@@ -1,0 +1,158 @@
+@import "./mixin";
+
+.page-header {
+  height: 270px;
+
+
+  .list-header {
+    @include layout-center;
+    display: flex;
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+    .list-item {
+      border-left: 1px solid #ccc;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &-01 {
+        width: 160px;
+        border-left: 0;
+      }
+
+      &-02 {
+        width: calc(50% - 160px);
+      }
+
+      &-03 {
+        width: 25%;
+      }
+
+      &-04 {
+        width: 25%;
+      }
+    }
+  }
+}
+
+.p05 {
+  top: 270px;
+
+  section {
+    position: relative;
+    display: block;
+    border-top: 0;
+
+    .list-row {
+
+      display: flex;
+
+
+      .list-item {
+        border-left: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+
+        &:first-of-type {
+          border-left: 0;
+        }
+
+        &-01 {
+          width: 160px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+
+
+          b {
+            font-weight: 900;
+            font-size: 2em;
+
+          }
+        }
+
+        &-02 {
+          width: calc(50% - 160px);
+          padding-left: 20px;
+
+          .usageLog {
+            padding: 10px 0;
+
+            h4 {
+              line-height: 20px;
+              font-size: 14px;
+
+            }
+
+            p {
+              line-height: 20px;
+              font-size: 12px;
+            }
+          }
+
+        }
+
+        &-03 {
+          width: 25%;
+          text-align: right;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          padding-right: 20px;
+
+          .payment {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+          }
+
+          b {
+            font-weight: 900;
+          }
+        }
+
+        &-04 {
+          padding-right: 20px;
+          width: 25%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          font-size: 20px;
+
+          b {
+            font-weight: 900;
+            font-size: 2em;
+          }
+        }
+      }
+    }
+
+    .moreBtn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+
+  footer {
+    @include layout-center;
+    border-top: 1px solid #000;
+    margin-top: 20px;
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 120px;
+
+      b {
+        font-size: 48px;
+      }
+    }
+  }
+}

@@ -24,7 +24,7 @@ export default function page04() {
         usagePoint: "카드사용처",
         cardName: "카드이름",
         authDate: "결제승인일",
-        voidDate: "결제취소일",
+        // voidDate: "결제취소일",
         payType: "결제형태",
         payment: "결제금액",
       },

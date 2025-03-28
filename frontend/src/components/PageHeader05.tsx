@@ -31,28 +31,26 @@ export default function PageHeader05({
   };
 
   return (
-    <div className="page-header">
-      <header>
-        <div className="hdr-left">
-          <h6>{num}</h6>
-          <h2>
-            {years}년 {months}월 내역
-          </h2>
-          <ul className="card-chip">
-            {cards.map(({ cardCorp, cardName }, index) => (
-              <li key={index}>
-                [{cardCorp}] {cardName}
-                {cards.length > 1 && (
-                  <span className="btn" onClick={() => removeCard(index)}>
-                    <FaTimesCircle />
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="hdr-right">{children}</div>
-      </header>
-    </div>
+    <header>
+      <div className="hdr-left">
+        <h6>{num}</h6>
+        <h2>
+          {years}년 {months}월 내역
+        </h2>
+        <ul className="card-chip">
+          {cards.map(({ cardCorp, cardName }, index) => (
+            <li key={index}>
+              [{cardCorp}] {cardName}
+              {cards.length > 1 && (
+                <span className="btn" onClick={() => removeCard(index)}>
+                  <FaTimesCircle />
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="hdr-right">{children}</div>
+    </header>
   );
 }

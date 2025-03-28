@@ -1,0 +1,171 @@
+{
+  "cardHistoryResponses": [
+    {
+      "date": "01",
+      "paymentHistories": [
+        {
+          "cardName": "신한카드 주거래 신용",
+          "cardCorp": "신한카드",
+          "storeName": "쇼핑엔티",
+          "amount": 575055,
+          "paymentDatetime": "2025-02-01T21:51:59",
+          "category": "홈쇼핑",
+          "classification": "-"
+        },
+        {
+          "cardName": "삼성카드 taptap O",
+          "cardCorp": "삼성카드",
+          "storeName": "대중교통",
+          "amount": 424164,
+          "paymentDatetime": "2025-02-01T06:50:46",
+          "category": "교통",
+          "classification": "-"
+        },
+        {
+          "cardName": "삼성카드 taptap O",
+          "cardCorp": "삼성카드",
+          "storeName": "브레드 토크",
+          "amount": 1138105,
+          "paymentDatetime": "2025-02-01T00:04:06",
+          "category": "커피제과",
+          "classification": "-"
+        },
+        {
+          "cardName": "THE iD. PLATINUM(포인트)",
+          "cardCorp": "삼성카드",
+          "storeName": "카카오택시",
+          "amount": 1942879,
+          "paymentDatetime": "2025-02-01T23:33:35",
+          "category": "교통",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 4080203
+    },
+    {
+      "date": "02",
+      "paymentHistories": [
+        {
+          "cardName": "신한카드 주거래 신용",
+          "cardCorp": "신한카드",
+          "storeName": "에어부산",
+          "amount": 870567,
+          "paymentDatetime": "2025-02-02T12:18:07",
+          "category": "항공",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 870567
+    },
+    {
+      "date": "03",
+      "paymentHistories": [
+        {
+          "cardName": "카카오뱅크 삼성카드",
+          "cardCorp": "삼성카드",
+          "storeName": "네이버 바이브",
+          "amount": 339107,
+          "paymentDatetime": "2025-02-03T12:16:19",
+          "category": "스트리밍",
+          "classification": "-"
+        },
+        {
+          "cardName": "카카오뱅크 삼성카드",
+          "cardCorp": "삼성카드",
+          "storeName": "패스트캠퍼스",
+          "amount": 662470,
+          "paymentDatetime": "2025-02-03T16:33:53",
+          "category": "교육",
+          "classification": "-"
+        },
+        {
+          "cardName": "THE iD. PLATINUM(포인트)",
+          "cardCorp": "삼성카드",
+          "storeName": "텐바이텐",
+          "amount": 1286347,
+          "paymentDatetime": "2025-02-03T00:10:00",
+          "category": "생활잡화",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 2287924
+    },
+    {
+      "date": "04",
+      "paymentHistories": [
+        {
+          "cardName": "카카오뱅크 삼성카드",
+          "cardCorp": "삼성카드",
+          "storeName": "이찌방",
+          "amount": 179512,
+          "paymentDatetime": "2025-02-06T02:51:52",
+          "category": "음식점",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 179512
+    },
+    {
+      "date": "05",
+      "paymentHistories": [
+        {
+          "cardName": "신한카드 주거래 신용",
+          "cardCorp": "신한카드",
+          "storeName": "쇼핑엔티",
+          "amount": 575055,
+          "paymentDatetime": "2025-02-01T21:51:59",
+          "category": "홈쇼핑",
+          "classification": "-"
+        },
+        {
+          "cardName": "삼성카드 taptap O",
+          "cardCorp": "삼성카드",
+          "storeName": "대중교통",
+          "amount": 424164,
+          "paymentDatetime": "2025-02-01T06:50:46",
+          "category": "교통",
+          "classification": "-"
+        },
+        {
+          "cardName": "삼성카드 taptap O",
+          "cardCorp": "삼성카드",
+          "storeName": "브레드 토크",
+          "amount": 1138105,
+          "paymentDatetime": "2025-02-01T00:04:06",
+          "category": "커피제과",
+          "classification": "-"
+        },
+        {
+          "cardName": "THE iD. PLATINUM(포인트)",
+          "cardCorp": "삼성카드",
+          "storeName": "카카오택시",
+          "amount": 1942879,
+          "paymentDatetime": "2025-02-01T23:33:35",
+          "category": "교통",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 4080203
+    },
+    {
+      "date": "06",
+      "paymentHistories": [
+        {
+          "cardName": "신한카드 주거래 신용",
+          "cardCorp": "신한카드",
+          "storeName": "에어부산",
+          "amount": 870567,
+          "paymentDatetime": "2025-02-02T12:18:07",
+          "category": "항공",
+          "classification": "-"
+        }
+      ],
+      "dailyAmount": 870567
+    }
+  ],
+  "totalCost": 105361510,
+  "page": 1,
+  "totalPages": 9,
+  "size": 13,
+  "totalCount": 107
+}
