@@ -16,12 +16,12 @@ export default function PageHeaderCopy({
 }: myType) {
   return (
     <header>
-      <div className="hdr-left">
-        <h6>{number}</h6>
-        <h2>{title}</h2>
-        <p>{description}</p>
+      <div className="hgroup">
+        <h6 className="num">{number}</h6>
+        <h2 className="tit">{title}</h2>
+        <p className="des">{description}</p>
       </div>
-      <div className="hdr-right">{children}</div>
+      <div className="btngroup">{children}</div>
     </header>
   );
 }

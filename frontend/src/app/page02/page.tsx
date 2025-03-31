@@ -1,5 +1,5 @@
 "use client";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/PageHeaderCopy";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
@@ -25,7 +25,7 @@ export default function page02() {
     memberCardId: number;
     altTxt: string | null;
   };
-
+  // const testCardList = [];
   const testCardList = [
     {
       cardImg: "/cardImg/cardimg1.png",
@@ -79,61 +79,65 @@ export default function page02() {
 
   return (
     <>
-      <PageHeader
-        number={hd_props.num}
-        title={hd_props.tit}
-        description={hd_props.des}
-      >
-        {isLoading && (
-          <>
-            <Link href="/">
-              <button>카드다시 불러오기</button>
-            </Link>
-            <Link href="/page03">
-              <button className="active">분석카드 선택완료</button>
-            </Link>
-          </>
-        )}
-      </PageHeader>
-
-      <div className="page-body p02">
-        <section>
-          {isLoading ? (
-            testCardList.map((card, index) => (
-              <article className="card-box p02" key={index}>
-                <CardItem
-                  cardImg={card.cardImg}
-                  cardName={card.cardName}
-                  cardCorp={card.cardCorp}
-                  altText={card.altTxt}
-                  isChecked={false}
-                  index={index}
-                />
-              </article>
-            ))
-          ) : (
-            <div className="popup">
-              <h4>
-                [카드불러오기] 버튼을 클릭 해 소비패턴으로 분석하고 싶은
-                카드정보를 가져올 수 있습니다.
-              </h4>
-              <div className="btns">
-                <button>이전으로</button>
-                <button
-                  onClick={async () => {
-                    // let data = await fetch(
-                    //   `http://localhost:8080/membercard/${uuid}`
-                    // );
-                    // let posts = await data.json();
-                    // setCardList(posts);
-                    setIsLoading(true);
-                  }}
-                >
-                  카드불러오기
-                </button>
-              </div>
-            </div>
+      <div className="page-head page-head-02">
+        <PageHeader
+          number={hd_props.num}
+          title={hd_props.tit}
+          description={hd_props.des}
+        >
+          {isLoading && (
+            <>
+              <Link href="/">
+                <button>메인으로 돌아가기</button>
+              </Link>
+              <button className="recard">카드다시 불러오기</button>
+              <Link href="/page03">
+                <button className="active">분석카드 선택완료</button>
+              </Link>
+            </>
           )}
+        </PageHeader>
+      </div>
+      <div className="page-body page-body-02">
+        <section>
+          <div className="art-wrap">
+            {testCardList.length > 0 ? (
+              testCardList.map((card, index) => (
+                <article className="card-box p02" key={index}>
+                  <CardItem
+                    cardImg={card.cardImg}
+                    cardName={card.cardName}
+                    cardCorp={card.cardCorp}
+                    altText={card.altTxt}
+                    isChecked={false}
+                    index={index}
+                  />
+                </article>
+              ))
+            ) : (
+              <div className="popup">
+                <h4>
+                  [카드불러오기] 버튼을 클릭 해 소비패턴으로 분석하고 싶은
+                  카드정보를 가져올 수 있습니다.
+                </h4>
+                <div className="btns">
+                  <button>이전으로</button>
+                  <button
+                    onClick={async () => {
+                      // let data = await fetch(
+                      //   `http://localhost:8080/membercard/${uuid}`
+                      // );
+                      // let posts = await data.json();
+                      // setCardList(posts);
+                      setIsLoading(true);
+                    }}
+                  >
+                    카드불러오기
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </section>
       </div>
     </>

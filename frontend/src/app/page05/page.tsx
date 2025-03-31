@@ -18,9 +18,9 @@ export default function page05() {
   const testCard = testData.cardHistoryResponses;
   return (
     <>
-      <div className="page-header">
+      <div className="page-head page-head-05">
         <PageHeader
-          num={hdProps.num}
+          number={hdProps.num}
           years={hdProps.years}
           months={hdProps.months}
           cardList={hdProps.cardList}
@@ -39,7 +39,7 @@ export default function page05() {
           <div className="list-item list-item-04">일별이용금액</div>
         </div>
       </div>
-      <div className="page-body p05">
+      <div className="page-body page-body-05">
         <section>
           {testCard.map((card, index) => (
             <div className="list-row" key={index}>

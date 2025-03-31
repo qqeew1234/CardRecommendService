@@ -1,0 +1,204 @@
+{
+  "cardName": "the Red",
+  "cardTotalPayment": 1800000,
+  "paymentDates": {
+    "year": 2024,
+    "month": 2,
+    "startDay": 1,
+    "endDay": 29
+  },
+  "usageLog": [
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 23400
+    },
+    {
+      "usagePoint": "스타벅스 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 10:43",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4500
+    },
+    {
+      "usagePoint": "맛있는 손칼국수",
+      "cardName": "the Red",
+      "authDate": "2025-03-22 12:24",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 6000
+    },
+    {
+      "usagePoint": "CU편의점 정발산점",
+      "cardName": "the Red",
+      "authDate": "2025-03-23 12:31",
+      "voidDate": null,
+      "payType": "일시불",
+      "payment": 4400
+    }
+  ]
+}

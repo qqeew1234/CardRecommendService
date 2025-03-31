@@ -1,87 +1,101 @@
 .card-item {
   position: relative;
-
-  input {
-    display: none;
-  }
-
-  input[type=checkbox]~.card-item_img {
-    img {
-      opacity: 0.3;
-    }
-  }
-
-  input[type=checkbox]:checked~.card-item_img {
-    img {
-      opacity: 1;
-    }
-  }
-
-  input[type=checkbox]:checked~.card-item_img .checkbox-set .added svg:nth-of-type(1) {
-    display: block;
-    color: rgba(0, 0, 0, 0.3);
-  }
-
-  input[type=checkbox]~.card-item_img .checkbox-set .added svg:nth-of-type(1) {
-    display: none;
-  }
-
-  input[type=checkbox]:checked~.card-item_img .checkbox-set .added svg:nth-of-type(2) {
-    display: none;
-  }
-
-  input[type=checkbox]~.card-item_img .checkbox-set .added svg:nth-of-type(2) {
-    display: block;
-
-  }
-
-  input[type=checkbox]:checked~.card-item_img .checkbox-set .checked {
-    visibility: visible;
-
-    svg {
-
-      display: block;
-    }
-  }
-
-  input[type=checkbox]~.card-item_img .checkbox-set .checked {
-    visibility: hidden;
-
-    svg {
-      display: none;
-    }
-  }
-
-  input[type=radio]:checked+.card-item_img {
-    outline: 6px solid #000;
-  }
-
-  input[type=radio]~.card-item_inf {
-    h4 {
-      color: #ccc;
-    }
-
-    p {
-      color: #ccc;
-    }
-  }
-
-  input[type=radio]:checked~.card-item_inf {
-    h4 {
-      color: #000;
-    }
-
-    p {
-      color: #999;
-    }
-  }
-
-  position: relative;
   width: 100%;
   display: flex;
 
+  input {
+    display: none;
+
+    &[type=checkbox] {
+      &~.card-item_img img {
+        opacity: .5;
+      }
+
+      &~.card-item_img .checkbox-set .added svg:nth-of-type(1) {
+        display: none;
+      }
+
+      &~.card-item_img .checkbox-set .added svg:nth-of-type(2) {
+        display: block;
+      }
+
+      &~.card-item_img .checkbox-set .checked {
+        visibility: hidden;
+
+        svg {
+          display: none;
+        }
+      }
+
+      &:checked {
+        &~.card-item_img img {
+          opacity: 1;
+
+        }
+
+        &~.card-item_img .checkbox-set .added svg:nth-of-type(1) {
+          display: block;
+          color: rgba(0, 0, 0, 0.3);
+        }
+
+
+
+        &~.card-item_img .checkbox-set .added svg:nth-of-type(2) {
+          display: none;
+        }
+
+
+
+        &~.card-item_img .checkbox-set .checked {
+          visibility: visible;
+
+          svg {
+
+            display: block;
+          }
+        }
+      }
+    }
+
+    &[type=radio] {
+      &+.card-item_img {
+        // opacity: 0.4;
+      }
+
+      &~.card-item_inf {
+        h4 {
+          color: #000;
+        }
+
+        p {
+          color: #777;
+        }
+      }
+
+      &:checked {
+        &+.card-item_img {
+          // opacity: 1;
+        }
+
+        &~.card-item_inf {
+          h4 {
+            color: #fff;
+            background-color: #000;
+            padding-left: 10px;
+          }
+
+          p {
+            color: #ccc;
+            background-color: #000;
+            padding-left: 10px;
+          }
+        }
+      }
+    }
+  }
+
   .card-item_img {
-    width: 50%;
+    width: 280px;
     height: 180px;
     border-radius: 14px;
     overflow: hidden;
@@ -116,11 +130,26 @@
   }
 
   .card-item_inf {
-    width: 50%;
-    padding-left: 10px;
+    width: calc(100% - 280px);
+    padding: 0 10px;
+
+    h4 {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      border-radius: 14px 14px 0 0;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      border-radius: 0 0 5px 14px;
+    }
   }
 
   label {
+    cursor: pointer;
     position: absolute;
     top: 0;
     left: 0;
@@ -131,13 +160,15 @@
 
 .card-box.p02 {
   .card-item {
+    .card-item_img {}
+
     .card-item_inf {
       h4 {
         color: #000;
       }
 
       p {
-        color: #999;
+        color: #666;
       }
     }
   }

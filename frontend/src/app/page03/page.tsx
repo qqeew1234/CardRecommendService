@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/PageHeaderCopy";
 import CardItem from "@/components/CardItem";
 import Image from "next/image";
 import Link from "next/link";
@@ -64,16 +64,18 @@ export default function page02() {
   ];
   return (
     <>
-      <PageHeader
-        number={hd_props.num}
-        title={hd_props.tit}
-        description={hd_props.des}
-      >
-        <Link href={"/page02"}>
-          <button className="acrive">카드 다시불러오기</button>
-        </Link>
-      </PageHeader>
-      <div className="page-body p03">
+      <div className="page-head page-head-03">
+        <PageHeader
+          number={hd_props.num}
+          title={hd_props.tit}
+          description={hd_props.des}
+        >
+          <Link href={"/page02"}>
+            <button className="active">카드 다시불러오기</button>
+          </Link>
+        </PageHeader>
+      </div>
+      <div className="page-body page-body-03">
         <section>
           {testCardList.map((card, index) => (
             <article className="card-box p03" key={index}>

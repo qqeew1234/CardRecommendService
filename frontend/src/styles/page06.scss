@@ -1,0 +1,330 @@
+@import "./mixin.scss";
+
+.page-head-06 {
+  padding-top: 40px;
+
+  .table-head {
+    @include layout-center;
+
+    .table-row {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+
+      .table-item {
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-weight: 700;
+
+        &-01 {}
+
+        &-02 {
+          position: relative;
+
+          button {
+            min-width: 0;
+            padding: 0;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            left: 20px;
+            font-size: 10px;
+            @include flex-center;
+          }
+        }
+
+        &-03 {}
+
+        &-04 {}
+      }
+    }
+  }
+}
+
+.page-body-06 {
+  section {
+    .table-body {
+      height: 100%;
+    }
+
+    .table-row {
+      border-bottom: 1px solid #ccc;
+      height: 100%;
+
+      .table-item {
+        border-left: 1px solid #ccc;
+        height: 100%;
+
+        &:first-of-type {
+          border-left: 0;
+        }
+
+        &-01 {
+          padding: 10px 10px;
+
+          .menu-group {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+
+            &-variant {
+              padding-top: 5px;
+              flex-direction: column-reverse;
+            }
+          }
+
+          menu {
+            height: 40px;
+
+            input {
+              display: none;
+            }
+
+            input+label {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background-color: #ccc;
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+              padding-left: 20px;
+              padding-right: 10px;
+              border-radius: 10px 10px 5px 10px;
+
+              button {
+                min-width: 0;
+                padding: 0;
+                width: 20px;
+                height: 20px;
+                @include flex-center;
+                color: #000;
+                background-color: transparent;
+                box-shadow: none;
+                color: inherit;
+              }
+            }
+
+            input:checked+label {
+              font-weight: 700;
+              color: #fff;
+              background-color: #09f;
+            }
+
+
+          }
+        }
+
+        &-02 {
+          height: 100%;
+          overflow-y: auto;
+
+          .pay-usage-wrap {}
+
+          .pay-usage-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #ccc;
+            position: relative;
+
+            .usage-unit {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 10px 0;
+
+              &-01 {
+                width: 60px;
+                height: 60px;
+                display: flex;
+
+                input {
+                  display: none;
+                }
+
+                input~span {
+                  width: 100%;
+                  height: 100%;
+                  @include flex-center;
+                  font-size: 24px;
+                }
+
+
+                input~.uncheck {
+                  display: flex;
+                }
+
+                input~.checked {
+                  display: none;
+                }
+
+
+                input:checked~.uncheck {
+                  display: none;
+                }
+
+                input:checked~.checked {
+                  display: flex;
+                }
+              }
+
+              &-02 {
+                flex-direction: column;
+                align-items: flex-start;
+                width: calc(100% - 220px);
+                padding-left: 10px;
+
+                h4 {
+                  height: 20px;
+                  line-height: 20px;
+                }
+
+                p {
+                  height: 20px;
+                  line-height: 20px;
+                }
+
+
+              }
+
+              &-03 {
+                justify-content: flex-end;
+                text-align: right;
+                width: 160px;
+                padding-right: 20px;
+                font-size: 18px;
+              }
+            }
+
+            label {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              cursor: pointer;
+            }
+          }
+        }
+
+        &-03 {
+          h4 {
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 24px;
+          }
+        }
+
+        &-04 {
+          padding: 0 20px;
+
+          h5 {
+            line-height: 30px;
+            font-size: 18px;
+            height: 30px;
+            text-align: right;
+            color: #666;
+          }
+
+          h4 {
+            margin-top: 10px;
+            font-size: 60px;
+            text-align: right;
+
+            span {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.table-row {
+  display: flex;
+
+  .table-item {
+    &-01 {
+      width: 15%;
+    }
+
+    &-02 {
+      width: 45%;
+    }
+
+    &-03 {
+      width: 20%;
+    }
+
+    &-04 {
+      width: 20%;
+    }
+  }
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  @include flex-center;
+
+  .popup-contents {
+    width: 640px;
+    height: 360px;
+    background-color: #fff;
+    border-radius: 20px;
+    @include flex-center;
+    position: relative;
+
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 20px;
+
+      p {
+        text-align: center;
+      }
+
+      input {
+        width: 320px;
+      }
+
+      select {
+        width: 320px;
+        height: 40px;
+        padding: 0 10px;
+
+        optgroup {
+          display: flex;
+          flex-direction: column;
+
+          &.added {
+            flex-direction: column-reverse;
+          }
+        }
+      }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 60px;
+
+      .active {
+        margin-left: 20px;
+      }
+    }
+  }
+
+}
