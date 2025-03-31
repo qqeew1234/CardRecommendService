@@ -1,6 +1,7 @@
 :root {
   --ff_sans: "Noto Sans KR";
   --ff_serif: "Noto Serif KR";
+  --bg_color: #f9f9f9;
 
 }
 
@@ -8,7 +9,6 @@
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 10px;
 }
 
 @mixin flex_center {

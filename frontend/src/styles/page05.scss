@@ -1,26 +1,33 @@
 @import "./mixin";
 
-.page-header {
-  height: 270px;
+body {
+  overflow: auto;
+}
 
+.page-head-05 {
+  padding-top: 40px;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 
   .list-header {
     @include layout-center;
     display: flex;
-    margin-top: 10px;
+    height: 40px;
+    align-items: center;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 
     .list-item {
-      border-left: 1px solid #ccc;
       height: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-weight: 700;
+      color: #000;
 
       &-01 {
         width: 160px;
-        border-left: 0;
       }
 
       &-02 {
@@ -38,18 +45,18 @@
   }
 }
 
-.p05 {
-  top: 270px;
+.page-body-05 {
+  position: relative;
+  top: 220px;
+  padding-bottom: 80px;
+
+  height: auto;
 
   section {
-    position: relative;
     display: block;
-    border-top: 0;
 
     .list-row {
-
       display: flex;
-
 
       .list-item {
         border-left: 1px solid #ccc;
@@ -90,7 +97,8 @@
 
             p {
               line-height: 20px;
-              font-size: 12px;
+              font-size: 14px;
+              letter-spacing: -.5px;
             }
           }
 
@@ -103,6 +111,7 @@
           flex-direction: column;
           justify-content: space-around;
           padding-right: 20px;
+          font-size: 20px;
 
           .payment {
             display: flex;

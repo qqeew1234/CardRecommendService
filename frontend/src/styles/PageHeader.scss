@@ -1,121 +1,106 @@
 @import "./mixin";
 
-.page-header {
-  padding-bottom: 10px;
-  position: fixed;
-  width: 100%;
+.page-head {
   padding-top: 80px;
-  z-index: 1000;
-  background-color: #efefef;
-  height: 230px;
+  background-color: var(--bg_color);
 
   header {
     @include layout_center;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 
-    .hdr-left {
+    .hgroup {
+      &>*:nth-child(2) {
+        margin-top: -20px;
+      }
+
       h6 {
+        display: flex;
+        align-items: center;
+        height: 40px;
         font-weight: 900;
         font-size: 48px;
-        line-height: 48px;
         color: #ccc;
       }
 
       h2 {
+        display: flex;
+        align-items: center;
+        height: 60px;
         font-size: 60px;
-        line-height: 60px;
         color: #000;
-        margin-top: -30px;
-        padding-left: 20px;
+        text-indent: 20px;
+
       }
 
-      p {
-        padding-top: 20px;
-        padding-left: 20px;
+      h3 {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        font-size: 24px;
+        color: #000;
+        text-indent: 20px;
+      }
+
+      h5 {
+        display: flex;
+        align-items: center;
         height: 60px;
       }
 
-      .card-chip {
+      p {
+        height: 60px;
         display: flex;
-        font-size: 12px;
-        margin-top: 30px;
+        align-items: center;
+      }
+
+      ul {
+        display: flex;
+        height: 60px;
+        align-items: center;
 
         li {
           display: flex;
           align-items: center;
           color: #fff;
           background-color: #000;
-          padding: 0 10px;
           border-radius: 100px;
           margin: 0 5px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          line-height: 30px;
 
           span {
-            height: 30px;
+            height: 20px;
             margin-left: 6px;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            font-size: 12px;
+            font-weight: 300;
+            padding: 0 4px;
+
+            &:nth-of-type(2) {
+              font-size: 14px;
+              padding-left: 0;
+              cursor: pointer;
+            }
           }
         }
       }
     }
 
-    .hdr-right {
-      width: calc(100% - 680px);
+    .btngroup {
+      // width: calc(100% - 680px);
+      height: 60px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: flex-end;
-      padding-right: 10px;
 
       button {
         margin-left: 10px;
       }
-    }
-  }
-
-  .user-box {
-    position: relative;
-    z-index: 1002;
-
-    .btn-top {
-      color: #fff;
-
-      button {
-        min-width: 0;
-      }
-    }
-
-    .btn-bot {
-      margin-top: 10px;
-    }
-  }
-
-  &-04 {
-    header {
-      .hdr-left {
-        h3 {
-          margin-top: -40px;
-          padding-left: 20px;
-          font-size: 24px;
-          line-height: 30px;
-        }
-
-        h2 {
-          margin-top: 0;
-        }
-
-        h5 {
-          padding-left: 20px;
-        }
-      }
-
-      .hdr-right {}
     }
   }
 }

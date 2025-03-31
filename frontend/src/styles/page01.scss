@@ -1,10 +1,19 @@
-.p01 {
+.page-head-01 {
+  position: relative;
+  z-index: 100;
+
+  .card-box {}
+}
+
+
+.page-body-01 {
   section {
     display: flex;
     padding-top: 40px;
+    overflow: hidden;
 
     .art-box {
-      width: calc(100% - 480px);
+      width: calc(100% - 460px);
       padding-right: 40px;
 
       article {
@@ -17,25 +26,25 @@
     }
 
     .img-box {
-      width: 480px;
-      height: 760px;
+      width: 460px;
+      height: 260px;
 
-      margin-top: -200px;
+      margin-top: -160px;
+
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.3);
       position: relative;
-      z-index: 1001;
-      border-radius: 20px;
-      position: relative;
+
 
       &::before {
         display: block;
         content: '';
-        width: 378px;
+        width: 380px;
         height: 600px;
-        background-color: #ccc;
+        background-color: rgba(0, 0, 0, 0.2);
         position: absolute;
         margin: auto;
-        top: 0;
-        bottom: 0;
+        top: 120px;
         right: -140px;
         border-radius: 20px;
       }

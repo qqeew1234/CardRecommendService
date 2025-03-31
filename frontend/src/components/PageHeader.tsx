@@ -15,7 +15,7 @@ export default function PageHeader({
   children,
 }: myType) {
   return (
-    <div className="page-header">
+    <div className="page-head">
       <header>
         <div className="hdr-left">
           <h6>{number}</h6>

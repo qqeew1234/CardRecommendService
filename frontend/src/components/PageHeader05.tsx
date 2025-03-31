@@ -9,7 +9,7 @@ interface CardItem {
 }
 
 interface PageHeaderProps {
-  num: string;
+  number: string;
   years: string;
   months: string;
   cardList: CardItem[];
@@ -17,7 +17,7 @@ interface PageHeaderProps {
 }
 
 export default function PageHeader05({
-  num,
+  number,
   years,
   months,
   cardList,
@@ -32,15 +32,17 @@ export default function PageHeader05({
 
   return (
     <header>
-      <div className="hdr-left">
-        <h6>{num}</h6>
-        <h2>
+      <div className="hgroup">
+        <h6 className="num">{number}</h6>
+        <h2 className="tit">
           {years}년 {months}월 내역
         </h2>
-        <ul className="card-chip">
+        <ul className="chip">
           {cards.map(({ cardCorp, cardName }, index) => (
             <li key={index}>
-              [{cardCorp}] {cardName}
+              <span>
+                [{cardCorp}] {cardName}
+              </span>
               {cards.length > 1 && (
                 <span className="btn" onClick={() => removeCard(index)}>
                   <FaTimesCircle />
@@ -50,7 +52,7 @@ export default function PageHeader05({
           ))}
         </ul>
       </div>
-      <div className="hdr-right">{children}</div>
+      <div className="btngroup">{children}</div>
     </header>
   );
 }

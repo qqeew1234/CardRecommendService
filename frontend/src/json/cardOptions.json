@@ -1,0 +1,86 @@
+[
+  {
+    "optionName": "shopping",
+    "optionItems": [
+      {
+        "optItemName": "온라인",
+        "optItemIcon": "/svgIcon/shopping/computer.svg"
+      },
+      {
+        "optItemName": "할인점",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "백화점",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "롯데아울렛",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "면세점",
+        "optItemIcon": "/computer.svg"
+      }
+    ]
+  },
+  {
+    "optionName": "life",
+    "optionItems": [
+      {
+        "optItemName": "병원약국",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "커피제과",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "교통",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "영화관",
+        "optItemIcon": "/computer.svg"
+      }
+    ]
+  },
+  {
+    "optionName": "travel",
+    "optionItems": [
+      {
+        "optItemName": "여행",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "항공",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "해외",
+        "optItemIcon": "/computer.svg"
+      }
+    ]
+  },
+  {
+    "optionName": "living",
+    "optionItems": [
+      {
+        "optItemName": "편의점",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "음식점",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "교육",
+        "optItemIcon": "/computer.svg"
+      },
+      {
+        "optItemName": "배달앱",
+        "optItemIcon": "/computer.svg"
+      }
+    ]
+  }
+]
