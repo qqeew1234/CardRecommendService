@@ -4,23 +4,35 @@
     "optionItems": [
       {
         "optItemName": "온라인",
-        "optItemIcon": "/svgIcon/shopping/computer.svg"
+        "optItemIcon": "svgIcon/shopping/online.svg"
       },
       {
         "optItemName": "할인점",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/shopping/discountstore.svg"
       },
       {
         "optItemName": "백화점",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/shopping/departmentstore.svg"
       },
       {
-        "optItemName": "롯데아울렛",
-        "optItemIcon": "/computer.svg"
+        "optItemName": "아울렛",
+        "optItemIcon": "svgIcon/shopping/outlet.svg"
       },
       {
         "optItemName": "면세점",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/shopping/dutyfreeshop.svg"
+      },
+      {
+        "optItemName": "슈퍼마켓",
+        "optItemIcon": "svgIcon/shopping/supermarket.svg"
+      },
+      {
+        "optItemName": "홈쇼핑",
+        "optItemIcon": "svgIcon/shopping/homeshopping.svg"
+      },
+      {
+        "optItemName": "생활잡화",
+        "optItemIcon": "svgIcon/shopping/miscellaneousgoods.svg"
       }
     ]
   },
@@ -29,19 +41,27 @@
     "optionItems": [
       {
         "optItemName": "병원약국",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/life/hospital.svg"
       },
       {
         "optItemName": "커피제과",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/life/coffee.svg"
       },
       {
         "optItemName": "교통",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/life/subway.svg"
       },
       {
         "optItemName": "영화관",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/life/movie.svg"
+      },
+      {
+        "optItemName": "주유",
+        "optItemIcon": "svgIcon/life/gasstation.svg"
+      },
+      {
+        "optItemName": "통신",
+        "optItemIcon": "svgIcon/life/phone.svg"
       }
     ]
   },
@@ -50,15 +70,15 @@
     "optionItems": [
       {
         "optItemName": "여행",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/travel/travel.svg"
       },
       {
         "optItemName": "항공",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/travel/air.svg"
       },
       {
         "optItemName": "해외",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/travel/world.svg"
       }
     ]
   },
@@ -67,19 +87,35 @@
     "optionItems": [
       {
         "optItemName": "편의점",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/living/store.svg"
       },
       {
         "optItemName": "음식점",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/living/eat.svg"
       },
       {
         "optItemName": "교육",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/living/education.svg"
       },
       {
         "optItemName": "배달앱",
-        "optItemIcon": "/computer.svg"
+        "optItemIcon": "svgIcon/living/motorcycle.svg"
+      },
+      {
+        "optItemName": "보험",
+        "optItemIcon": "svgIcon/living/shield.svg"
+      },
+      {
+        "optItemName": "생활비",
+        "optItemIcon": "svgIcon/living/money.svg"
+      },
+      {
+        "optItemName": "스트리밍",
+        "optItemIcon": "svgIcon/living/youtube.svg"
+      },
+      {
+        "optItemName": "반려동물",
+        "optItemIcon": "svgIcon/living/pets.svg"
       }
     ]
   }
