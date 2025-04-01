@@ -3,9 +3,22 @@ import PageHeader from "@/components/PageHeaderCopy";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@/styles/page02.scss";
 import CardItem from "@/components/CardItem";
+import { useRouter } from "next/navigation";
+import { log } from "console";
+import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
+
+type Card = {
+  id: number;
+  cardName: string;
+  cardCorp: string;
+  cardImg: string;
+  memberCardId: number;
+  altTxt: string;
+};
 
 export default function page02() {
   const hd_props = {
@@ -16,15 +29,50 @@ export default function page02() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [cardList, setCardList] = useState<Card[]>([]);
-  const uuid = 1;
+  const [memberCardIds, setMemberCardIds] = useState<number[]>([]);
+  const router = useRouter();
+  const supabase = createClient();
 
-  type Card = {
-    cardName: string;
-    cardCorp: string;
-    cardImg: string;
-    memberCardId: number;
-    altTxt: string | null;
+  useEffect(() => {
+    async function getCardsByMember() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      let data = await fetch(`http://localhost:8080/membercards/${user?.id}`);
+      let cards = await data.json();
+      setCardList(cards);
+      setIsLoading(false);
+    }
+
+    getCardsByMember();
+  }, []);
+
+  //체크된 카드 감지
+  const checkHandler = (id: number) => {
+    setMemberCardIds(
+      (prev) =>
+        prev.includes(id) //이전 배열이 id를 이미 포함하고 있으면
+          ? prev.filter((x) => x !== id) //id 제거
+          : [...prev, id] //아니면 추가
+    );
   };
+
+  //router.push
+  const handleSubmit = async () => {
+    console.log("memberCardIds", memberCardIds);
+
+    const queryString =
+      "?" + memberCardIds.map((id) => `memberCardIds=${id}`).join("&");
+
+    console.log("이동할 URL", `/page03${queryString}`);
+
+    router.push(`/page03${queryString}`);
+  };
+
   // const testCardList = [];
   const testCardList = [
     {
@@ -85,15 +133,17 @@ export default function page02() {
           title={hd_props.tit}
           description={hd_props.des}
         >
-          {isLoading && (
+          {!isLoading && (
             <>
               <Link href="/">
                 <button>메인으로 돌아가기</button>
               </Link>
               <button className="recard">카드다시 불러오기</button>
-              <Link href="/page03">
-                <button className="active">분석카드 선택완료</button>
-              </Link>
+              {/* <Link href="/page03"> */}
+              <button className="active" onClick={handleSubmit}>
+                분석카드 선택완료
+              </button>
+              {/* </Link> */}
             </>
           )}
         </PageHeader>
@@ -101,16 +151,17 @@ export default function page02() {
       <div className="page-body page-body-02">
         <section>
           <div className="art-wrap">
-            {testCardList.length > 0 ? (
-              testCardList.map((card, index) => (
-                <article className="card-box p02" key={index}>
+            {cardList.length > 0 ? (
+              cardList.map((card, index) => (
+                <article className="card-box p02" key={card.id}>
                   <CardItem
                     cardImg={card.cardImg}
                     cardName={card.cardName}
                     cardCorp={card.cardCorp}
                     altText={card.altTxt}
-                    isChecked={false}
+                    isChecked={memberCardIds.includes(card.id)}
                     index={index}
+                    onCheck={() => checkHandler(card.id)}
                   />
                 </article>
               ))
@@ -129,6 +180,11 @@ export default function page02() {
                       // );
                       // let posts = await data.json();
                       // setCardList(posts);
+                      let data = await fetch(
+                        `http://localhost:8080/membercards/${uuid}`
+                      );
+                      let posts = await data.json();
+                      setCardList(posts);
                       setIsLoading(true);
                     }}
                   >

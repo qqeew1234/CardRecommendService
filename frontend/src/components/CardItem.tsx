@@ -9,6 +9,7 @@ interface myTypes {
   cardCorp: string;
   altText: string;
   isChecked: boolean;
+  onCheck: () => void;
 }
 
 export default function CardItem({
@@ -18,10 +19,15 @@ export default function CardItem({
   cardCorp,
   altText,
   isChecked,
+  onCheck
 }: myTypes) {
   return (
     <div className="card-item" key={index}>
-      <input type="checkbox" id={"c" + index} defaultChecked={isChecked} />
+      <input 
+      type="checkbox" 
+      id={"c" + index} 
+      defaultChecked={isChecked} 
+      onChange={onCheck}/>
       <input type="radio" name="card-item" id={"r" + index} />
       <div className="card-item_img">
         <label className="checkbox-set" htmlFor={"c" + index}>
