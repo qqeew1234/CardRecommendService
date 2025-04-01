@@ -3,7 +3,7 @@ import { useState } from "react";
 import PageHeader from "@/components/PageHeaderCopy";
 import cardOptionsData from "@/json/cardOptions.json";
 import Image from "next/image";
-import "@/styles/page07.scss";
+import "@/styles/page08.scss";
 import Link from "next/link";
 export default function Page07() {
   const hd_props = {
@@ -13,6 +13,35 @@ export default function Page07() {
   };
   const cardOptions = cardOptionsData;
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
+  const [cardInf, setCardInf] = useState([
+    {
+      cardName: "카드명",
+      cardCorp: "카드회사",
+      cardImg: "/cardImg/cardimg2.png",
+      discount1: "주유할인 10%",
+      discount2: "포인트적립 20%",
+      discount3: "편의점 할인 10%",
+      annualFee: "30",
+    },
+    {
+      cardName: "카드명",
+      cardCorp: "카드회사",
+      cardImg: "/cardImg/cardimg3.png",
+      discount1: "주유할인 10%",
+      discount2: "포인트적립 20%",
+
+      annualFee: "30",
+    },
+    {
+      cardName: "카드명",
+      cardCorp: "카드회사",
+      cardImg: "/cardImg/cardimg4.png",
+      discount1: "주유할인 10%",
+      discount2: "포인트적립 20%",
+      discount3: "편의점 할인 10%",
+      annualFee: "30",
+    },
+  ]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -39,11 +68,11 @@ export default function Page07() {
           title={hd_props.tit}
           description={hd_props.des}
         >
-          <Link href={"/page06"}>
+          <Link href={"/page07"}>
             <button>소비패턴 돌아가기</button>
           </Link>
-          <Link href={"/page09"}>
-            <button className="active">맞춤카드 추천받기</button>
+          <Link href={"/"}>
+            <button className="active">시작으로 돌아가기</button>
           </Link>
         </PageHeader>
       </div>
@@ -102,27 +131,31 @@ export default function Page07() {
             </div>
           </div>
           <div className="sect-right">
-            <div className="cardResult">
-              {
-                <article>
-                  <h4>추천카드</h4>
-                  <div className="">
-                    <div className="">
-                      <div className="card-img"></div>
-                      <div className="card-inf">
-                        <h4>카드이름</h4>
-                        <h5>[카드회사]</h5>
-                        <ul>
-                          <li>혜택종류</li>
-                          <li>혜택종류</li>
-                          <li>혜택종류</li>
-                        </ul>
-                        <p>전월실적 30만원 이상</p>
-                      </div>
-                    </div>
+            <div className="card-result">
+              {cardInf.map((card, idx) => (
+                <article className="card-box" key={idx}>
+                  <div className="card-img">
+                    <Image
+                      src={card.cardImg}
+                      alt=""
+                      width={340}
+                      height={0}
+                      // layout="ratio"
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  </div>
+                  <div className="card-inf">
+                    <h4>{card.cardName}</h4>
+                    <h5>[{card.cardCorp}]</h5>
+                    <ul>
+                      <li>{card.discount1}</li>
+                      <li>{card.discount2}</li>
+                      <li>{card.discount3}</li>
+                    </ul>
+                    <p>전월실적 {card.annualFee}만원 이상</p>
                   </div>
                 </article>
-              }
+              ))}
             </div>
           </div>
         </section>
