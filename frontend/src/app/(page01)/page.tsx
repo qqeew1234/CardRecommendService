@@ -10,6 +10,8 @@ import { GoogleLoginButton } from "@/components/googleLogin";
 import { GitHubLoginButton } from "@/components/gitHubLogin";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isPopup, setIsPopup] = useState(false);
@@ -17,6 +19,7 @@ export default function Home() {
   const loggined = !!displayName;
   const [isFlipped, setIsFlipped] = useState(false);
   const supabase = createClient();
+  const router = useRouter()
 
   useEffect(() => {
     async function getDisplayName() {

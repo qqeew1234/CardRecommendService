@@ -52,9 +52,9 @@ const hd_props = {
 };
 
 const monthOptions = [
-  { label: "24년 12월", offset: 3 },
-  { label: "25년 1월", offset: 2 },
-  { label: "25년 2월", offset: 1 },
+  { label: "25년 1월", offset: 3 },
+  { label: "25년 2월", offset: 2 },
+  { label: "25년 3월", offset: 1 },
 ];
 
 export default function page04() {
@@ -136,7 +136,7 @@ export default function page04() {
     const params = new URLSearchParams(searchParams.toString());
     params.set("selectedCardId", cardId.toString());
 
-    router.push(`/page04?${params.toString()}`);
+    router.replace(`/page04?${params.toString()}`);
     router.refresh();
   };
 
@@ -300,10 +300,14 @@ export default function page04() {
                       index={index}
                       key={card.id}
                       onCheck={() => cardSelectHandler(card.id)}
+                      totalCost={paymentList
+                        .filter((p) => p.cardName === card.cardName)
+                        .reduce((acc, cur) => acc + cur.amount, 0)}
                     />
-                  )))}
-                </article>
-              </div>
+                  ))
+                )}
+              </article>
+            </div>
           </div>
           <div className="art-box">
             <div className="art-wrap art-wrap-right">
@@ -320,7 +324,8 @@ export default function page04() {
                       <div className="list-left">
                         <h5>{payment.storeName}</h5>
                         <p>
-                          {payment.cardName}, {payment.paymentDatetime}, {payment.payType}
+                          {payment.cardName}, {payment.paymentDatetime},{" "}
+                          {payment.payType}
                         </p>
                       </div>
                       <div className="list-right">

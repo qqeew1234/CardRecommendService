@@ -20,6 +20,58 @@ type Card = {
   altTxt: string;
 };
 
+// const testCardList = [];
+const testCardList = [
+  {
+    cardImg: "/cardImg/cardimg1.png",
+    cardCorp: "삼성카드",
+    cardName: "아메리칸익스프레스 블루",
+    altTxt: "",
+  },
+  {
+    cardImg: "/cardImg/cardimg2.png",
+    cardCorp: "신한카드",
+    cardName: "미스터 라이프",
+    altTxt: "미스터라이프",
+  },
+  {
+    cardImg: "/cardImg/cardimg3.png",
+    cardCorp: "신한카드",
+    cardName: "더 베스트 에프",
+    altTxt: "신한카드",
+  },
+  {
+    cardImg: "/cardImg/cardimg4.png",
+    cardCorp: "국민카드",
+    cardName: "쿠팡 와우",
+    altTxt: "쿠팡와우",
+  },
+  {
+    cardImg: "/cardImg/cardimg5.png",
+    cardCorp: "하나카드",
+    cardName: "제이드 프리미엄",
+    altTxt: "현대카드 더 레드 5",
+  },
+  {
+    cardImg: "/cardImg/cardimg6.png",
+    cardCorp: "우리카드",
+    cardName: "카드의 정석 스카이패스",
+    altTxt: "현대카드 더 레드 6",
+  },
+  {
+    cardImg: "/cardImg/cardimg7.png",
+    cardCorp: "롯데카드",
+    cardName: "L.O.C.A",
+    altTxt: "현대카드 더 레드 7",
+  },
+  {
+    cardImg: "/cardImg/cardimg8.png",
+    cardCorp: "NH카드",
+    cardName: "올바른 FLEX",
+    altTxt: "현대카드 더 레드 8",
+  },
+];
+
 export default function page02() {
   const hd_props = {
     num: "02",
@@ -42,7 +94,20 @@ export default function page02() {
         return;
       }
 
-      let data = await fetch(`http://localhost:8080/membercards/${user?.id}`);
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
+      let data = await fetch(`http://localhost:8080/membercards/${user?.id}`, {
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      });
       let cards = await data.json();
       setCardList(cards);
       setIsLoading(false);
@@ -72,58 +137,6 @@ export default function page02() {
 
     router.push(`/page03${queryString}`);
   };
-
-  // const testCardList = [];
-  const testCardList = [
-    {
-      cardImg: "/cardImg/cardimg1.png",
-      cardCorp: "삼성카드",
-      cardName: "아메리칸익스프레스 블루",
-      altTxt: "",
-    },
-    {
-      cardImg: "/cardImg/cardimg2.png",
-      cardCorp: "신한카드",
-      cardName: "미스터 라이프",
-      altTxt: "미스터라이프",
-    },
-    {
-      cardImg: "/cardImg/cardimg3.png",
-      cardCorp: "신한카드",
-      cardName: "더 베스트 에프",
-      altTxt: "신한카드",
-    },
-    {
-      cardImg: "/cardImg/cardimg4.png",
-      cardCorp: "국민카드",
-      cardName: "쿠팡 와우",
-      altTxt: "쿠팡와우",
-    },
-    {
-      cardImg: "/cardImg/cardimg5.png",
-      cardCorp: "하나카드",
-      cardName: "제이드 프리미엄",
-      altTxt: "현대카드 더 레드 5",
-    },
-    {
-      cardImg: "/cardImg/cardimg6.png",
-      cardCorp: "우리카드",
-      cardName: "카드의 정석 스카이패스",
-      altTxt: "현대카드 더 레드 6",
-    },
-    {
-      cardImg: "/cardImg/cardimg7.png",
-      cardCorp: "롯데카드",
-      cardName: "L.O.C.A",
-      altTxt: "현대카드 더 레드 7",
-    },
-    {
-      cardImg: "/cardImg/cardimg8.png",
-      cardCorp: "NH카드",
-      cardName: "올바른 FLEX",
-      altTxt: "현대카드 더 레드 8",
-    },
-  ];
 
   return (
     <>
@@ -180,8 +193,15 @@ export default function page02() {
                       // );
                       // let posts = await data.json();
                       // setCardList(posts);
+                      const {
+                        data: { user },
+                      } = await supabase.auth.getUser();
+                      if (!user?.id) {
+                        return;
+                      }
+
                       let data = await fetch(
-                        `http://localhost:8080/membercards/${uuid}`
+                        `http://localhost:8080/membercards/${user?.id}`
                       );
                       let posts = await data.json();
                       setCardList(posts);
