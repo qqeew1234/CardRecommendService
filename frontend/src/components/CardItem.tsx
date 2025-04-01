@@ -9,6 +9,8 @@ interface myTypes {
   cardCorp: string;
   altText: string;
   isChecked: boolean;
+  onCheck: () => void;
+  totalCost: number;
 }
 
 export default function CardItem({
@@ -18,10 +20,17 @@ export default function CardItem({
   cardCorp,
   altText,
   isChecked,
+  onCheck,
+  totalCost,
 }: myTypes) {
   return (
     <div className="card-item" key={index}>
-      <input type="checkbox" id={"c" + index} defaultChecked={isChecked} />
+      <input
+        type="checkbox"
+        id={"c" + index}
+        defaultChecked={isChecked}
+        onChange={onCheck}
+      />
       <input type="radio" name="card-item" id={"r" + index} />
       <div className="card-item_img">
         <label className="checkbox-set" htmlFor={"c" + index}>
@@ -46,9 +55,10 @@ export default function CardItem({
           [<span className="card-company">{cardCorp}</span>]
           <span className="card-goods">{cardName}</span>
         </h4>
-        <p>결제예정금액 : {"1,800,000"}</p>
+        <p>결제예정금액 : {totalCost}</p>
       </div>
       <label className="radioBtn" htmlFor={"r" + index}></label>
+      <label className="radioBtn" htmlFor={"c" + index}></label>
     </div>
   );
 }
