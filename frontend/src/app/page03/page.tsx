@@ -1,12 +1,74 @@
 "use client";
-import { useState } from "react";
+
+import { Key, useEffect, useMemo, useState } from "react";
 import PageHeader from "@/components/PageHeaderCopy";
 import CardItem from "@/components/CardItem";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
 import "@/styles/page03.scss";
-export default function page02() {
+import { useRouter, useSearchParams } from "next/navigation";
+
+type Card = {
+  index: number;
+  id: number;
+  cardName: string;
+  cardCorp: string;
+  cardImg: string;
+  memberCardId: number;
+  altTxt: string;
+};
+
+export default function page03() {
+  const [cardList, setCardList] = useState<Card[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCardIds, setSelectedCardIds] = useState<number | undefined>(
+    undefined
+  );
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const memberCardIds: number[] = useMemo(() => {
+    return searchParams.getAll("memberCardIds").map(Number);
+  }, [searchParams.toString()]);
+
+  const checked = searchParams ? searchParams.get("memberCardIds") : null;
+
+  console.log(
+    "🔍 searchParams.get('memberCardIds'):",
+    searchParams.get("memberCardIds")
+  );
+  console.log("쿼리에서 받은 값:", checked);
+  console.log("최종 memberCardIds:", memberCardIds);
+
+  useEffect(() => {
+    if (!memberCardIds || memberCardIds.length === 0) {
+      console.log("❗선택된 카드 없음, fetch 중단");
+      setIsLoading(false);
+      return;
+    }
+
+    const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
+
+    async function getCheckedCards() {
+      const res = await fetch(
+        `http://localhost:8080/membercards${queryString}`,
+        { method: "GET" }
+      );
+      const cards = await res.json();
+      console.log("cards:", cards);
+
+      setCardList(cards);
+      setIsLoading(false);
+    }
+
+    getCheckedCards();
+  }, [memberCardIds]);
+
+  // 선택한 카드 감지
+  const cardSelectHandler = (selectedCardIds: number) => {
+    setSelectedCardIds(selectedCardIds);
+  };
+
   const hd_props = {
     num: "03",
     tit: "소비패턴분석카드",
@@ -77,19 +139,34 @@ export default function page02() {
       </div>
       <div className="page-body page-body-03">
         <section>
-          {testCardList.map((card, index) => (
-            <article className="card-box p03" key={index}>
-              <CardItem
-                cardImg={card.cardImg}
-                cardName={card.cardName}
-                cardCorp={card.cardCorp}
-                altText={card.altTxt}
-                isChecked={false}
-                index={index}
-              />
-              <Link href={"/page04"}></Link>
-            </article>
-          ))}
+          {isLoading ? (
+            <p>카드를 불러오는 중</p>
+          ) : (
+            cardList.map((card, index) => (
+              <article
+                className="card-box p03"
+                key={card.id}
+                onClick={() => {
+                  router.push(
+                    `/page04?memberCardId=${memberCardIds.join(
+                      ","
+                    )}&selectedCardId=${card.memberCardId}`
+                  );
+                }}
+              >
+                <CardItem
+                  cardImg={card.cardImg}
+                  cardName={card.cardName}
+                  cardCorp={card.cardCorp}
+                  altText={card.altTxt}
+                  isChecked={false}
+                  index={index}
+                  onCheck={() => cardSelectHandler(card.memberCardId)}
+                />
+                {/* <Link href={"/page04"}></Link> */}
+              </article>
+            ))
+          )}
         </section>
       </div>
     </>
