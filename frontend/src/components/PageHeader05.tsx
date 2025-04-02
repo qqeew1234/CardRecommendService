@@ -1,12 +1,9 @@
 "use client";
-import { useState } from "react";
-import "@/styles/PageHeader.scss";
-import { FaTimesCircle } from "react-icons/fa";
 
-interface CardItem {
-  cardCorp: string;
-  cardName: string;
-}
+import { CardItem } from "@/app/page05/page";
+import "@/styles/PageHeader.scss";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaTimesCircle } from "react-icons/fa";
 
 interface PageHeaderProps {
   number: string;
@@ -14,9 +11,6 @@ interface PageHeaderProps {
   months: string;
   cardList: CardItem[];
   children: React.ReactNode;
-  selectedFilter?: string; // ✅ 선택된 필터값
-  onFilterCard?: (cardName: string) => void;
-  onRemoveCard?: (cardName: string) => void;
 }
 
 export default function PageHeader05({
@@ -25,16 +19,24 @@ export default function PageHeader05({
   months,
   cardList,
   children,
-  selectedFilter,
-  onFilterCard,
-  onRemoveCard,
 }: PageHeaderProps) {
-  // const [cards, setCards] = useState<CardItem[]>(cardList);
-  // const removeCard = (index: number) => {
-  //   if (cardList.length > 1) {
-  //     setCards(cardList.filter((_, i) => i !== index));
-  //   }
-  // };
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleClick = (removedId: string) => {
+    const paramName = "selectedCardIds";
+    const params = searchParams.get(paramName);
+    if (!params) {
+      return;
+    }
+    const ids = params
+      .split(",")
+      .filter((id) => id !== removedId)
+      .join(",");
+    console.log(ids);
+    router.replace(`${pathname}?${paramName}=${ids}`);
+  };
 
   return (
     <header>
@@ -44,12 +46,8 @@ export default function PageHeader05({
           {years}년 {months}월 내역
         </h2>
         <ul className="chip">
-          {cardList.map(({ cardCorp, cardName }, index) => (
-            <li
-              key={index}
-              className={selectedFilter === cardName ? "active" : ""}
-              onClick={() => onFilterCard?.(cardName)}
-            >
+          {cardList.map(({ id, cardCorp, cardName }, index) => (
+            <li key={index}>
               <span>
                 [{cardCorp}] {cardName}
               </span>
@@ -58,7 +56,7 @@ export default function PageHeader05({
                   className="btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onRemoveCard?.(cardName);
+                    handleClick(id.toString());
                   }}
                 >
                   <FaTimesCircle />
