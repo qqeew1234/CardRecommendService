@@ -68,44 +68,42 @@ export default function page04() {
   const [cardResponse, setCardResponse] = useState<Response | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selcetedIds, setSelectedIds] = useState<number[]>([]);
+  const [selcetedCardIds, setSelectedCardIds] = useState<number[]>(
+    searchParams
+      .get("memberCardId")!
+      .split(",")
+      .map((id) => Number(id))
+  );
 
   const router = useRouter();
 
   //query에서 받은 값
-  const queryMemberCardIds = searchParams.get("memberCardId");
-  const memberCardIds = useMemo(() => {
-    return queryMemberCardIds ? queryMemberCardIds.split(",").map(Number) : [];
-  }, [queryMemberCardIds]);
+  // const queryMemberCardIds = searchParams.get("memberCardId");
+  // const memberCardIds = useMemo(() => {
+  //   return queryMemberCardIds ? queryMemberCardIds.split(",").map(Number) : [];
+  // }, [queryMemberCardIds]);
 
   const selectedCardIds = Number(searchParams.get("selectedCardId")); // 하나의 카드 선택값
-  console.log("🔍 searchParams.get('memberCardIds'):", queryMemberCardIds);
-  console.log("🔍 searchParams.get('selectedCardIds'):", selectedCardIds);
+  // console.log("🔍 searchParams.get('memberCardIds'):", queryMemberCardIds);
+  // console.log("🔍 searchParams.get('selectedCardIds'):", selectedCardIds);
 
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [monthOffset, setMonthOffset] = useState<number>(1);
-  console.log("Response", cardResponse?.totalCost);
+  // console.log("Response", cardResponse?.totalCost);
 
   //카드목록 보여주기
   useEffect(() => {
     async function fetchCardList() {
-      const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
+      const queryString = `?memberCardIds=${selcetedCardIds.join(",")}`;
       const response = await fetch(
-        `http://localhost:8080/membercards${queryString}`,
-        { method: "GET" }
+        `http://localhost:8080/membercards${queryString}`
       );
-      const data = await response.json();
-
-      //체크된 카드만 가져오기
-      const updatedCards = data.map((card: Card) => ({
-        ...card,
-        // isChecked: card.id === selectedCardIds, // 선택된 카드만 체크 표시 적용 안됨
-      }));
-      setCardList(updatedCards);
+      const fetchedCardList = await response.json();
+      setCardList(fetchedCardList);
       setIsLoading(false);
     }
     fetchCardList();
-  }, [memberCardIds, selectedCardIds]);
+  }, []);
 
   //카드 사용내역 가져오기
   useEffect(() => {
@@ -149,28 +147,24 @@ export default function page04() {
 
   //page05로 보낼 체크된 카드 핸들러
   const checkedHandler = (id: number) => {
-    setSelectedIds(
+    setSelectedCardIds(
       (prev) =>
         prev.includes(id) //이전 배열이 id를 이미 포함하고 있으면
           ? prev.filter((x) => x !== id) //id 제거
           : [...prev, id] //아니면 추가
     );
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("selectedCardId", id.toString());
+
+    router.replace(`/page04?${params.toString()}`);
+    router.refresh();
   };
 
   //ruter.push
   const submitHandler = () => {
-    // const queryString = `selectedCardIds=${selcetedIds.join(",")}`;
-
-    const selectedCardIds = selcetedIds.join(",");
-
-    console.log("‼️체크된 카드 id 쿼리로 받기", selectedCardIds);
-
-    const queryString = `?selectedCardIds=${selectedCardIds}`;
-
-    router.push(`page05${queryString}`)
-  }
-    
-  
+    const queryString = `?selectedCardIds=${selcetedCardIds.join(",")}`;
+    router.push(`page05${queryString}`);
+  };
 
   const testCardPayment = cardPayment;
   const testCardList = [
@@ -258,7 +252,10 @@ export default function page04() {
             <button>카드목록보기</button>
           </Link>
           {/* <Link href={"/page05"}> */}
-            <button className="active" onClick={submitHandler}> 분석데이타보기</button>
+          <button className="active" onClick={submitHandler}>
+            {" "}
+            분석데이타보기
+          </button>
           {/* </Link> */}
         </PageHeader>
         <div className="art-header">
@@ -328,6 +325,7 @@ export default function page04() {
                       key={card.id}
                       onClick={() => cardSelectHandler(card.id)}
                       onCheck={() => checkedHandler(card.id)}
+                      // onCheck={() => cardSelectHandler(card.id)}
                       totalCost={paymentList
                         .filter((p) => p.cardName === card.cardName)
                         .reduce((acc, cur) => acc + cur.amount, 0)}
