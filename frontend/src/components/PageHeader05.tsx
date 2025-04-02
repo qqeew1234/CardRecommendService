@@ -14,6 +14,9 @@ interface PageHeaderProps {
   months: string;
   cardList: CardItem[];
   children: React.ReactNode;
+  selectedFilter?: string; // ✅ 선택된 필터값
+  onFilterCard?: (cardName: string) => void;
+  onRemoveCard?: (cardName: string) => void;
 }
 
 export default function PageHeader05({
@@ -22,13 +25,16 @@ export default function PageHeader05({
   months,
   cardList,
   children,
+  selectedFilter,
+  onFilterCard,
+  onRemoveCard,
 }: PageHeaderProps) {
-  const [cards, setCards] = useState<CardItem[]>(cardList);
-  const removeCard = (index: number) => {
-    if (cards.length > 1) {
-      setCards(cards.filter((_, i) => i !== index));
-    }
-  };
+  // const [cards, setCards] = useState<CardItem[]>(cardList);
+  // const removeCard = (index: number) => {
+  //   if (cardList.length > 1) {
+  //     setCards(cardList.filter((_, i) => i !== index));
+  //   }
+  // };
 
   return (
     <header>
@@ -38,13 +44,23 @@ export default function PageHeader05({
           {years}년 {months}월 내역
         </h2>
         <ul className="chip">
-          {cards.map(({ cardCorp, cardName }, index) => (
-            <li key={index}>
+          {cardList.map(({ cardCorp, cardName }, index) => (
+            <li
+              key={index}
+              className={selectedFilter === cardName ? "active" : ""}
+              onClick={() => onFilterCard?.(cardName)}
+            >
               <span>
                 [{cardCorp}] {cardName}
               </span>
-              {cards.length > 1 && (
-                <span className="btn" onClick={() => removeCard(index)}>
+              {cardList.length > 1 && (
+                <span
+                  className="btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveCard?.(cardName);
+                  }}
+                >
                   <FaTimesCircle />
                 </span>
               )}

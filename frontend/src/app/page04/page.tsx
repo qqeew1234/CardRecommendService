@@ -68,6 +68,8 @@ export default function page04() {
   const [cardResponse, setCardResponse] = useState<Response | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selcetedIds, setSelectedIds] = useState<number[]>([]);
+
   const router = useRouter();
 
   //query에서 받은 값
@@ -144,6 +146,31 @@ export default function page04() {
   const handleMonthChange = (offset: number) => {
     setMonthOffset(offset);
   };
+
+  //page05로 보낼 체크된 카드 핸들러
+  const checkedHandler = (id: number) => {
+    setSelectedIds(
+      (prev) =>
+        prev.includes(id) //이전 배열이 id를 이미 포함하고 있으면
+          ? prev.filter((x) => x !== id) //id 제거
+          : [...prev, id] //아니면 추가
+    );
+  };
+
+  //ruter.push
+  const submitHandler = () => {
+    // const queryString = `selectedCardIds=${selcetedIds.join(",")}`;
+
+    const selectedCardIds = selcetedIds.join(",");
+
+    console.log("‼️체크된 카드 id 쿼리로 받기", selectedCardIds);
+
+    const queryString = `?selectedCardIds=${selectedCardIds}`;
+
+    router.push(`page05${queryString}`)
+  }
+    
+  
 
   const testCardPayment = cardPayment;
   const testCardList = [
@@ -230,9 +257,9 @@ export default function page04() {
           <Link href={"/page03"}>
             <button>카드목록보기</button>
           </Link>
-          <Link href={"/page05"}>
-            <button className="active">분석데이타보기</button>
-          </Link>
+          {/* <Link href={"/page05"}> */}
+            <button className="active" onClick={submitHandler}> 분석데이타보기</button>
+          {/* </Link> */}
         </PageHeader>
         <div className="art-header">
           <div className="hdr-left">
@@ -299,7 +326,8 @@ export default function page04() {
                       isChecked={true}
                       index={index}
                       key={card.id}
-                      onCheck={() => cardSelectHandler(card.id)}
+                      onClick={() => cardSelectHandler(card.id)}
+                      onCheck={() => checkedHandler(card.id)}
                       totalCost={paymentList
                         .filter((p) => p.cardName === card.cardName)
                         .reduce((acc, cur) => acc + cur.amount, 0)}
@@ -324,7 +352,7 @@ export default function page04() {
                       <div className="list-left">
                         <h5>{payment.storeName}</h5>
                         <p>
-                          {payment.cardName}, {payment.paymentDatetime},{" "}
+                          {payment.cardName}, {payment.paymentDatetime},
                           {payment.payType}
                         </p>
                       </div>
