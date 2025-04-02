@@ -1,12 +1,9 @@
 "use client";
-import { useState } from "react";
-import "@/styles/PageHeader.scss";
-import { FaTimesCircle } from "react-icons/fa";
 
-interface CardItem {
-  cardCorp: string;
-  cardName: string;
-}
+import { CardItem } from "@/app/page05/page";
+import "@/styles/PageHeader.scss";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaTimesCircle } from "react-icons/fa";
 
 interface PageHeaderProps {
   number: string;
@@ -23,11 +20,22 @@ export default function PageHeader05({
   cardList,
   children,
 }: PageHeaderProps) {
-  const [cards, setCards] = useState<CardItem[]>(cardList);
-  const removeCard = (index: number) => {
-    if (cards.length > 1) {
-      setCards(cards.filter((_, i) => i !== index));
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleClick = (removedId: string) => {
+    const paramName = "selectedCardIds";
+    const params = searchParams.get(paramName);
+    if (!params) {
+      return;
     }
+    const ids = params
+      .split(",")
+      .filter((id) => id !== removedId)
+      .join(",");
+    console.log(ids);
+    router.replace(`${pathname}?${paramName}=${ids}`);
   };
 
   return (
@@ -38,13 +46,19 @@ export default function PageHeader05({
           {years}년 {months}월 내역
         </h2>
         <ul className="chip">
-          {cards.map(({ cardCorp, cardName }, index) => (
+          {cardList.map(({ id, cardCorp, cardName }, index) => (
             <li key={index}>
               <span>
                 [{cardCorp}] {cardName}
               </span>
-              {cards.length > 1 && (
-                <span className="btn" onClick={() => removeCard(index)}>
+              {cardList.length > 1 && (
+                <span
+                  className="btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClick(id.toString());
+                  }}
+                >
                   <FaTimesCircle />
                 </span>
               )}

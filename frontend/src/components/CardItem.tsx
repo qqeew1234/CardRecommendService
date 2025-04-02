@@ -10,6 +10,7 @@ interface myTypes {
   altText: string;
   isChecked: boolean;
   onCheck: () => void;
+  onClick: () => void;
   totalCost: number;
 }
 
@@ -21,6 +22,7 @@ export default function CardItem({
   altText,
   isChecked,
   onCheck,
+  onClick,
   totalCost,
 }: myTypes) {
   return (

@@ -1,21 +1,153 @@
-import PageHeader from "@/components/PageHeader05";
-import testData from "@/json/cardHistoryResponses.json";
+"use client";
+
+import PageHeader, { CardItem } from "@/components/PageHeader05";
 import Link from "next/link";
 import "@/styles/page05.scss";
-export default function page05() {
-  const hdProps = {
+import { useState, useEffect } from "react";
+// import pageData from "@/json/cardHistoryResponses.json";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+export type PaymentHistory = {
+  cardName: string;
+  cardCorp: string;
+  storeName: string;
+  amount: number;
+  paymentDatetime: string;
+  category: string;
+  classification: string;
+};
+
+export type CardHistoryResponse = {
+  date: string; // 예: "2025-02-01"
+  paymentHistories: PaymentHistory[];
+  dailyAmount: number;
+};
+
+export type DailyCardHistoryPageResponse = {
+  cardHistoryResponses: CardHistoryResponse[];
+  totalCost: number;
+  page: number;
+  totalPages: number;
+  size: number;
+  totalCount: number;
+};
+
+export interface CardItem {
+  cardCorp: string;
+  cardName: string;
+  id: number;
+}
+
+export default function Page05() {
+  const [histories, setHistories] =
+    useState<DailyCardHistoryPageResponse | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [cardList, setCardList] = useState<CardItem[]>([]);
+
+  const [hdProps, setHdProps] = useState({
     num: "05",
-    years: "25",
-    months: "2",
-    cardList: [
-      { cardCorp: "현대카드", cardName: "the Red" },
-      { cardCorp: "삼성카드", cardName: "아멕스 블루" },
-      { cardCorp: "국민카드", cardName: "쿠팡" },
-      { cardCorp: "우리카드", cardName: "우리 사장님" },
-      { cardCorp: "신한카드", cardName: "내일배움" },
-    ],
+    years: "",
+    months: "",
+    // cardList: [] as { cardCorp: string; cardName: string }[],
+    // { cardCorp: "현대카드", cardName: "the Red" },
+    // { cardCorp: "삼성카드", cardName: "아멕스 블루" },
+    // { cardCorp: "국민카드", cardName: "쿠팡" },
+    // { cardCorp: "우리카드", cardName: "우리 사장님" },
+    // { cardCorp: "신한카드", cardName: "내일배움" },
+  });
+
+  const searchParams = useSearchParams();
+
+  // 쿼리스트링 감지
+  useEffect(() => {
+    const ids = searchParams.get("selectedCardIds");
+    if (!ids) return;
+
+    const fetchData = async () => {
+      const historyResponse = await fetch(
+        `http://localhost:8080/membercards/daily?memberCardIds=${ids}`
+      );
+      const data: DailyCardHistoryPageResponse = await historyResponse.json();
+
+      // console.log("📦 받아온 데이터", data);
+
+      setHistories(data);
+
+      const cardResponse = await fetch(
+        `http://localhost:8080/membercards?memberCardIds=${ids}`
+      );
+      const cards: CardItem[] = await cardResponse.json();
+      setCardList(cards);
+
+      // hdProps 구성
+      if (data.cardHistoryResponses.length > 0) {
+        const rawDate = data.cardHistoryResponses[0].date;
+        let year = "2025";
+        let month = "1";
+
+        if (rawDate.includes("-")) {
+          const [y, m] = rawDate.split("-");
+          year = y;
+          month = m;
+        }
+
+        // const cardMap = new Map<
+        //   string,
+        //   { cardCorp: string; cardName: string }
+        // >();
+        // data.cardHistoryResponses.forEach((day) => {
+        //   day.paymentHistories.forEach((payment) => {
+        //     const key = `${payment.cardCorp}-${payment.cardName}`;
+        //     if (!cardMap.has(key)) {
+        //       cardMap.set(key, {
+        //         cardCorp: payment.cardCorp,
+        //         cardName: payment.cardName,
+        //       });
+        //     }
+        //   });
+        // });
+
+        // setCardList(Array.from(cardMap.values()));
+        setHdProps({
+          num: "05",
+          years: year.slice(2),
+          months: String(parseInt(month)).padStart(1, "0"),
+          // cardList: Array.from(cardMap.values()),
+        });
+      }
+    };
+
+    fetchData();
+  }, [searchParams]);
+
+  const handleRemoveCard = (cardName: string) => {
+    setCardList((prev) => prev.filter((c) => c.cardName !== cardName));
+    if (selectedFilter === cardName) {
+      setSelectedFilter(null);
+    }
   };
-  const testCard = testData.cardHistoryResponses;
+
+  // const filteredCards = cards.filter((card) =>
+  //   card.paymentHistories.some((p) =>
+  //     cardList.some(
+  //       (c) => c.cardName === p.cardName && c.cardCorp === p.cardCorp
+  //     )
+  //   )
+  // );
+
+  // const finalCards = selectedFilter
+  //   ? filteredCards.filter((card) =>
+  //       card.paymentHistories.some((p) => selectedFilter)
+  //     )
+  //   : filteredCards;
+
+  // useEffect(() => {
+  //   console.log("🟢 cardList", cardList);
+  //   console.log("🟡 cards", cards);
+  //   console.log("🔴 finalCards", finalCards);
+  // }, [cardList, cards, finalCards]);
+
+  // const testCard = testData.cardHistoryResponses;
   return (
     <>
       <div className="page-head page-head-05">
@@ -23,7 +155,10 @@ export default function page05() {
           number={hdProps.num}
           years={hdProps.years}
           months={hdProps.months}
-          cardList={hdProps.cardList}
+          cardList={cardList}
+          // selectedFilter={selectedFilter ?? undefined}
+          // onFilterCard={handleFilterCard}
+          // onRemoveCard={handleFilterCard}
         >
           <Link href={"/page04"}>
             <button>카드다시 선택하기</button>
@@ -41,10 +176,18 @@ export default function page05() {
       </div>
       <div className="page-body page-body-05">
         <section>
-          {testCard.map((card, index) => (
+          {/* {finalCards.length === 0 && (
+            <p style={{ padding: "1rem", color: "red" }}>📭 내역이 없습니다.</p>
+          )} */}
+          {histories?.cardHistoryResponses.map((card, index) => (
             <div className="list-row" key={index}>
               <div className="list-item list-item-01">
-                <b>{card.date}</b> &nbsp;일
+                <b>
+                  {card.date.includes("-")
+                    ? card.date.split("-")[2]
+                    : card.date}
+                </b>{" "}
+                &nbsp;일
               </div>
               <div className="list-item list-item-02">
                 {card.paymentHistories.map((usage, i) => (
@@ -73,10 +216,10 @@ export default function page05() {
         <footer>
           <div className="total">
             <div className="totalCount">
-              총<b>{testData.totalCount.toLocaleString()}</b>건
+              총<b>{histories?.totalCount?.toLocaleString() || 0}</b>건
             </div>
             <div className="totalCost">
-              <b>{testData.totalCost.toLocaleString()}</b>원
+              <b>{histories?.totalCost?.toLocaleString() || 0}</b>원
             </div>
           </div>
         </footer>
