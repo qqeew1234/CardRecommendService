@@ -239,7 +239,7 @@ export default function page04() {
           </div>
         </div>
       </div>
-      
+
       <div className="page-body page-body-04">
         <section>
           <div className="art-box">
@@ -250,6 +250,7 @@ export default function page04() {
                 ) : (
                   cardList.map((card, index) => (
                     <CardItem
+                      cardId={card.id}
                       cardImg={card.cardImg}
                       cardName={card.cardName}
                       cardCorp={card.cardCorp}
