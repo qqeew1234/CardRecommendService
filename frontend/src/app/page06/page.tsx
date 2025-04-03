@@ -10,13 +10,15 @@ import {
 } from "react-icons/fa";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+
 interface MenuItem {
   id: number;
   name: string;
 }
 
 type CardPayment = {
-  id: number;
+  cardHistoryId: number;
   cardName: string;
   cardCorp: string;
   storeName: string;
@@ -35,6 +37,11 @@ type Response = {
   percent: number;
 };
 
+type Classification = {
+  classificationId: number;
+  title: string;
+};
+
 export default function Page06() {
   let maxAddBtn = 6;
   const hd_props = {
@@ -44,6 +51,7 @@ export default function Page06() {
   };
 
   const searchParams = useSearchParams();
+  const supabase = createClient();
   const [cardHistories, setCardHistories] = useState<Response | null>(null);
   //체크된 카드내역 id 저장
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
@@ -75,7 +83,7 @@ export default function Page06() {
 
     const fetchData = async () => {
       const cardHistories = await fetch(
-        `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}`
+        `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=1`
       );
 
       const data: Response = await cardHistories.json();
@@ -86,12 +94,16 @@ export default function Page06() {
     fetchData();
   }, [searchParams]);
 
-  //분류 수정 후 목록 이동. 이동 후 바로 목록 조회
+  //분류 소속 수정 후 목록 이동. 이동 후 바로 목록 조회
   const updateClassification = async () => {
     const body = {
       classificationId: selectedClassification,
       cardHistoriesIds: checkedIds,
     };
+
+    closePopupMove();
+    console.log("✔️팝업창닫기");
+
     const patchResponse = await fetch(
       "http://localhost:8080/cardhistories/changeclassification",
       {
@@ -108,6 +120,9 @@ export default function Page06() {
     const updateResult = await patchResponse.json();
     console.log("✔️분류 업데이트 결과", updateResult);
 
+    setSelectedClassification(body.classificationId);
+    setCheckedIds([]);
+
     const idsParam = searchParams.get("selectedCardIds");
     const fetchResponse = await fetch(
       `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=${selectedClassification}`
@@ -121,10 +136,52 @@ export default function Page06() {
     setCardHistories(newData);
   };
 
+  //사용자정의 menuItems 저장
+  useEffect(() => {
+    const fetchCustomMenus = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const classificationResponse = await fetch(
+        "http://localhost:8080/classifications",
+        {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        }
+      );
+
+      if (!classificationResponse.ok) return;
+      const result = await classificationResponse.json();
+      console.log("✔️메뉴 확인", result);
+
+      setMenuItems(result);
+    };
+
+    fetchCustomMenus();
+  }, []);
+
+  //분류 버튼 클릭시 해당 분류 조회
+  const classificationClick = async (classificationId: number) => {
+    const selectedCardParams = searchParams.get("selectedCardIds");
+    if (!selectedCardParams) return;
+
+    const classifiedCardHistoryResponse = await fetch(
+      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${selectedCardParams}&classificationId=${classificationId}`
+    );
+
+    if (!classifiedCardHistoryResponse.ok) return;
+
+    const result = await classifiedCardHistoryResponse.json();
+    setCardHistories(result);
+  };
+
   //디자인 영역
   const [showPopupAdd, setShowPopupAdd] = useState<boolean>(false);
   const [showPopupDel, setShowPopupDel] = useState<boolean>(false);
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [menuItems, setMenuItems] = useState<Classification[]>([]);
   const [count, setCount] = useState<number>(1);
   const [newMenuName, setNewMenuName] = useState<string>("");
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
@@ -152,21 +209,52 @@ export default function Page06() {
     }
 
     // 입력값 유효성 검사
-    if (newMenuName.trim() !== "") return;
+    if (!newMenuName.trim()) {
+      alert("항목 이름을 입력해 주세요.");
+      return;
+    }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.id) return;
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) return;
 
     //API 호출
-    const createResponse = await fetch("http://localhost:8080/classifications");
+    const createResponse = await fetch(
+      "http://localhost:8080/classifications",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //uuid 헤더
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          title: newMenuName,
+        }),
+      }
+    );
 
     if (!createResponse) return;
 
-    const result = await createResponse.json;
+    const result = await createResponse.json();
     console.log("✔️분류 생성 결과", result);
 
     //상태 업데이트
-    setMenuItems([...menuItems, { id: count, name: newMenuName }]);
+    // setMenuItems([...menuItems, { id: count, name: newMenuName }]);
+    setMenuItems([
+      ...menuItems,
+      { classificationId: result.classificationId, title: newMenuName },
+    ]);
     setCount(count + 1);
     setNewMenuName("");
     setShowPopupAdd(false);
+    console.log("✔️팝업창닫기");
   };
 
   const handleAddCancel = (): void => {
@@ -179,7 +267,7 @@ export default function Page06() {
   };
 
   const removeMenuItem = (id: number): void => {
-    setMenuItems(menuItems.filter((item) => item.id !== id));
+    setMenuItems(menuItems.filter((item) => item.classificationId !== id));
   };
 
   const handleDeleteConfirm = (): void => {
@@ -237,12 +325,18 @@ export default function Page06() {
               <li className="table-item table-item-01">
                 <div className="menu-group menu-group-default">
                   {defaultMenuItems.map((item, idx) => (
-                    <menu key={item.id}>
+                    // <menu key={item.id}>
+                    <menu key={`default-${item.id}`}>
                       <input
                         type="radio"
                         name="menuitem"
                         id={`def-${item.id}`}
-                        defaultChecked={idx === 0}
+                        // defaultChecked={idx === 0}
+                        onChange={() => {
+                          setSelectedClassification(item.id);
+                          classificationClick(item.id);
+                        }}
+                        checked={selectedClassification === item.id}
                       />
                       <label htmlFor={`def-${item.id}`}>{item.name}</label>
                     </menu>
@@ -253,15 +347,25 @@ export default function Page06() {
                     <button onClick={openPopupAdd}>계정항목추가</button>
                   )}
                   {menuItems.map((item) => (
-                    <menu key={item.id}>
+                    // <menu key={item.id}>
+                    <menu key={`custom-${item.classificationId}`}>
                       <input
                         type="radio"
                         name="menuitem"
-                        id={`item-${item.id}`}
+                        id={`item-${item.classificationId}`}
+                        onChange={() => {
+                          setSelectedClassification(item.classificationId);
+                          classificationClick(item.classificationId);
+                        }}
+                        checked={
+                          selectedClassification === item.classificationId
+                        }
                       />
-                      <label htmlFor={`item-${item.id}`}>
-                        {item.name}
-                        <button onClick={() => openPopupDel(item.id)}>
+                      <label htmlFor={`item-${item.classificationId}`}>
+                        {item.title}
+                        <button
+                          onClick={() => openPopupDel(item.classificationId)}
+                        >
                           <FaTimes />
                         </button>
                       </label>
@@ -277,11 +381,11 @@ export default function Page06() {
                         <div className="usage-unit usage-unit-01">
                           <input
                             type="checkbox"
-                            id={`check-${history.id}`}
-                            checked={checkedIds.includes(history.id)}
+                            id={`check-${history.cardHistoryId}`}
+                            checked={checkedIds.includes(history.cardHistoryId)}
                             onChange={(e) =>
                               handleCheckBoxCahange(
-                                history.id,
+                                history.cardHistoryId,
                                 e.target.checked
                               )
                             }
@@ -301,7 +405,9 @@ export default function Page06() {
                           {history.amount.toLocaleString()}
                           <span>원</span>
                         </div>
-                        <label htmlFor={`check-${history.id}`}></label>
+                        <label
+                          htmlFor={`check-${history.cardHistoryId}`}
+                        ></label>
                       </div>
                     </div>
                   )
@@ -423,8 +529,11 @@ export default function Page06() {
                     .slice()
                     .reverse()
                     .map((item) => (
-                      <option key={`custom-${item.id}`} value={item.id}>
-                        {item.name}
+                      <option
+                        key={`custom-${item.classificationId}`}
+                        value={item.classificationId}
+                      >
+                        {item.title}
                       </option>
                     ))}
                 </optgroup>
