@@ -43,6 +43,7 @@ export default function Page05() {
     useState<DailyCardHistoryPageResponse | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [cardList, setCardList] = useState<CardItem[]>([]);
+  const router = useRouter();
 
   const [hdProps, setHdProps] = useState({
     num: "05",
@@ -163,9 +164,18 @@ export default function Page05() {
           <Link href={"/page04"}>
             <button>카드다시 선택하기</button>
           </Link>
-          <Link href={"/page06"}>
-            <button className="active">소비패턴 분석하기</button>
-          </Link>
+          {/* <Link href={"/page06"}> */}
+          <button
+            className="active"
+            onClick={() => {
+              router.push(
+                `/page06?selectedCardIds=${searchParams.get("selectedCardIds")}`
+              );
+            }}
+          >
+            소비패턴 분석하기
+          </button>
+          {/* </Link> */}
         </PageHeader>
         <div className="list-header">
           <div className="list-item list-item-01">이용일</div>

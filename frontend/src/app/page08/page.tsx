@@ -95,7 +95,6 @@ export default function Page07() {
                 <article className="opts-category" key={index}>
                   <h4>
                     <span>{category.optionName}</span>
-                    <button>조회</button>
                   </h4>
                   <div className="opts-category-group">
                     {category.optionItems.map((item, idx) => (

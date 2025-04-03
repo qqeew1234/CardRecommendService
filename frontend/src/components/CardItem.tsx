@@ -33,7 +33,7 @@ export default function CardItem({
         defaultChecked={isChecked}
         onChange={onCheck}
       />
-      <input type="radio" name="card-item" id={"r" + index} />
+
       <div className="card-item_img">
         <label className="checkbox-set" htmlFor={"c" + index}>
           <span className="checked">
@@ -52,15 +52,16 @@ export default function CardItem({
           // height={180}
         />
       </div>
+      <input type="radio" name="card-item" id={"r" + index} />
       <div className="card-item_inf">
         <h4>
           [<span className="card-company">{cardCorp}</span>]
           <span className="card-goods">{cardName}</span>
         </h4>
         <p>결제예정금액 : {totalCost}</p>
+        <label className="radioBtn" htmlFor={"r" + index}></label>
       </div>
-      <label className="radioBtn" htmlFor={"r" + index}></label>
-      <label className="radioBtn" htmlFor={"c" + index}></label>
+      {/* <label className="radioBtn" htmlFor={"c" + index}></label> */}
     </div>
   );
 }

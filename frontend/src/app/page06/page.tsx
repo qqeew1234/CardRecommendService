@@ -8,11 +8,32 @@ import {
   FaCheckSquare,
   FaRegSquare,
 } from "react-icons/fa";
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 interface MenuItem {
   id: number;
   name: string;
 }
+
+type CardPayment = {
+  id: number;
+  cardName: string;
+  cardCorp: string;
+  storeName: string;
+  amount: number;
+  paymentDatetime: string; // ISO 8601 형식의 문자열
+  category: string;
+  classification: string;
+};
+
+type Response = {
+  setCardHistoriesResponses: CardPayment[];
+  startDate: string; // 예: "2025-02-01"
+  endDate: string; // 예: "2025-02-28"
+  classificationCost: number;
+  totalCost: number;
+  percent: number;
+};
 
 export default function Page06() {
   let maxAddBtn = 6;
@@ -22,6 +43,85 @@ export default function Page06() {
     des: "카드를 선택하여 소비패턴을 분석하거나 기간별 사용 내역을 조회할 수 있습니다.",
   };
 
+  const searchParams = useSearchParams();
+  const [cardHistories, setCardHistories] = useState<Response | null>(null);
+  //체크된 카드내역 id 저장
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  //분류id 저장
+  const [selectedClassification, setSelectedClassification] =
+    useState<number>(1);
+
+  //체크 박스 감지
+  const handleCheckBoxCahange = (id: number, checked: boolean) => {
+    if (checked) {
+      setCheckedIds((prev) => [...prev, id]); //체크 되면 id 리스트에 추가
+    } else {
+      setCheckedIds((prev) => prev.filter((item) => item !== id)); //체크 해제 되면 제거
+    }
+  };
+
+  //바뀐 분류 Id 감지
+  const handleClassificationCahnge = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newClassificationId = Number(event.target.value);
+    setSelectedClassification(newClassificationId);
+  };
+
+  //첫화면 fetch
+  useEffect(() => {
+    const idsParam = searchParams.get("selectedCardIds");
+    if (!idsParam) return;
+
+    const fetchData = async () => {
+      const cardHistories = await fetch(
+        `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}`
+      );
+
+      const data: Response = await cardHistories.json();
+      console.log("#########카드데이터 확인", data);
+
+      setCardHistories(data);
+    };
+    fetchData();
+  }, [searchParams]);
+
+  //분류 수정 후 목록 이동. 이동 후 바로 목록 조회
+  const updateClassification = async () => {
+    const body = {
+      classificationId: selectedClassification,
+      cardHistoriesIds: checkedIds,
+    };
+    const patchResponse = await fetch(
+      "http://localhost:8080/cardhistories/changeclassification",
+      {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!patchResponse) return;
+
+    const updateResult = await patchResponse.json();
+    console.log("✔️분류 업데이트 결과", updateResult);
+
+    const idsParam = searchParams.get("selectedCardIds");
+    const fetchResponse = await fetch(
+      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=${selectedClassification}`
+    );
+
+    if (!fetchResponse) return;
+
+    const newData = await fetchResponse.json();
+    console.log("✔️분류 수정 후 조회될 데이터");
+
+    setCardHistories(newData);
+  };
+
+  //디자인 영역
   const [showPopupAdd, setShowPopupAdd] = useState<boolean>(false);
   const [showPopupDel, setShowPopupDel] = useState<boolean>(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -44,18 +144,29 @@ export default function Page06() {
     setShowPopupMove(false);
   };
 
-  const handleAddMenuConfirm = (): void => {
+  const handleAddMenuConfirm = async () => {
+    //최대 항목 수 검사
     if (menuItems.length >= maxAddBtn) {
       alert("추가항목은 최대 8개까지 등록할 수 있습니다.");
       return;
     }
 
-    if (newMenuName.trim() !== "") {
-      setMenuItems([...menuItems, { id: count, name: newMenuName }]);
-      setCount(count + 1);
-      setNewMenuName("");
-      setShowPopupAdd(false);
-    }
+    // 입력값 유효성 검사
+    if (newMenuName.trim() !== "") return;
+
+    //API 호출
+    const createResponse = await fetch("http://localhost:8080/classifications");
+
+    if (!createResponse) return;
+
+    const result = await createResponse.json;
+    console.log("✔️분류 생성 결과", result);
+
+    //상태 업데이트
+    setMenuItems([...menuItems, { id: count, name: newMenuName }]);
+    setCount(count + 1);
+    setNewMenuName("");
+    setShowPopupAdd(false);
   };
 
   const handleAddCancel = (): void => {
@@ -85,10 +196,10 @@ export default function Page06() {
   };
 
   const [defaultMenuItems, setDefaultMenuItems] = useState<MenuItem[]>([
-    { id: 0, name: "주요식비" },
-    { id: 1, name: "기본항목2" },
-    { id: 2, name: "기본항목3" },
-    { id: 3, name: "기본항목4" },
+    { id: 1, name: "미분류" },
+    { id: 2, name: "주요식비" },
+    { id: 3, name: "의류비" },
+    { id: 4, name: "주거비" },
   ]);
   return (
     <>
@@ -159,6 +270,44 @@ export default function Page06() {
                 </div>
               </li>
               <li className="table-item table-item-02">
+                {(cardHistories?.setCardHistoriesResponses ?? []).map(
+                  (history, index) => (
+                    <div className="pay-usage-wrap" key={index}>
+                      <div className="pay-usage-item">
+                        <div className="usage-unit usage-unit-01">
+                          <input
+                            type="checkbox"
+                            id={`check-${history.id}`}
+                            checked={checkedIds.includes(history.id)}
+                            onChange={(e) =>
+                              handleCheckBoxCahange(
+                                history.id,
+                                e.target.checked
+                              )
+                            }
+                          />
+                          <span className="uncheck">
+                            <FaRegSquare />
+                          </span>
+                          <span className="checked">
+                            <FaCheckSquare />
+                          </span>
+                        </div>
+                        <div className="usage-unit usage-unit-02">
+                          <h4>{history.storeName}</h4>
+                          <p>{history.cardCorp}</p>
+                        </div>
+                        <div className="usage-unit usage-unit-03">
+                          {history.amount.toLocaleString()}
+                          <span>원</span>
+                        </div>
+                        <label htmlFor={`check-${history.id}`}></label>
+                      </div>
+                    </div>
+                  )
+                )}
+              </li>
+              {/* <li className="table-item table-item-02">
                 <div className="pay-usage-wrap">
                   <div className="pay-usage-item">
                     <div className="usage-unit usage-unit-01">
@@ -181,16 +330,27 @@ export default function Page06() {
                     <label htmlFor="11"></label>
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li className="table-item table-item-03">
-                <h4>{"2,000,000"}원</h4>
+                <h4>
+                  {cardHistories
+                    ? cardHistories.classificationCost.toLocaleString()
+                    : "0"}
+                  원
+                </h4>
               </li>
               <li className="table-item table-item-04">
                 <h4>
-                  {"10"}
+                  {cardHistories ? cardHistories.percent.toFixed(2) : "0"}
                   <span>%</span>
                 </h4>
-                <h5>총 {"20,000,000"}원중</h5>
+                <h5>
+                  총{" "}
+                  {cardHistories
+                    ? cardHistories.totalCost.toLocaleString()
+                    : "0"}
+                  원중
+                </h5>
               </li>
             </ul>
           </div>
@@ -247,10 +407,13 @@ export default function Page06() {
               <p>
                 선택한 내역을 옮길 계정항목을 선택 후 확인 버튼을 클릭해 주세요.
               </p>
-              <select>
+              <select
+                onChange={handleClassificationCahnge}
+                value={selectedClassification}
+              >
                 <optgroup label="기본항목">
                   {defaultMenuItems.map((item) => (
-                    <option key={`default-${item.id}`} value={item.name}>
+                    <option key={`default-${item.id}`} value={item.id}>
                       {item.name}
                     </option>
                   ))}
@@ -260,7 +423,7 @@ export default function Page06() {
                     .slice()
                     .reverse()
                     .map((item) => (
-                      <option key={`custom-${item.id}`} value={item.name}>
+                      <option key={`custom-${item.id}`} value={item.id}>
                         {item.name}
                       </option>
                     ))}
@@ -269,7 +432,9 @@ export default function Page06() {
             </section>
             <footer className="btns">
               <button onClick={closePopupMove}>취소</button>
-              <button className="active">확인</button>
+              <button className="active" onClick={updateClassification}>
+                확인
+              </button>
             </footer>
           </div>
         </div>
