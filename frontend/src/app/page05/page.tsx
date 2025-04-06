@@ -1,6 +1,7 @@
 "use client";
 
-import PageHeader, { CardItem } from "@/components/PageHeader05";
+import PageHeader from "@/components/PageHeader05";
+import CardItem from "@/components/PageHeader05";
 import Link from "next/link";
 import "@/styles/page05.scss";
 import { useState, useEffect } from "react";
@@ -128,6 +129,16 @@ export default function Page05() {
     }
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(
+        `/page05?selectedCardIds=${searchParams.get("selectedCardIds")}`
+      );
+    }
+  };
+
   // const filteredCards = cards.filter((card) =>
   //   card.paymentHistories.some((p) =>
   //     cardList.some(
@@ -161,9 +172,9 @@ export default function Page05() {
           // onFilterCard={handleFilterCard}
           // onRemoveCard={handleFilterCard}
         >
-          <Link href={"/page04"}>
-            <button>카드다시 선택하기</button>
-          </Link>
+          {/* <Link href={"/page04"}> */}
+          <button onClick={handleBack}>카드다시 선택하기</button>
+          {/* </Link> */}
           {/* <Link href={"/page06"}> */}
           <button
             className="active"

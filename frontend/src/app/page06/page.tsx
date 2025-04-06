@@ -9,7 +9,7 @@ import {
   FaRegSquare,
 } from "react-icons/fa";
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
 interface MenuItem {
@@ -186,6 +186,7 @@ export default function Page06() {
   const [newMenuName, setNewMenuName] = useState<string>("");
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
   const [showPopupMove, setShowPopupMove] = useState<boolean>(false);
+  const router = useRouter();
 
   const openPopupAdd = (): void => {
     setShowPopupAdd(true);
@@ -283,6 +284,16 @@ export default function Page06() {
     setShowPopupDel(false);
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(
+        `/page05?selectedCardIds=${searchParams.get("selectedCardIds")}`
+      );
+    }
+  };
+
   const [defaultMenuItems, setDefaultMenuItems] = useState<MenuItem[]>([
     { id: 1, name: "미분류" },
     { id: 2, name: "주요식비" },
@@ -297,12 +308,21 @@ export default function Page06() {
           title={hd_props.tit}
           description={hd_props.des}
         >
-          <Link href="/page05">
-            <button>사용내역 확인하기</button>
-          </Link>
-          <Link href="/page07">
-            <button className="active">소비패턴 분석결과</button>
-          </Link>
+          {/* <Link href="/page05"> */}
+          <button onClick={handleBack}>사용내역 확인하기</button>
+          {/* </Link> */}
+          {/* <Link href="/page07"> */}
+          <button
+            className="active"
+            onClick={() => {
+              router.push(
+                `/page07?selectedCardIds=${searchParams.get("selectedCardIds")}`
+              );
+            }}
+          >
+            소비패턴 분석결과
+          </button>
+          {/* </Link> */}
         </PageHeader>
         <div className="table-head">
           <ul className="table-row">
@@ -346,31 +366,34 @@ export default function Page06() {
                   {menuItems.length < maxAddBtn && (
                     <button onClick={openPopupAdd}>계정항목추가</button>
                   )}
-                  {menuItems.map((item) => (
-                    // <menu key={item.id}>
-                    <menu key={`custom-${item.classificationId}`}>
-                      <input
-                        type="radio"
-                        name="menuitem"
-                        id={`item-${item.classificationId}`}
-                        onChange={() => {
-                          setSelectedClassification(item.classificationId);
-                          classificationClick(item.classificationId);
-                        }}
-                        checked={
-                          selectedClassification === item.classificationId
-                        }
-                      />
-                      <label htmlFor={`item-${item.classificationId}`}>
-                        {item.title}
-                        <button
-                          onClick={() => openPopupDel(item.classificationId)}
-                        >
-                          <FaTimes />
-                        </button>
-                      </label>
-                    </menu>
-                  ))}
+                  {menuItems.map((item) => {
+                    console.log("✔️메뉴아이템 확인", item);
+                    return (
+                      // <menu key={item.id}>
+                      <menu key={`custom-${item.classificationId}`}>
+                        <input
+                          type="radio"
+                          name="menuitem"
+                          id={`item-${item.classificationId}`}
+                          onChange={() => {
+                            setSelectedClassification(item.classificationId);
+                            classificationClick(item.classificationId);
+                          }}
+                          checked={
+                            selectedClassification === item.classificationId
+                          }
+                        />
+                        <label htmlFor={`item-${item.classificationId}`}>
+                          {item.title}
+                          <button
+                            onClick={() => openPopupDel(item.classificationId)}
+                          >
+                            <FaTimes />
+                          </button>
+                        </label>
+                      </menu>
+                    );
+                  })}
                 </div>
               </li>
               <li className="table-item table-item-02">
@@ -413,30 +436,6 @@ export default function Page06() {
                   )
                 )}
               </li>
-              {/* <li className="table-item table-item-02">
-                <div className="pay-usage-wrap">
-                  <div className="pay-usage-item">
-                    <div className="usage-unit usage-unit-01">
-                      <input type="checkbox" name="" id="11" />
-                      <span className="uncheck">
-                        <FaRegSquare />
-                      </span>
-                      <span className="checked">
-                        <FaCheckSquare />
-                      </span>
-                    </div>
-                    <div className="usage-unit usage-unit-02">
-                      <h4>dddd</h4>
-                      <p>oooo</p>
-                    </div>
-                    <div className="usage-unit usage-unit-03">
-                      {"10,000"}
-                      <span>원</span>
-                    </div>
-                    <label htmlFor="11"></label>
-                  </div>
-                </div>
-              </li> */}
               <li className="table-item table-item-03">
                 <h4>
                   {cardHistories
@@ -513,31 +512,33 @@ export default function Page06() {
               <p>
                 선택한 내역을 옮길 계정항목을 선택 후 확인 버튼을 클릭해 주세요.
               </p>
-              <select
-                onChange={handleClassificationCahnge}
-                value={selectedClassification}
-              >
-                <optgroup label="기본항목">
-                  {defaultMenuItems.map((item) => (
-                    <option key={`default-${item.id}`} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </optgroup>
-                <optgroup label="추가항목" className="added">
-                  {menuItems
-                    .slice()
-                    .reverse()
-                    .map((item) => (
-                      <option
-                        key={`custom-${item.classificationId}`}
-                        value={item.classificationId}
-                      >
-                        {item.title}
+              {selectedClassification !== undefined && (
+                <select
+                  onChange={handleClassificationCahnge}
+                  value={selectedClassification}
+                >
+                  <optgroup label="기본항목">
+                    {defaultMenuItems.map((item) => (
+                      <option key={`default-${item.id}`} value={item.id}>
+                        {item.name}
                       </option>
                     ))}
-                </optgroup>
-              </select>
+                  </optgroup>
+                  <optgroup label="추가항목" className="added">
+                    {menuItems
+                      .slice()
+                      .reverse()
+                      .map((item) => (
+                        <option
+                          key={`custom-${item.classificationId}`}
+                          value={item.classificationId}
+                        >
+                          {item.title}
+                        </option>
+                      ))}
+                  </optgroup>
+                </select>
+              )}
             </section>
             <footer className="btns">
               <button onClick={closePopupMove}>취소</button>

@@ -168,6 +168,17 @@ export default function page04() {
 
   const testCardPayment = cardPayment;
   const testCardList = [];
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(
+        `/page03?selectedCardIds=${searchParams.get("selectedCardIds")}`
+      );
+    }
+  };
+
   return (
     <>
       <div className="page-head page-head-04">
@@ -199,9 +210,9 @@ export default function page04() {
                 ]
           }
         >
-          <Link href={"/page03"}>
-            <button>카드목록보기</button>
-          </Link>
+          {/* <Link href={"/page03"}> */}
+          <button onClick={handleBack}>카드목록보기</button>
+          {/* </Link> */}
           {/* <Link href={"/page05"}> */}
           <button className="active" onClick={submitHandler}>
             {" "}

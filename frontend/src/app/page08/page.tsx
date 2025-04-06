@@ -1,11 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "@/components/PageHeaderCopy";
 import cardOptionsData from "@/json/cardOptions.json";
 import Image from "next/image";
 import "@/styles/page08.scss";
 import Link from "next/link";
-export default function Page07() {
+import { useRouter, useSearchParams } from "next/navigation";
+
+export type CardRecommendResponse = {
+  cardName: string;
+  cardCorp: string;
+  imgUrl: string;
+  annualFee: number;
+  store1: string;
+  discount1: string;
+  store2: string;
+  discount2: string;
+  store3: string;
+  discount3: string;
+};
+
+export default function Page08() {
   const hd_props = {
     num: "08",
     tit: "카드 옵션 추가",
@@ -13,35 +28,57 @@ export default function Page07() {
   };
   const cardOptions = cardOptionsData;
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-  const [cardInf, setCardInf] = useState([
-    {
-      cardName: "카드명",
-      cardCorp: "카드회사",
-      cardImg: "/cardImg/cardimg2.png",
-      discount1: "주유할인 10%",
-      discount2: "포인트적립 20%",
-      discount3: "편의점 할인 10%",
-      annualFee: "30",
-    },
-    {
-      cardName: "카드명",
-      cardCorp: "카드회사",
-      cardImg: "/cardImg/cardimg3.png",
-      discount1: "주유할인 10%",
-      discount2: "포인트적립 20%",
+  const [cardInf, setCardInf] = useState<CardRecommendResponse[]>([]);
+  const [minFee, setMinFee] = useState("");
+  const [maxFee, setMaxFee] = useState("");
 
-      annualFee: "30",
-    },
-    {
-      cardName: "카드명",
-      cardCorp: "카드회사",
-      cardImg: "/cardImg/cardimg4.png",
-      discount1: "주유할인 10%",
-      discount2: "포인트적립 20%",
-      discount3: "편의점 할인 10%",
-      annualFee: "30",
-    },
-  ]);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // const [cardInf, setCardInf] = useState([
+  //   {
+  //     cardName: "카드명",
+  //     cardCorp: "카드회사",
+  //     cardImg: "/cardImg/cardimg2.png",
+  //     discount1: "주유할인 10%",
+  //     discount2: "포인트적립 20%",
+  //     discount3: "편의점 할인 10%",
+  //     annualFee: "30",
+  //   },
+  //   {
+  //     cardName: "카드명",
+  //     cardCorp: "카드회사",
+  //     cardImg: "/cardImg/cardimg3.png",
+  //     discount1: "주유할인 10%",
+  //     discount2: "포인트적립 20%",
+
+  //     annualFee: "30",
+  //   },
+  //   {
+  //     cardName: "카드명",
+  //     cardCorp: "카드회사",
+  //     cardImg: "/cardImg/cardimg4.png",
+  //     discount1: "주유할인 10%",
+  //     discount2: "포인트적립 20%",
+  //     discount3: "편의점 할인 10%",
+  //     annualFee: "30",
+  //   },
+  // ]);
+
+  useEffect(() => {
+    const idsParam = searchParams.get("selectedCardIds");
+    if (!idsParam) return;
+
+    const fetchCardInf = async () => {
+      const response = await fetch(
+        `http://localhost:8080/cards/recommendation?selectedCardIds=${idsParam}`
+      );
+      const data: CardRecommendResponse[] = await response.json();
+      console.log("📦 받아온 카드 추천 데이터", data);
+      setCardInf(data);
+    };
+    fetchCardInf();
+  }, [searchParams]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -60,6 +97,27 @@ export default function Page07() {
     });
   };
 
+  const handleAnnualFee = async () => {
+    const response = await fetch(
+      `http://localhost:8080/cards/recommendation?selectedCardIds=${searchParams.get(
+        "selectedCardIds"
+      )}&minAnnualFee=${Number(minFee)}&maxAnnualFee=${Number(maxFee)}`
+    );
+    const data: CardRecommendResponse[] = await response.json();
+    console.log("📦 받아온 카드 추천 데이터", data);
+    setCardInf(data);
+  };
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(
+        `/page06?selectedCardIds=${searchParams.get("selectedCardIds")}`
+      );
+    }
+  };
+
   return (
     <>
       <div className="page-head page-head-08">
@@ -68,9 +126,9 @@ export default function Page07() {
           title={hd_props.tit}
           description={hd_props.des}
         >
-          <Link href={"/page07"}>
-            <button>소비패턴 돌아가기</button>
-          </Link>
+          {/* <Link href={"/page07"}> */}
+          <button onClick={handleBack}>소비패턴 돌아가기</button>
+          {/* </Link> */}
           <Link href={"/"}>
             <button className="active">시작으로 돌아가기</button>
           </Link>
@@ -83,12 +141,31 @@ export default function Page07() {
               <article className="option-membership">
                 <h4>
                   <span>연회비</span>
-                  <button>조회</button>
+                  <button
+                    // onClick={() => {
+                    //   router.push(
+                    //     `page08?selectedCardIds=${searchParams.get(
+                    //       "selectedCardIds"
+                    //     )}&minAnnualFee=${minFee}&maxAnnualFee=${maxFee}`
+                    //   );
+                    // }}
+                    onClick={handleAnnualFee}
+                  >
+                    조회
+                  </button>
                 </h4>
                 <div className="otps-category-group">
-                  <input type="text" placeholder="최소연회비" />
+                  <input
+                    type="text"
+                    placeholder="최소연회비"
+                    onChange={(e) => setMinFee(e.target.value)}
+                  />
                   <span>~</span>
-                  <input type="text" placeholder="최대연회비" />
+                  <input
+                    type="text"
+                    placeholder="최대연회비"
+                    onChange={(e) => setMaxFee(e.target.value)}
+                  />
                 </div>
               </article>
               {cardOptions.map((category, index) => (
@@ -135,7 +212,7 @@ export default function Page07() {
                 <article className="card-box" key={idx}>
                   <div className="card-img">
                     <Image
-                      src={card.cardImg}
+                      src={card.imgUrl}
                       alt=""
                       width={340}
                       height={0}
@@ -147,11 +224,17 @@ export default function Page07() {
                     <h4>{card.cardName}</h4>
                     <h5>[{card.cardCorp}]</h5>
                     <ul>
-                      <li>{card.discount1}</li>
-                      <li>{card.discount2}</li>
-                      <li>{card.discount3}</li>
+                      <li>
+                        {card.store1} - {card.discount1}
+                      </li>
+                      <li>
+                        {card.store2} - {card.discount2}
+                      </li>
+                      <li>
+                        {card.store3} - {card.discount3}
+                      </li>
                     </ul>
-                    <p>전월실적 {card.annualFee}만원 이상</p>
+                    <p> 연회비 {card.annualFee.toLocaleString()}원</p>
                   </div>
                 </article>
               ))}
