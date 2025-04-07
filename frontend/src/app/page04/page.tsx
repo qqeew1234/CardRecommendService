@@ -68,7 +68,7 @@ export default function page04() {
   const [cardResponse, setCardResponse] = useState<Response | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selcetedCardIds, setSelectedCardIds] = useState<number[]>(
+  const [memberCardIds, setMemberCardIds] = useState<number[]>(
     searchParams
       .get("memberCardId")!
       .split(",")
@@ -93,7 +93,7 @@ export default function page04() {
   //카드목록 보여주기
   useEffect(() => {
     async function fetchCardList() {
-      const queryString = `?memberCardIds=${selcetedCardIds.join(",")}`;
+      const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
       const response = await fetch(
         `http://localhost:8080/membercards${queryString}`
       );
@@ -146,7 +146,7 @@ export default function page04() {
 
   //page05로 보낼 체크된 카드 핸들러
   const checkedHandler = (id: number) => {
-    setSelectedCardIds(
+    setMemberCardIds(
       (prev) =>
         prev.includes(id) //이전 배열이 id를 이미 포함하고 있으면
           ? prev.filter((x) => x !== id) //id 제거
@@ -161,7 +161,7 @@ export default function page04() {
 
   //ruter.push
   const submitHandler = () => {
-    const queryString = `?selectedCardIds=${selcetedCardIds.join(",")}`;
+    const queryString = `?selectedCardIds=${memberCardIds.join(",")}`;
     router.push(`page05${queryString}`);
   };
 
