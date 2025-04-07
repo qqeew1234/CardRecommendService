@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import "@/styles/page04.scss";
 import CardItem from "@/components/CardItem";
 import cardPayment from "@/json/cardPayment.json";
+import Pagination from "@/components/Pagenation";
 
 type Card = {
   index: number;
@@ -33,7 +34,7 @@ type CardPayment = {
 };
 
 type PageInfo = {
-  page: number;
+  currentPage: number;
   size: number;
   totalPages: number;
   totalCount: number;
@@ -68,14 +69,15 @@ export default function page04() {
   const [cardResponse, setCardResponse] = useState<Response | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selcetedCardIds, setSelectedCardIds] = useState<number[]>(
+  const [memberCardIds, setMemberCardIds] = useState<number[]>(
     searchParams
       .get("memberCardId")!
       .split(",")
       .map((id) => Number(id))
   );
-
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   //query에서 받은 값
   // const queryMemberCardIds = searchParams.get("memberCardId");
@@ -94,7 +96,7 @@ export default function page04() {
   //카드목록 보여주기
   useEffect(() => {
     async function fetchCardList() {
-      const queryString = `?memberCardIds=${selcetedCardIds.join(",")}`;
+      const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
       const response = await fetch(
         `http://localhost:8080/membercards${queryString}`
       );
@@ -115,7 +117,7 @@ export default function page04() {
         : selectedCardIds;
 
       const page = 1; // Default page number
-      const size = 13; // Default size per page
+      const size = 150; // Default size per page
       const queryString = `?selectedCardIds=${encodeURIComponent(
         selectedCardIdsString
       )}&monthOffset=${monthOffset}&page=${page}&size=${size}`;
@@ -147,7 +149,7 @@ export default function page04() {
 
   //page05로 보낼 체크된 카드 핸들러
   const checkedHandler = (id: number) => {
-    setSelectedCardIds(
+    setMemberCardIds(
       (prev) =>
         prev.includes(id) //이전 배열이 id를 이미 포함하고 있으면
           ? prev.filter((x) => x !== id) //id 제거
@@ -162,61 +164,42 @@ export default function page04() {
 
   //ruter.push
   const submitHandler = () => {
-    const queryString = `?selectedCardIds=${selcetedCardIds.join(",")}`;
+    const queryString = `?selectedCardIds=${memberCardIds.join(",")}`;
     router.push(`page05${queryString}`);
   };
 
   const testCardPayment = cardPayment;
-  const testCardList = [
-    {
-      cardImg: "/cardImg/cardimg1.png",
-      cardCorp: "삼성카드",
-      cardName: "아메리칸익스프레스 블루",
-      altTxt: "아메리칸익스프레스 블루",
-    },
-    {
-      cardImg: "/cardImg/cardimg2.png",
-      cardCorp: "신한카드",
-      cardName: "미스터 라이프",
-      altTxt: "미스터라이프",
-    },
-    {
-      cardImg: "/cardImg/cardimg3.png",
-      cardCorp: "신한카드",
-      cardName: "더 베스트 에프",
-      altTxt: "신한카드",
-    },
-    {
-      cardImg: "/cardImg/cardimg4.png",
-      cardCorp: "국민카드",
-      cardName: "쿠팡 와우",
-      altTxt: "쿠팡와우",
-    },
-    {
-      cardImg: "/cardImg/cardimg5.png",
-      cardCorp: "하나카드",
-      cardName: "제이드 프리미엄",
-      altTxt: "현대카드 더 레드 5",
-    },
-    // {
-    //   cardImg: "/cardImg/cardimg6.png",
-    //   cardCorp: "우리카드",
-    //   cardName: "카드의 정석 스카이패스",
-    //   altTxt: "현대카드 더 레드 6",
-    // },
-    // {
-    //   cardImg: "/cardImg/cardimg7.png",
-    //   cardCorp: "롯데카드",
-    //   cardName: "L.O.C.A",
-    //   altTxt: "현대카드 더 레드 7",
-    // },
-    // {
-    //   cardImg: "/cardImg/cardimg8.png",
-    //   cardCorp: "NH카드",
-    //   cardName: "올바른 FLEX",
-    //   altTxt: "현대카드 더 레드 8",
-    // },
-  ];
+  const testCardList = [];
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(
+        `/page03?selectedCardIds=${searchParams.get("selectedCardIds")}`
+      );
+    }
+  };
+
+  // const fetchPaymentDetails = async (page: number) => {
+  //   const response = await fetch(
+  //     `http://localhost:8080/membercards/histories/selected?selectedCardIds=${selectedCardIds}&monthOffset=${monthOffset}&currentPage=${page}`
+  //   );
+  //   const data = await response.json();
+  //   console.log("API 응답 데이터:", data);
+
+  //   setPaymentDetails(data.cardHistoryResponseList);
+  //   setTotalPages(data.page.totalPages);
+  // };
+
+  // const handlePageClick = (page: number) => {
+  //   setCurrentPage(page);
+  // };
+
+  // useEffect(() => {
+  //   fetchPaymentDetails(currentPage);
+  // }, [currentPage]);
+
   return (
     <>
       <div className="page-head page-head-04">
@@ -248,9 +231,9 @@ export default function page04() {
                 ]
           }
         >
-          <Link href={"/page03"}>
-            <button>카드목록보기</button>
-          </Link>
+          {/* <Link href={"/page03"}> */}
+          <button onClick={handleBack}>카드목록보기</button>
+          {/* </Link> */}
           {/* <Link href={"/page05"}> */}
           <button className="active" onClick={submitHandler}>
             {" "}
@@ -282,30 +265,13 @@ export default function page04() {
               </label>
             ))}
           </div>
-          {/* <label>
-              <input type="radio" name="cardMonth" defaultChecked />
-              <MdRadioButtonUnchecked />
-              <MdRadioButtonChecked />
-              <span>24년 12월</span>
-            </label>
-            <label>
-              <input type="radio" name="cardMonth" />
-              <MdRadioButtonUnchecked />
-              <MdRadioButtonChecked />
-              <span>25년 1월</span>
-            </label>
-            <label>
-              <input type="radio" name="cardMonth" />
-              <MdRadioButtonUnchecked />
-              <MdRadioButtonChecked />
-              <span>25년 2월</span>
-            </label>
-          </div> */}
+
           <div className="hdr-right">
             <h4>이용내역</h4>
           </div>
         </div>
       </div>
+
       <div className="page-body page-body-04">
         <section>
           <div className="art-box">
@@ -316,6 +282,7 @@ export default function page04() {
                 ) : (
                   cardList.map((card, index) => (
                     <CardItem
+                      cardId={card.id}
                       cardImg={card.cardImg}
                       cardName={card.cardName}
                       cardCorp={card.cardCorp}

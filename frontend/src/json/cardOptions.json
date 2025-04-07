@@ -3,7 +3,7 @@
     "optionName": "shopping",
     "optionItems": [
       {
-        "optItemName": "온라인",
+        "optItemName": "온라인쇼핑",
         "optItemIcon": "svgIcon/shopping/online.svg"
       },
       {
@@ -40,7 +40,7 @@
     "optionName": "life",
     "optionItems": [
       {
-        "optItemName": "병원약국",
+        "optItemName": "병원",
         "optItemIcon": "svgIcon/life/hospital.svg"
       },
       {
@@ -52,11 +52,11 @@
         "optItemIcon": "svgIcon/life/subway.svg"
       },
       {
-        "optItemName": "영화관",
+        "optItemName": "영화",
         "optItemIcon": "svgIcon/life/movie.svg"
       },
       {
-        "optItemName": "주유",
+        "optItemName": "주유소",
         "optItemIcon": "svgIcon/life/gasstation.svg"
       },
       {
@@ -77,7 +77,7 @@
         "optItemIcon": "svgIcon/travel/air.svg"
       },
       {
-        "optItemName": "해외",
+        "optItemName": "해외결제",
         "optItemIcon": "svgIcon/travel/world.svg"
       }
     ]
@@ -106,7 +106,7 @@
         "optItemIcon": "svgIcon/living/shield.svg"
       },
       {
-        "optItemName": "생활비",
+        "optItemName": "생활",
         "optItemIcon": "svgIcon/living/money.svg"
       },
       {
