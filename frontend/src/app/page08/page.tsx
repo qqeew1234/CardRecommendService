@@ -20,6 +20,14 @@ export type CardRecommendResponse = {
   discount3: string;
 };
 
+interface Category {
+  optionItems: { optItemName: string }[];
+}
+
+interface Props {
+  category: Category;
+}
+
 export default function Page08() {
   const hd_props = {
     num: "08",
@@ -78,7 +86,7 @@ export default function Page08() {
       setCardInf(data);
     };
     fetchCardInf();
-  }, [searchParams]);
+  }, []);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -99,7 +107,7 @@ export default function Page08() {
 
   const handleAnnualFee = async () => {
     const response = await fetch(
-      `http://localhost:8080/cards/recommendation?selectedCardIds=${searchParams.get(
+      `http://localhost:8080/cards/recommendations?selectedCardIds=${searchParams.get(
         "selectedCardIds"
       )}&minAnnualFee=${Number(minFee)}&maxAnnualFee=${Number(maxFee)}`
     );
@@ -117,6 +125,23 @@ export default function Page08() {
       );
     }
   };
+
+  useEffect(() => {
+    const fetchCardInf = async () => {
+      const categories = Array.from(checkedItems).join(",");
+      console.log("체크된 옵션", categories);
+
+      const response = await fetch(
+        `http://localhost:8080/cards/recommendations?selectedCardIds=${searchParams.get(
+          "selectedCardIds"
+        )}&categories=${categories}`
+      );
+      const data: CardRecommendResponse[] = await response.json();
+      console.log("📦 받아온 카드 추천 데이터", data);
+      setCardInf(data);
+    };
+    fetchCardInf();
+  }, [checkedItems]);
 
   return (
     <>

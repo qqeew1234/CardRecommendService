@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import "@/styles/page04.scss";
 import CardItem from "@/components/CardItem";
 import cardPayment from "@/json/cardPayment.json";
+import Pagination from "@/components/Pagenation";
 
 type Card = {
   index: number;
@@ -33,7 +34,7 @@ type CardPayment = {
 };
 
 type PageInfo = {
-  page: number;
+  currentPage: number;
   size: number;
   totalPages: number;
   totalCount: number;
@@ -75,6 +76,8 @@ export default function page04() {
       .map((id) => Number(id))
   );
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   //query에서 받은 값
   // const queryMemberCardIds = searchParams.get("memberCardId");
@@ -114,7 +117,7 @@ export default function page04() {
         : selectedCardIds;
 
       const page = 1; // Default page number
-      const size = 13; // Default size per page
+      const size = 150; // Default size per page
       const queryString = `?selectedCardIds=${encodeURIComponent(
         selectedCardIdsString
       )}&monthOffset=${monthOffset}&page=${page}&size=${size}`;
@@ -177,6 +180,25 @@ export default function page04() {
       );
     }
   };
+
+  // const fetchPaymentDetails = async (page: number) => {
+  //   const response = await fetch(
+  //     `http://localhost:8080/membercards/histories/selected?selectedCardIds=${selectedCardIds}&monthOffset=${monthOffset}&currentPage=${page}`
+  //   );
+  //   const data = await response.json();
+  //   console.log("API 응답 데이터:", data);
+
+  //   setPaymentDetails(data.cardHistoryResponseList);
+  //   setTotalPages(data.page.totalPages);
+  // };
+
+  // const handlePageClick = (page: number) => {
+  //   setCurrentPage(page);
+  // };
+
+  // useEffect(() => {
+  //   fetchPaymentDetails(currentPage);
+  // }, [currentPage]);
 
   return (
     <>
