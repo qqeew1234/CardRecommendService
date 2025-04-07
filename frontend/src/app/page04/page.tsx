@@ -74,7 +74,6 @@ export default function page04() {
       .split(",")
       .map((id) => Number(id))
   );
-
   const router = useRouter();
 
   //query에서 받은 값

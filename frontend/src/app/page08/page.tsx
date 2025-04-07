@@ -215,9 +215,9 @@ export default function Page08() {
                       src={card.imgUrl}
                       alt=""
                       width={340}
-                      height={0}
+                      height={340}
                       // layout="ratio"
-                      style={{ width: "auto", height: "auto" }}
+                      style={{ objectFit: "contain" }}
                     />
                   </div>
                   <div className="card-inf">
