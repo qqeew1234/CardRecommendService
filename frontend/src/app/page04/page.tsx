@@ -11,6 +11,7 @@ import "@/styles/page04.scss";
 import CardItem from "@/components/CardItem";
 import cardPayment from "@/json/cardPayment.json";
 import Pagination from "@/components/Pagenation";
+import { createClient } from "@/utils/supabase/client";
 
 type Card = {
   index: number;
@@ -78,6 +79,7 @@ export default function page04() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const supabase = createClient();
 
   //query에서 받은 값
   // const queryMemberCardIds = searchParams.get("memberCardId");
@@ -96,9 +98,31 @@ export default function page04() {
   //카드목록 보여주기
   useEffect(() => {
     async function fetchCardList() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
       const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
       const response = await fetch(
-        `http://localhost:8080/membercards${queryString}`
+        `http://localhost:8080/membercards${queryString}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
       const fetchedCardList = await response.json();
       setCardList(fetchedCardList);
@@ -112,6 +136,22 @@ export default function page04() {
     async function fetchPaymentDetails() {
       if (!selectedCardIds) return; // 선택된 카드가 없으면 종료
 
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
       const selectedCardIdsString = Array.isArray(selectedCardIds)
         ? selectedCardIds.join(",")
         : selectedCardIds;
@@ -122,7 +162,13 @@ export default function page04() {
         selectedCardIdsString
       )}&monthOffset=${monthOffset}&page=${page}&size=${size}`;
       const response = await fetch(
-        `http://localhost:8080/membercards/histories/selected${queryString}`
+        `http://localhost:8080/membercards/histories/selected${queryString}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
       const data = await response.json();
       console.log("API 응답 데이터:", data);

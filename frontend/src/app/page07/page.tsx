@@ -6,6 +6,7 @@ import Image from "next/image";
 import "@/styles/page07.scss";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 // export type CardPayment = {
 //   cardHistoryId: number;
@@ -74,25 +75,50 @@ export default function Page07() {
   const [cardHistories, setCardHistories] = useState<Response | null>(null);
   const [chart, setChart] = useState<classificationResponse[]>([]);
   const router = useRouter();
+  const supabase = createClient();
 
   //첫화면 fetch
   useEffect(() => {
     const idsParam = searchParams.get("selectedCardIds");
     if (!idsParam) return;
 
-    const fetchData = async () => {
-      const res = await fetch(
-        `http://localhost:8080/membercards/classifications/analyzed?selectedCardIds=${idsParam}`
-      );
+    async function getCheckedCards() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
 
-      const data: classificationResponse[] = await res.json();
-      console.log("#########카드데이터 확인", data);
+      console.log("유저아이디 확인", user.id);
 
-      setChart(data);
-    };
-    fetchData();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
+      const fetchData = async () => {
+        const res = await fetch(
+          `http://localhost:8080/membercards/classifications/analyzed?selectedCardIds=${idsParam}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          }
+        );
+
+        const data: classificationResponse[] = await res.json();
+        console.log("#########카드데이터 확인", data);
+
+        setChart(data);
+      };
+      fetchData();
+    }
+    getCheckedCards();
   }, [searchParams]);
-
 
   const handleBack = () => {
     if (window.history.length > 1) {

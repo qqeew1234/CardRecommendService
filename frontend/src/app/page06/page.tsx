@@ -81,17 +81,43 @@ export default function Page06() {
     const idsParam = searchParams.get("selectedCardIds");
     if (!idsParam) return;
 
-    const fetchData = async () => {
-      const cardHistories = await fetch(
-        `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=1`
-      );
+    async function getCardsByMember() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
 
-      const data: Response = await cardHistories.json();
-      console.log("#########카드데이터 확인", data);
+      console.log("유저아이디 확인", user.id);
 
-      setCardHistories(data);
-    };
-    fetchData();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
+      const fetchData = async () => {
+        const cardHistories = await fetch(
+          `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=1`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          }
+        );
+
+        const data: Response = await cardHistories.json();
+        console.log("#########카드데이터 확인", data);
+
+        setCardHistories(data);
+      };
+      fetchData();
+    }
+
+    getCardsByMember();
   }, [searchParams]);
 
   //분류 소속 수정 후 목록 이동. 이동 후 바로 목록 조회
@@ -104,6 +130,22 @@ export default function Page06() {
     closePopupMove();
     console.log("✔️팝업창닫기");
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.id) {
+      return;
+    }
+
+    console.log("유저아이디 확인", user.id);
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) {
+      return;
+    }
+
     const patchResponse = await fetch(
       "http://localhost:8080/cardhistories/changeclassification",
       {
@@ -111,6 +153,7 @@ export default function Page06() {
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token}`,
         },
       }
     );
@@ -125,7 +168,13 @@ export default function Page06() {
 
     const idsParam = searchParams.get("selectedCardIds");
     const fetchResponse = await fetch(
-      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=${selectedClassification}`
+      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${idsParam}&classificationId=${selectedClassification}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      }
     );
 
     if (!fetchResponse) return;
@@ -168,8 +217,30 @@ export default function Page06() {
     const selectedCardParams = searchParams.get("selectedCardIds");
     if (!selectedCardParams) return;
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.id) {
+      return;
+    }
+
+    console.log("유저아이디 확인", user.id);
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) {
+      return;
+    }
+
     const classifiedCardHistoryResponse = await fetch(
-      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${selectedCardParams}&classificationId=${classificationId}`
+      `http://localhost:8080/membercards/histories/classification?selectedCardIds=${selectedCardParams}&classificationId=${classificationId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      }
     );
 
     if (!classifiedCardHistoryResponse.ok) return;
