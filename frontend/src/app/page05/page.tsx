@@ -7,6 +7,7 @@ import "@/styles/page05.scss";
 import { useState, useEffect } from "react";
 // import pageData from "@/json/cardHistoryResponses.json";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export type PaymentHistory = {
   cardName: string;
@@ -45,6 +46,7 @@ export default function Page05() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [cardList, setCardList] = useState<CardItem[]>([]);
   const router = useRouter();
+  const supabase = createClient();
 
   const [hdProps, setHdProps] = useState({
     num: "05",
@@ -66,8 +68,30 @@ export default function Page05() {
     if (!ids) return;
 
     const fetchData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
       const historyResponse = await fetch(
-        `http://localhost:8080/membercards/daily?memberCardIds=${ids}`
+        `http://localhost:8080/membercards/daily?memberCardIds=${ids}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
       const data: DailyCardHistoryPageResponse = await historyResponse.json();
 
@@ -76,9 +100,22 @@ export default function Page05() {
       setHistories(data);
 
       const cardResponse = await fetch(
-        `http://localhost:8080/membercards?memberCardIds=${ids}`
+        `http://localhost:8080/membercards?memberCardIds=${ids}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
+      if (cardResponse.status !== 200) {
+        console.error("카드 목록을 가져오는 데 실패했습니다.");
+        console.error(await cardResponse.json());
+        return;
+      }
       const cards: CardItem[] = await cardResponse.json();
+      console.log("카드 목록:");
+      console.log(cards);
       setCardList(cards);
 
       // hdProps 구성

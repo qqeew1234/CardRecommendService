@@ -6,6 +6,7 @@ import Image from "next/image";
 import "@/styles/page08.scss";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export type CardRecommendResponse = {
   cardName: string;
@@ -42,6 +43,7 @@ export default function Page08() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
+  const supabase = createClient();
 
   // const [cardInf, setCardInf] = useState([
   //   {
@@ -76,16 +78,39 @@ export default function Page08() {
   useEffect(() => {
     const idsParam = searchParams.get("selectedCardIds");
     if (!idsParam) return;
+    async function getCheckedCards() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
 
-    const fetchCardInf = async () => {
-      const response = await fetch(
-        `http://localhost:8080/cards/recommendation?selectedCardIds=${idsParam}`
-      );
-      const data: CardRecommendResponse[] = await response.json();
-      console.log("📦 받아온 카드 추천 데이터", data);
-      setCardInf(data);
-    };
-    fetchCardInf();
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
+      const fetchCardInf = async () => {
+        const response = await fetch(
+          `http://localhost:8080/cards/recommendation?selectedCardIds=${idsParam}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          }
+        );
+        const data: CardRecommendResponse[] = await response.json();
+        console.log("📦 받아온 카드 추천 데이터", data);
+        setCardInf(data);
+      };
+      fetchCardInf();
+    }
   }, []);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,10 +131,32 @@ export default function Page08() {
   };
 
   const handleAnnualFee = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.id) {
+      return;
+    }
+
+    console.log("유저아이디 확인", user.id);
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) {
+      return;
+    }
+
     const response = await fetch(
       `http://localhost:8080/cards/recommendations?selectedCardIds=${searchParams.get(
         "selectedCardIds"
-      )}&minAnnualFee=${Number(minFee)}&maxAnnualFee=${Number(maxFee)}`
+      )}&minAnnualFee=${Number(minFee)}&maxAnnualFee=${Number(maxFee)}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      }
     );
     const data: CardRecommendResponse[] = await response.json();
     console.log("📦 받아온 카드 추천 데이터", data);
@@ -131,10 +178,32 @@ export default function Page08() {
       const categories = Array.from(checkedItems).join(",");
       console.log("체크된 옵션", categories);
 
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
+
       const response = await fetch(
         `http://localhost:8080/cards/recommendations?selectedCardIds=${searchParams.get(
           "selectedCardIds"
-        )}&categories=${categories}`
+        )}${categories && `&categories=${categories}`}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
       const data: CardRecommendResponse[] = await response.json();
       console.log("📦 받아온 카드 추천 데이터", data);
