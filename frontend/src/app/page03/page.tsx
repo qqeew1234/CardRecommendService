@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
 import "@/styles/page03.scss";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 type Card = {
   index: number;
@@ -33,6 +34,8 @@ export default function page03() {
 
   const checked = searchParams ? searchParams.get("memberCardIds") : null;
 
+  const supabase = createClient();
+
   console.log(
     "🔍 searchParams.get('memberCardIds'):",
     searchParams.get("memberCardIds")
@@ -50,9 +53,29 @@ export default function page03() {
     const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
 
     async function getCheckedCards() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user?.id) {
+        return;
+      }
+
+      console.log("유저아이디 확인", user.id);
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        return;
+      }
       const res = await fetch(
         `http://localhost:8080/membercards${queryString}`,
-        { method: "GET" }
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
       );
       const cards = await res.json();
       console.log("cards:", cards);

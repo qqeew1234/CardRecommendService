@@ -29,10 +29,6 @@
       {
         "optItemName": "홈쇼핑",
         "optItemIcon": "svgIcon/shopping/homeshopping.svg"
-      },
-      {
-        "optItemName": "생활잡화",
-        "optItemIcon": "svgIcon/shopping/miscellaneousgoods.svg"
       }
     ]
   },
@@ -106,7 +102,7 @@
         "optItemIcon": "svgIcon/living/shield.svg"
       },
       {
-        "optItemName": "생활",
+        "optItemName": "공과금",
         "optItemIcon": "svgIcon/living/money.svg"
       },
       {
