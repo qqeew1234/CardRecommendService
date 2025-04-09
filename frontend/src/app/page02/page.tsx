@@ -18,6 +18,7 @@ type Card = {
   cardImg: string;
   memberCardId: number;
   altTxt: string;
+  cardTotalAmount: string;
 };
 
 // const testCardList = [];
@@ -175,6 +176,7 @@ export default function page02() {
                     isChecked={memberCardIds.includes(card.id)}
                     index={index}
                     onCheck={() => checkHandler(card.id)}
+                    cardTotalAmount={card.cardTotalAmount.toLocaleString()}
                   />
                 </article>
               ))

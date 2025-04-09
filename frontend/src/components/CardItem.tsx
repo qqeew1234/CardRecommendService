@@ -13,7 +13,7 @@ interface myTypes {
   isChecked: boolean;
   onCheck: () => void;
   onClick: () => void;
-  totalCost: number;
+  cardTotalAmount: string;
 }
 
 export default function CardItem({
@@ -26,7 +26,7 @@ export default function CardItem({
   isChecked,
   onCheck,
   onClick,
-  totalCost,
+  cardTotalAmount
 }: myTypes) {
   return (
     <div className="card-item" key={index}>
@@ -65,7 +65,7 @@ export default function CardItem({
           [<span className="card-company">{cardCorp}</span>]
           <span className="card-goods">{cardName}</span>
         </h4>
-        <p>결제예정금액 : {totalCost}</p>
+        <p>결제예정금액 : {cardTotalAmount}</p>
         <label className="radioBtn" htmlFor={"r" + index}></label>
       </div>
       {/* <label className="radioBtn" htmlFor={"c" + index}></label> */}
