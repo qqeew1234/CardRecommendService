@@ -18,6 +18,7 @@ type Card = {
   cardImg: string;
   memberCardId: number;
   altTxt: string;
+  cardTotalAmount: string;
 };
 
 export default function page03() {
@@ -185,6 +186,7 @@ export default function page03() {
                   isChecked={false}
                   index={index}
                   onCheck={() => cardSelectHandler(card.memberCardId)}
+                  cardTotalAmount={card.cardTotalAmount.toLocaleString()}
                 />
                 {/* <Link href={"/page04"}></Link> */}
               </article>

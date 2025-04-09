@@ -85,7 +85,7 @@ export default function Page05() {
       }
 
       const historyResponse = await fetch(
-        `http://localhost:8080/membercards/daily?memberCardIds=${ids}`,
+        `http://localhost:8080/membercards/daily?memberCardIds=${ids}&currentPage=1&size=150`,
         {
           method: "GET",
           headers: {
@@ -210,7 +210,7 @@ export default function Page05() {
           // onRemoveCard={handleFilterCard}
         >
           {/* <Link href={"/page04"}> */}
-          <button onClick={handleBack}>카드다시 선택하기</button>
+          <button onClick={handleBack}>카드다시 선택</button>
           {/* </Link> */}
           {/* <Link href={"/page06"}> */}
           <button

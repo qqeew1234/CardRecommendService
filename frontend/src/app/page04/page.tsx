@@ -21,6 +21,7 @@ type Card = {
   cardImg: string;
   memberCardId: number;
   altTxt: string;
+  cardTotalAmount: string;
 };
 
 type CardPayment = {
@@ -339,9 +340,7 @@ export default function page04() {
                       onClick={() => cardSelectHandler(card.id)}
                       onCheck={() => checkedHandler(card.id)}
                       // onCheck={() => cardSelectHandler(card.id)}
-                      totalCost={paymentList
-                        .filter((p) => p.cardName === card.cardName)
-                        .reduce((acc, cur) => acc + cur.amount, 0)}
+                      cardTotalAmount={card.cardTotalAmount.toLocaleString()}
                     />
                   ))
                 )}
