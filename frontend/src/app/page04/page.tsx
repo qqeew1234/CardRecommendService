@@ -95,7 +95,7 @@ export default function page04() {
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [monthOffset, setMonthOffset] = useState<number>(1);
   // console.log("Response", cardResponse?.totalCost);
-
+  console.log(`monthOffset: ${monthOffset}`);
   //카드목록 보여주기
   useEffect(() => {
     async function fetchCardList() {
@@ -117,7 +117,7 @@ export default function page04() {
 
       const queryString = `?memberCardIds=${memberCardIds.join(",")}`;
       const response = await fetch(
-        `http://localhost:8080/membercards${queryString}`,
+        `http://localhost:8080/membercards${queryString}&monthOffset=${monthOffset}`,
         {
           method: "GET",
           headers: {
@@ -130,7 +130,7 @@ export default function page04() {
       setIsLoading(false);
     }
     fetchCardList();
-  }, []);
+  }, [monthOffset]);
 
   //카드 사용내역 가져오기
   useEffect(() => {
