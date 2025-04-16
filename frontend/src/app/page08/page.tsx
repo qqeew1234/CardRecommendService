@@ -8,17 +8,30 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
+// export type CardRecommendResponse = {
+//   cardName: string;
+//   cardCorp: string;
+//   imgUrl: string;
+//   annualFee: number;
+//   store1: string;
+//   discount1: string;
+//   store2: string;
+//   discount2: string;
+//   store3: string;
+//   discount3: string;
+// };
+
 export type CardRecommendResponse = {
   cardName: string;
   cardCorp: string;
   imgUrl: string;
   annualFee: number;
-  store1: string;
-  discount1: string;
-  store2: string;
-  discount2: string;
-  store3: string;
-  discount3: string;
+  categoryDiscountMappings: {
+    id: number;
+    category: string;
+    discount: string;
+    sequence: number;
+  }[];
 };
 
 interface Category {
@@ -318,15 +331,11 @@ export default function Page08() {
                     <h4>{card.cardName}</h4>
                     <h5>[{card.cardCorp}]</h5>
                     <ul>
-                      <li>
-                        {card.store1} - {card.discount1}
-                      </li>
-                      <li>
-                        {card.store2} - {card.discount2}
-                      </li>
-                      <li>
-                        {card.store3} - {card.discount3}
-                      </li>
+                      {card.categoryDiscountMappings.map((mapping) => (
+                        <li key={mapping.id}>
+                          {mapping.category} - {mapping.discount}
+                        </li>
+                      ))}
                     </ul>
                     <p> 연회비 {card.annualFee.toLocaleString()}원</p>
                   </div>
