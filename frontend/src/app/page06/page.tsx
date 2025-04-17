@@ -11,6 +11,7 @@ import {
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import axios from "axios";
 
 interface MenuItem {
   id: number;
@@ -196,6 +197,7 @@ export default function Page06() {
       const classificationResponse = await fetch(
         "http://localhost:8080/classifications",
         {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${session.access_token}`,
           },
@@ -255,7 +257,7 @@ export default function Page06() {
   const [menuItems, setMenuItems] = useState<Classification[]>([]);
   const [count, setCount] = useState<number>(1);
   const [newMenuName, setNewMenuName] = useState<string>("");
-  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
+  const [classificationId, setClassificationId] = useState<number | null>(null);
   const [showPopupMove, setShowPopupMove] = useState<boolean>(false);
   const router = useRouter();
 
@@ -263,7 +265,7 @@ export default function Page06() {
     setShowPopupAdd(true);
   };
   const openPopupDel = (id: number): void => {
-    setPendingDeleteId(id);
+    setClassificationId(id);
     setShowPopupDel(true);
   };
   const openPopupMove = (): void => {
@@ -342,16 +344,20 @@ export default function Page06() {
     setMenuItems(menuItems.filter((item) => item.classificationId !== id));
   };
 
-  const handleDeleteConfirm = (): void => {
-    if (pendingDeleteId !== null) {
-      removeMenuItem(pendingDeleteId);
+  const handleDeleteConfirm = async (): Promise<void> => {
+    if (classificationId !== null) {
+      await axios.delete(
+        `http://localhost:8080/classifications/${classificationId}`
+      );
+
+      removeMenuItem(classificationId);
     }
-    setPendingDeleteId(null);
+    setClassificationId(null);
     setShowPopupDel(false);
   };
 
   const handleDeleteCancel = (): void => {
-    setPendingDeleteId(null);
+    setClassificationId(null);
     setShowPopupDel(false);
   };
 
